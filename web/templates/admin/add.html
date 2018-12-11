@@ -1,10 +1,104 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends 'common/layout_main.html' %}
+{% block pcoded %}
+    <nav class="pcoded-navbar">
+        <div class="navbar-wrapper">
+            <div class="navbar-brand header-logo">
+                <a href="index.html" class="b-brand">
+                    <span class="b-title">后台管理系统</span>
+                </a>
+                <a class="mobile-menu" id="mobile-collapse" href="javascript:"><span></span></a>
+            </div>
+            <div class="navbar-content scroll-div">
+                <ul class="nav pcoded-inner-navbar">
+                    <li class="nav-item pcoded-menu-caption">
+                        <label>管理员</label>
+                    </li>
+                    <li data-username="dashboard Default Ecommerce CRM Analytics Crypto Project"
+                        class="nav-item pcoded-hasmenu active pcoded-trigger">
+                        <a href="javascript:" class="nav-link"><span class="pcoded-micon"><i
+                                class="feather icon-home"></i></span><span class="pcoded-mtext">管理员操作</span></a>
+                        <ul class="pcoded-submenu">
+                            <li class=""><a href="{{ buildUrl('/admin/merchant') }}" class="">商户管理</a></li>
+                            <li class=""><a href="{{ buildUrl('/admin/user') }}" class="">用户管理</a></li>
+                            <li class=""><a href="{{ buildUrl('/admin/commodity') }}" class="">商品管理</a></li>
+                            <li class=""><a href="{{ buildUrl('/admin/report') }}" class="">报表统计</a></li>
+                            <li class="active"><a href="{{ buildUrl('/admin/update?id=' + current_user.Id) }}" class="">管理员信息</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+{% endblock %}
+{% block content %}
+    <div class="pcoded-main-container">
+        <div class="pcoded-wrapper">
+            <div class="pcoded-content">
+                <div class="pcoded-inner-content">
+                    <!-- [ breadcrumb ] start -->
+                    <div class="page-header">
+                        <div class="page-block">
+                            <div class="row align-items-center">
+                                <div class="col-md-12">
+                                    <div class="page-header-title">
+                                        <h5 class="m-b-10">管理员</h5>
+                                    </div>
+                                    <ul class="breadcrumb">
+                                        <li class="breadcrumb-item"><a href="index.html"><i
+                                                class="feather icon-home"></i></a></li>
+                                        <li class="breadcrumb-item"><a href="javascript:">管理员操作</a></li>
+                                        <li class="breadcrumb-item"><a href="javascript:">管理员信息</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- [ breadcrumb ] end -->
+                    <div class="main-body">
+                        <div class="page-wrapper">
+                            <!-- [ Main Content ] start -->
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div>
+                                        <div class="form-group name">
+                                            <label for="exampleInputEmail1">用户名</label>
+                                            <input type="text" class="form-control" id="exampleInputEmail1">
+                                            </small>
+                                        </div>
+                                        <div class="form-group pwd">
+                                            <label for="exampleInputPassword1">密码</label>
+                                            <input type="password" class="form-control" id="exampleInputPassword1"
+                                                   placeholder="Password">
+                                        </div>
+                                        <button type="submit" class="btn btn-primary" onclick="submit()">提交</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}]
+
+{% block js %}
+    <script>
+        function submit() {
+                var login_pwd = $(".pwd input[id=exampleInputPassword1]").val();
+                var login_name = $(".name input[id=exampleInputEmail1]").val();
+
+                $.ajax({
+                    url: common_ops.buildUrl("/admin/add"),
+                    type: 'POST',
+                    data: {'userPwd': login_pwd, 'userName': login_name},
+                    dataType: 'json',
+                    success: function (res) {
+                        alert(res.msg);
+                    }
+                });
+
+    }
+    </script>
+{% endblock %}

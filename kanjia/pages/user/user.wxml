@@ -1,0 +1,47 @@
+<!--pages/user/user.wxml-->
+<scroll-view style="height: {{height}};" scroll-y bindscroll="scroll" scroll-top='{{scroll_top}}'>
+ <!-- 导航 -->
+ <view class='nav'>
+    <view class='nav_child {{nav1}}' bindtap='nav1'>砍价中</view>
+    <view class='nav_child {{nav2}}' bindtap='nav2'>已完成</view>
+    <view class='nav_child {{nav3}}' bindtap='nav3'>全部</view>
+ </view>
+<!-- 列表 -->
+<view class='list'>
+  <view class='list_child'  bindtap='list_click'>
+    <view class='top'><image src='../../img/nav_kj_2.png' /><text>砍价中</text></view>
+    <view class='con'>
+      <view class='img'>
+        <image src='../../img/nav_zx_2.png' />
+      </view>
+      <view class='info'>
+        <view class='title'>进口牛油果2斤装</view>
+        <view class='jiage'>
+            <text class='money'>￥0.00</text>
+            <text class='num'>原价￥<text class='yj'>389.89</text></text>
+          </view>
+      </view>
+    </view>
+  </view>
+  <view class='list_child'>
+    <view class='top'><image src='../../img/nav_kj_2.png' /><text>砍价中</text></view>
+    <view class='con'>
+      <view class='img'>
+        <image src='../../img/nav_zx_2.png' />
+      </view>
+      <view class='info'>
+        <view class='title'>进口牛油果2斤装</view>
+        <view class='jiage'>
+            <text class='money'>￥0.00</text>
+            <text class='num'>原价￥<text class='yj'>389.89</text></text>
+          </view>
+      </view>
+    </view>
+  </view>
+</view>
+ <!-- top -->
+  <view wx:if="{{topshow}}" class='fh_top'  id="id" bindtap = "handletap" >
+    <view class='jt'><image src='../../img/top.png' /></view>
+    <view class='text'>置顶</view>
+  </view>
+</scroll-view>

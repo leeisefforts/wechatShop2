@@ -1,0 +1,17 @@
+<!--pages/business/business.wxml-->
+<view class='info'>
+  <view class='row'>
+    <text class='name row_left'>姓名</text>
+    <input type='text' class='input' bindinput='name_length' placeholder='商家姓名'></input>
+  </view>
+  <view class='row'>
+    <text class='iphone row_left'>手机号码</text>
+    <input type='number' class='input' bindinput='iphone_length' maxlength='11' placeholder='商家手机号码'></input>
+  </view>
+  <view class='row'>
+    <text class='address row_left'>详细地址</text>
+    <input type='text' class='input' bindinput='add_length' placeholder='商家详细地址'></input>
+  </view>
+  <view class='button' bindtap='button'>确认提交</view>
+</view>
+

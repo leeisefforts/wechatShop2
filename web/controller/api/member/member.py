@@ -44,7 +44,7 @@ def login():
         db.session.commit()
 
         model_bind = OauthMemberBind()
-        model_bind.Member_id = model_member.id
+        model_bind.Member_id = model_member.Id
         model_bind.Type = 1
         model_bind.Openid = openid
         model_bind.Extra = ''
@@ -55,7 +55,7 @@ def login():
         bind_info = model_bind
 
     member_info = Member.query.filter_by(id=bind_info.Member_id).first()
-    token = "%s#%s" % (MemberService.geneAuthCode(member_info), member_info.id)
+    token = "%s#%s" % (MemberService.geneAuthCode(member_info), member_info.Id)
     resp['data'] = {'token': token}
     return jsonify(resp)
 

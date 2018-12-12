@@ -1,0 +1,144 @@
+/**index.wxss**/
+page{
+  background: #f1f1f1;
+}
+/* .guize{
+  position:absolute;
+  width:90px;
+  height:30px;
+  font-size:14px;
+  background:#007aff;
+  line-height:30px;
+  color:#fff;
+  right:0;
+  text-align:center;
+  top:65px;
+  border-radius:15px 0 0 15px;
+  text-indent:5px;
+} */
+/* 搜索 */
+.search{
+  height:40px;
+  background:#007aff;
+  position:fixed;
+  width:100%;
+  z-index:1;
+}
+.ss_box{
+  background:#fff;
+  height:30px;
+  width:92%;
+  border-radius:30px;
+  color:#8a8a8a;
+  margin:0 auto;
+}
+.ss_box .ss_icon{
+  position:absolute;
+  top:7.5px;
+  left:30px;
+  width:15px;
+  height:15px;
+}
+.ss_box .ss_input{
+  height:30px;
+  line-height:30px;
+  font-size:14px;
+  padding-left:40px;
+  width:80%;
+}
+.ss_box .ss_x{
+  position:absolute;
+  top:7.5px;
+  right:30px;
+  width:15px;
+  height:15px;
+}
+.header_box{
+  height:40px;
+}
+
+/* 列表 */
+.list{
+  width:95%;
+  margin:10px auto 15px auto;
+  overflow:hidden;
+}
+.list_clild{
+  width:100%;
+  background:#fff;
+  border-radius:10px;
+  overflow:hidden;
+  box-sizing:border-box;
+  margin-bottom:10px;
+}
+.list_clild .content{
+  padding: 0 15px 20px 15px;
+}
+.list_clild .image{
+  width: 100%;
+  height: 195px;
+  background: pink;
+}
+.list_clild .title{
+  font-size: 16px;
+  color: #222;
+  margin: 5px 0 15px 0;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.list_clild .canyu {
+  display:flex;
+  flex-direction:row;
+  justify-content:space-between;
+  margin-bottom:15px;
+  height:32px;
+  overflow:hidden;
+}
+.list_clild .canyu .tx{
+  width:60%;
+  overflow: hidden;
+}
+.list_clild .canyu .tx .img{
+  width: 25px;
+  height: 25px;
+  background: #f00;
+  border: 1px solid #fff;
+  border-radius: 50%;
+}
+.list_clild .canyu .number{
+  font-size: 14px;
+  color: #666;
+  width:40%;
+  text-align:right;
+  line-height:30px;
+}
+.list_clild .con{
+  height:35px;
+  line-height:40px;
+}
+.list_clild .con .money{
+  font-size: 25px;
+  color: #007aff;
+}
+.list_clild .con text{
+  font-size: 14px;
+}
+.list_clild .con .num{
+  font-size: 14px;
+  color: #999999;
+  margin:0 0 0 15px;
+  text-decoration:line-through;
+}
+.list_clild .con .kj_btn{
+  display:inline-block;
+  width:33%;
+  height:40px;
+  background:#007aff;
+  font-size:16px;
+  color:#ffff;
+  text-align:center;
+  line-height:40px;
+  border-radius:5px;
+  float:right;
+}

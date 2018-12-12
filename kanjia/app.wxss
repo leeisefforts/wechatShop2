@@ -1,0 +1,86 @@
+/**app.wxss**/
+page{
+  display:block;
+  height: 100%;
+}
+/* 授权 */
+.shouquan{
+  width:100%;
+  background: rgba(0,0,0,0.6);
+  position: fixed;
+  top: 40px;
+  z-index: 9;
+}
+.shouquan .sq_box{
+  width:80%;
+  background:#fff;
+  border-radius:5px;
+  margin:15% auto 0 auto;
+  padding-bottom: 20px;
+}
+.shouquan .sq_box .title{
+  height:60px;
+  border-bottom:1px solid #f3f3f3;
+  font-size:20px;
+  color:#444;
+  text-align:center;
+  line-height:60px;
+  margin-bottom:15px;
+}
+.shouquan .sq_box .tishi,.shouquan .sq_box .tishi2{
+  font-size:16px;
+  color:#666;
+  text-align:center;
+  margin-bottom:5px;
+}
+.shouquan .sq_box .img{
+  width:232px;
+  height:200px;
+  display:block;
+  margin:20px auto; 
+}
+.shouquan .sq_box .btn{
+  width:80%;
+  border-radius:37px;
+  background:#007aff;
+  color:#fff;
+}
+
+/* 价格 */
+.list .con .money{
+  font-size: 25px;
+  color: #007aff;
+}
+.list .con text{
+  font-size: 14px;
+}
+.list .con .num{
+  font-size: 14px;
+  color: #999999;
+  margin:0 0 0 15px;
+  text-decoration:line-through;
+}
+/* top */
+.fh_top{
+  width:50px;
+  height:50px;
+  font-size:14px;
+  color:#fff;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 50%;
+  position: fixed;
+  right: 10px;
+  bottom: 20px;
+  text-align: center;
+}
+.fh_top .jt{
+  height:20px;
+}
+.fh_top .jt image{
+  width:15px;
+  height:15px;
+  margin-top:6px;
+}
+.fh_top .text{
+
+}

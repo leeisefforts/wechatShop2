@@ -1,0 +1,79 @@
+/* pages/user/user.wxss */
+page{
+  background: #f1f1f1;
+}
+/* 导航 */
+.nav{
+  width: 100%;
+  height: 40px;
+  line-height: 40px;
+  background: #fff;
+  font-size: 14px;
+  display: flex;
+  box-shadow: 0 2px 7px #ccc
+}
+.nav_child{
+  width: 33.3%;
+  text-align: center;
+}
+.nav_click{
+  border-bottom: 2px solid #007aff;
+  color: #007aff;
+}
+/* 列表 */
+.list_child{
+  width: 95%;
+  background: #fff;
+  border-radius: 10px;
+  margin: 10px auto;
+}
+.list .top{
+  width:100%;
+  height:38px;
+  padding:5px 10px 0 10px;
+  box-sizing: border-box;
+}
+.list .top image{
+  width:25px;
+  height:25px;
+  display:block;
+  float:left;
+}
+.list .top text{
+  font-size:16px;
+  color:#007aff;
+  display:block;
+  line-height:28px;
+  height:36px;
+  float:left;
+  margin-left:10px;
+}
+.list .con{
+  width:100%;
+  box-sizing: border-box;
+  height: 100px;
+  padding:0 10px;
+  border-top:1px solid #eee;
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+}
+.list .con .img{
+  width:100px;
+  height:100px;
+}
+.list .con .img image{
+  width:100%;
+  height:100%;
+}
+.list .con .info{
+  padding-top:10px;
+  margin-left:15px;
+}
+.list .con .title{
+  font-size:16px;
+}
+.list .con .jiage{
+  position:relative;
+  bottom:-28px;
+}

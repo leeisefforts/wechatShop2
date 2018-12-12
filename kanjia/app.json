@@ -1,0 +1,39 @@
+{
+  "pages":[
+    "pages/index/index",
+    "pages/info/info",
+    "pages/business/business",
+    "pages/user/user"
+  ],
+  "window":{
+    "backgroundTextStyle": "dark",
+    "navigationBarBackgroundColor": "#007aff",
+    "navigationBarTitleText": "砍价商品",
+    "navigationBarTextStyle": "#fff",
+    "enablePullDownRefresh": true
+  },
+  "tabBar": {
+    "color":"#777",
+    "selectedColor" : "#007aff",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "砍价商品 ",
+        "iconPath" : "/img/nav_kj.png",
+        "selectedIconPath" : "/img/nav_kj_2.png"
+      },
+      {
+        "pagePath": "pages/user/user",
+        "text": "个人中心",
+        "iconPath": "/img/nav_zx.png",
+        "selectedIconPath": "/img/nav_zx_2.png"
+      },
+      {
+        "pagePath": "pages/business/business",
+        "text": "商家入驻",
+        "iconPath": "/img/nav_shangjia.png",
+        "selectedIconPath": "/img/nav_shangjia_2.png"
+      }
+    ]
+  }
+}

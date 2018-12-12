@@ -1,0 +1,67 @@
+<!--index.wxml-->
+<scroll-view style="height: {{height}};" scroll-y bindscroll="scroll" scroll-top='{{scroll_top}}'>
+ <!-- <view class='guize' bindtap='guize'>砍价规则</view> -->
+ <!-- <view class='guize_con'>
+    <view class='tiitle'>砍价活动规则</view>
+    <view class='con'>
+      <view>1、这是规则这是规则这是，规则这是规则这是规。</view>
+    </view> -->
+ <!-- </view> -->
+ <!-- 授权登录弹出框 -->
+<view class='shouquan'  style="height: {{height}};">
+  <view class='sq_box'>
+    <view class='title'>需要您的授权</view>
+    <view class='tishi'>为了提供更好的服务</view>
+    <view class='tishi2'>请在稍后的提示框中点击“允许”</view>
+    <image class='img' src='../../img/shouquan.jpg'></image>
+    <button class='btn' wx:if="{{canIUse}}"  open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">授权登录</button>
+    <view wx:else>请升级微信版本</view>
+  </view>
+</view>
+ 
+<!-- 搜索 -->
+<view class='search'>
+  <view class='ss_box'>
+    <image class='ss_icon' src='../../img/ss.png' />
+    <input class='ss_input' type='text' bindinput='bind_ss_input' bindconfirm='bind_ss_confirm' value='{{ss_input}}' bindtap='ss_input' placeholder='请输入关键字搜索' />
+    <block wx:if="{{ss_text}}">
+      <image class='ss_x' bindtap='ss_x' src='../../img/ss_x.png' />
+    </block>
+  </view>
+</view>
+<!--占位子-->
+<view class='header_box'></view>
+<!-- 点击搜索框 -->
+<view class='yc'  wx:if="{{ss_yc}}"  style="height: {{height}};width: {{width}};" ></view>
+<view></view>
+ <!-- 列表 -->
+ <view class='list'>
+  <block wx:for='{{list}}' wx:for-index="index" wx:for-item="item">
+      <view class='list_clild' bindtap='list_click'>
+        <image class='image' />
+        <view class='content'>
+          <view class='title'>{{item.title}}</view>
+          <view class='canyu'>
+            <view class='tx'>
+              <block  wx:for='{{item.num}}' wx:for-index="tx_index" wx:for-item="tx_item"  wx:if='{{item.num}}<10'>
+                <image class='img'></image>
+              </block>
+            </view>
+            <view class='number'>{{item.num}}人正在参与</view>
+          </view>
+          <view class='con'>
+            <text class='money'>￥0.00</text>
+            <text class='num'>原价￥<text class='yj'>{{item.money}}</text></text>
+            <button class='kj_btn'>去砍价</button>
+          </view>
+        </view>
+      </view>
+  </block>
+ </view>
+ 
+  <!-- top -->
+  <view wx:if="{{topshow}}" class='fh_top'  id="id" bindtap = "handletap">
+    <view class='jt'><image src='../../img/top.png' /></view>
+    <view class='text'>置顶</view>
+  </view>
+</scroll-view>

@@ -1,1 +1,14 @@
 # Created by .ignore support plugin (hsz.mobi)
+.idea/
+__pycache__/
+common/__pycache__/
+common/libs/__pycache__/
+common/modal/__pycache__/
+node_modules/
+venv/
+web/__pycache__/
+web/controller/__pycache__/
+web/controller/admin/__pycache__/
+web/controller/api/__pycache__/
+web/controller/interceptors/__pycache__/
+web/static/assets/images/product/

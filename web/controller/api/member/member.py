@@ -31,7 +31,7 @@ def login():
     '''
         判断是否已经测试过，注册了直接返回一些信息
     '''
-    bind_info = OauthMemberBind.query.filter_by(openid=openid, type=1).first()
+    bind_info = OauthMemberBind.query.filter_by(Openid=openid, Type=1).first()
     if not bind_info:
         model_member = Member()
         model_member.Nickname = nickname
@@ -81,7 +81,7 @@ def memberInfo():
     resp = {'code': 200, 'msg': '操作成功~', 'data': {}}
     member_info = g.member_info
     resp['data']['info'] = {
-        "nickname": member_info.nickname,
-        "avatar_url": member_info.avatar
+        "nickname": member_info.Nickname,
+        "avatar_url": member_info.Avatar
     }
     return jsonify(resp)

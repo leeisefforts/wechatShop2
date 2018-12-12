@@ -7,7 +7,7 @@ class MemberService():
     @staticmethod
     def geneAuthCode(member_info=None):
         m = hashlib.md5()
-        str = "%s-%s-%s" % (member_info.id, member_info.salt, member_info.status)
+        str = "%s-%s" % (member_info.Id, member_info.Salt)
         m.update(str.encode("utf-8"))
         return m.hexdigest()
 

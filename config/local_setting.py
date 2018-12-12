@@ -51,3 +51,12 @@ SHOP_STATUS_MAPPING = {
     "1": "上架中",
     "0": "未上架"
 }
+
+
+MINA_APP = {
+    'appid':'wx871b8985c8c8c4ab',
+    'appkey':'fcb9f2b868d4fede2a48c35e5c95d06d',
+    'paykey':'',
+    'mch_id':'',
+    'callback_url':'/api/order/callback'
+}

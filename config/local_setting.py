@@ -1,5 +1,5 @@
 APP = {
-    'domain': 'http://127.0.0.1:5000'
+    'domain': 'http://17bctech.com'
 }
 AUTH_COOKIE_NAME = 'UserCookie'
 SERVER_PORT = '5000'

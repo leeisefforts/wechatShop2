@@ -1,9 +1,34 @@
-{% extends "common/layout_main.html" %}
-    {% block pcoded %}
+{% extends 'common/layout_main.html' %}
 
-    {% endblock %}
+{% block pcoded%}
+     <nav class="pcoded-navbar">
+        <div class="navbar-wrapper">
+            <div class="navbar-brand header-logo">
+                <a href="index.html" class="b-brand">
+                    <span class="b-title">后台管理系统</span>
+                </a>
+                <a class="mobile-menu" id="mobile-collapse" href="javascript:"><span></span></a>
+            </div>
+            <div class="navbar-content scroll-div">
+                <ul class="nav pcoded-inner-navbar">
+                    <li class="nav-item pcoded-menu-caption">
+                        <label>管理员</label>
+                    </li>
+                    <li data-username="dashboard Default Ecommerce CRM Analytics Crypto Project" class="nav-item pcoded-hasmenu active pcoded-trigger">
+                        <a href="javascript:" class="nav-link"><span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">管理员操作</span></a>
+                        <ul class="pcoded-submenu">
+                            <li class="active"><a href="{{ buildUrl('/admin/report') }}" class="">报表统计</a></li>
+                            <li class=""><a href="{{ buildUrl('/admin/merchant') }}" class="">商户管理</a></li>
+                            <li class=""><a href="{{ buildUrl('/admin/user') }}" class="">用户管理</a></li>
+                            <li class=""><a href="{{ buildUrl('/admin/commodity') }}" class="">商品管理</a></li>
+                            <li class=""><a href="{{ buildUrl('/admin/update?id=' + current_user.Id) }}" class="">管理员信息</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+{% endblock %}
 {% block content %}
-    <div>
-    <h1>block success</h1>
-    </div>
+    <h1>信你个鬼 你个糟老头子坏得很</h1>
 {% endblock %}

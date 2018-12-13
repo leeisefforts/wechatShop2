@@ -14,3 +14,12 @@ class Member(db.Model):
     Salt = db.Column(String(64), nullable=False, server_default=FetchedValue())
     UpdatedTime = db.Column(DateTime, nullable=False, server_default=FetchedValue())
     CreatedTime = db.Column(DateTime, nullable=False, server_default=FetchedValue())
+
+    @property
+    def sex_desc(self):
+        sex_mapping = {
+            "0": "未知",
+            "1": "男",
+            "2": "女"
+        }
+        return sex_mapping[str(self.Sex)]

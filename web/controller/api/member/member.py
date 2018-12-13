@@ -56,7 +56,7 @@ def login():
 
     member_info = Member.query.filter_by(Id=bind_info.Member_id).first()
     token = "%s#%s" % (MemberService.geneAuthCode(member_info), member_info.Id)
-    resp['data'] = {'token': token}
+    resp['data'] = {'token': token, 'openId':openid}
     return jsonify(resp)
 
 

@@ -18,10 +18,11 @@
                         <a href="javascript:" class="nav-link"><span class="pcoded-micon"><i
                                 class="feather icon-home"></i></span><span class="pcoded-mtext">管理员操作</span></a>
                         <ul class="pcoded-submenu">
+
+                            <li class=""><a href="{{ buildUrl('/admin/report') }}" class="">报表统计</a></li>
                             <li class=""><a href="{{ buildUrl('/admin/merchant') }}" class="">商户管理</a></li>
                             <li class=""><a href="{{ buildUrl('/admin/user') }}" class="">用户管理</a></li>
                             <li class="active"><a href="{{ buildUrl('/admin/commodity') }}" class="">商品管理</a></li>
-                            <li class=""><a href="{{ buildUrl('/admin/report') }}" class="">报表统计</a></li>
                             <li class=""><a href="{{ buildUrl('/admin/update?id=' + current_user.Id) }}"
                                             class="">管理员信息</a></li>
                         </ul>
@@ -42,7 +43,7 @@
                                 <h5>商品信息</h5>
                             </div>
                             <div class="card-block">
-                                <form method="POST" class="upload_pic_wrap custom-file" target="pic" id="form1"
+                                <form method="POST" class="upload_pic_wrap custom-file" id="form1"
                                       enctype="multipart/form-data"
                                       action="{{ buildUrl('/upload/edit') }}">
                                     <div class="row">
@@ -102,6 +103,7 @@
                                         </div>
                                     </div>
                                     <input type="hidden" class="wrap_shop_set" name="id" value="{{ info.Id }}">
+                                    <input type="hidden" class="wrap_shop_set" name="ShopImageUrl" value="{{ info.ShopImageUrl }}">
                                     <button type="submit" class="btn btn-primary">提交</button>
                                 </form>
                             </div>

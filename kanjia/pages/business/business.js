@@ -1,13 +1,20 @@
 // pages/business/business.js
+//获取应用实例
+const app = getApp()
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
+    canIUse: wx.canIUse('button.open-type.getUserInfo'),
+    sq_show: false,
+    user_info: '',
     iphone_length : 0,
     name_length:0,
-    add_length : 0
+    add_length: 0,
+    height: 0,
+    width: 0,
   },
   // 记录姓名长度
   name_length: function (e) {
@@ -61,11 +68,44 @@ Page({
   },
 
 
+  // 用户点击授权登录
+  bindGetUserInfo: function (e) {
+    app.login(this)
+    if (e.detail && e.detail.rawData) {
+      this.setData({ sq_show: false })
+    }
+  },
+
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    var _this = this;
+    //取出用户微信信息
+    wx.getStorage({
+      key: 'user_info',
+      success: function (res) {
+        _this.setData({
+          user_info: res
+        })
+        console.log(_this.data.user_info)
+      },
+      // 获取失败说明没授权 打开授权提示框
+      fail: function () {
+        _this.setData({
+          sq_show: true
+        })
+      }
+    })
+    // 获取屏幕可见区域
+    wx.getSystemInfo({
+      success: function (res) {
+        _this.setData({
+          height: res.windowHeight + 'px',
+          width: res.windowWidth + 'px'
+        })
+      },
+    })
   },
 
   /**

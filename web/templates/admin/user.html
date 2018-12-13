@@ -1,7 +1,7 @@
 {% extends 'common/layout_main.html' %}
 
-{% block pcoded%}
-     <nav class="pcoded-navbar">
+{% block pcoded %}
+    <nav class="pcoded-navbar">
         <div class="navbar-wrapper">
             <div class="navbar-brand header-logo">
                 <a href="index.html" class="b-brand">
@@ -14,14 +14,17 @@
                     <li class="nav-item pcoded-menu-caption">
                         <label>管理员</label>
                     </li>
-                    <li data-username="dashboard Default Ecommerce CRM Analytics Crypto Project" class="nav-item pcoded-hasmenu active pcoded-trigger">
-                        <a href="javascript:" class="nav-link"><span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">管理员操作</span></a>
+                    <li data-username="dashboard Default Ecommerce CRM Analytics Crypto Project"
+                        class="nav-item pcoded-hasmenu active pcoded-trigger">
+                        <a href="javascript:" class="nav-link"><span class="pcoded-micon"><i
+                                class="feather icon-home"></i></span><span class="pcoded-mtext">管理员操作</span></a>
                         <ul class="pcoded-submenu">
                             <li class=""><a href="{{ buildUrl('/admin/merchant') }}" class="">商户管理</a></li>
                             <li class="active"><a href="{{ buildUrl('/admin/user') }}" class="">用户管理</a></li>
                             <li class=""><a href="{{ buildUrl('/admin/commodity') }}" class="">商品管理</a></li>
                             <li class=""><a href="{{ buildUrl('/admin/report') }}" class="">报表统计</a></li>
-                            <li class=""><a href="{{ buildUrl('/admin/update?id=' + current_user.Id) }}" class="">管理员信息</a></li>
+                            <li class=""><a href="{{ buildUrl('/admin/update?id=' + current_user.Id) }}"
+                                            class="">管理员信息</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -30,5 +33,67 @@
     </nav>
 {% endblock %}
 {% block content %}
-    <h1>信你个鬼 你个糟老头子坏得很</h1>
+    <section class="pcoded-main-container">
+        <div class="pcoded-wrapper">
+            <div class="pcoded-content">
+                <div class="pcoded-inner-content">
+                    <div class="main-body">
+                        <div class="page-wrapper">
+                            <!-- [ Main Content ] start -->
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="card">
+                                        <div class="card-block">
+                                            <div class="table-responsive">
+                                                <table id="zero-configuration"
+                                                       class="display table nowrap table-striped table-hover"
+                                                       style="width:100%">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>#</th>
+                                                        <th>昵称</th>
+                                                        <th>头像</th>
+                                                        <th>性别</th>
+                                                        <th>城市</th>
+                                                        <th>创建时间</th>
+                                                        <th>修改时间</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    {% if list %}
+                                                        {% for item in list %}
+                                                            <tr>
+                                                                <th scope="row">{{ item.Id }}</th>
+                                                                <td>{{ item.Nickname }}</td>
+                                                                <td><img alt="image" class="img-circle"
+                                                                         src="{{ item.Avatar }}"
+                                                                         style="width: 40px;height: 40px;"></td>
+                                                                <td>{{ item.sex_desc }}</td>
+                                                                <td>{{ item.City }}</td>
+                                                                <td>{{ item.CreatedTime }}</td>
+                                                                <td>{{ item.UpdatedTime }}</td>
+                                                            </tr>
+                                                        {% endfor %}
+                                                    {% else %}
+                                                        <tr>
+                                                            <td colspan="9">暂无数据~</td>
+                                                        </tr>
+                                                    {% endif %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+{% block js %}
+        <script src="{{ buildStaticUrl('assets/plugins/data-tables/js/datatables.min.js') }}"></script>
+    <script src="{{ buildStaticUrl('assets/js/pages/tbl-datatable-custom.js') }}"></script>
 {% endblock %}

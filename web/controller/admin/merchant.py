@@ -1,7 +1,7 @@
 from web.controller.admin import route_admin
 from common.libs.WebHelper import ops_render, iPagination
 from flask import request, g, jsonify
-from application import app
+from application import app, db
 from sqlalchemy import or_
 from common.modal.merchant_info import Merchant_Info
 
@@ -42,3 +42,18 @@ def merchant():
         resq['search_con'] = req
         resq['status_mapping'] = app.config['STATUS_MAPPING']
         return ops_render("admin/index.html", resq)
+
+
+@route_admin.route('/merchant/edit', methods=['GET', 'POST'])
+def medit():
+    resp = {'code': 200, 'msg': '审核成功'}
+    req = request.values
+    id = req['id']
+    status = req['status']
+    mer = Merchant_Info.query.filter_by(Id=id).first()
+    mer.Status = status
+
+    db.session.add(mer)
+    db.session.commit()
+
+    return jsonify(resp)

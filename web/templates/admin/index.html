@@ -94,17 +94,16 @@
                                                                 <td>{{ item.CreateTime }}</td>
                                                                 <td>{{ item.Status_Desc }}</td>
                                                                 <td>
-                                                                    <a href="{{ buildUrl('/admin/info' ) }}?id={{ item.Id }}">
-                                                                        <i class="fa fa-eye fa-lg"></i>
-                                                                    </a>&nbsp;
+{#                                                                    <a href="{{ buildUrl('/admin/info' ) }}?id={{ item.Id }}">#}
+{#                                                                        <i class="fa fa-eye fa-lg"></i>#}
+{#                                                                    </a>&nbsp;#}
                                                                     {% if item.Status == 0 %}
-                                                                        <a class="m-l"
-                                                                            href="{{ buildUrl('/admin/review') }}?id={{ item.Id }}&status= 1">
+                                                                        <a onclick="updateStatus({{ item.Id }}, 1)">
                                                                          <i class="fa fa-check fa-lg"></i>
                                                                         </a>&nbsp;
-                                                                        <a class="m-l"
-                                                                            href="{{ buildUrl('/admin/review') }}?id={{ item.Id }}&status= 2">
-                                                                         <i class="fa fa-close fa-lg"></i>
+                                                                        {% else %}
+                                                                        <a onclick="updateStatus({{ item.Id }}, 0)">
+                                                                         <i class="fa fa-minus fa-lg"></i>
                                                                         </a>
                                                                     {% endif %}
                                                                 </td>
@@ -138,6 +137,21 @@
     <script>
     function addAdmin() {
         window.location.href = common_ops.buildUrl('/admin/add')
+    }
+
+    function updateStatus(id, status) {
+                $.ajax({
+                url: common_ops.buildUrl("/admin/merchant/edit"),
+                type: 'POST',
+                data: {'id': id, 'status': status},
+                dataType: 'json',
+                success: function (res) {
+                    alert(res.msg);
+                    if (res.code == 200) {
+                        window.location.href = common_ops.buildUrl("/admin/merchant");
+                    }
+                }
+            });
     }
     </script>
 {% endblock %}

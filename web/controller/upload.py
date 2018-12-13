@@ -13,10 +13,13 @@ route_upload = Blueprint('upload_page', __name__)
 def edit():
     resp = {'code': '200', 'msg': '操作成功'}
     file_target = request.files
-
-    img_url = uploadImg(file_target)
-
     req = request.values
+    if len(file_target) > 0:
+        img_url = uploadImg(file_target)
+    else:
+        img_url = req['ShopImageUrl']
+
+
     if len(req['shopname']) < 1:
         resp['code'] = -1
         resp['msg'] = '请输入商品名'
@@ -57,7 +60,7 @@ def edit():
 
     db.session.add(modal_shop)
     db.session.commit()
-    return redirect(UrlManager.buildUrl("/admin/shop"))
+    return redirect(UrlManager.buildUrl("/admin/commodity"))
 
 
 def uploadImg(file_target):

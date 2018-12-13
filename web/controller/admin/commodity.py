@@ -3,7 +3,7 @@ from common.libs.WebHelper import ops_render
 from flask import request, jsonify
 from common.modal.shop_info import Shop_Info
 from common.modal.merchant_info import Merchant_Info
-
+from application import db, app
 import json
 
 
@@ -24,3 +24,17 @@ def commodity_info():
         resq['info'] = Shop_Info.query.filter_by(Id=id).first()
         resq['merchants'] = Merchant_Info.query.order_by(Merchant_Info.Id.desc()).all()
         return ops_render('shop/info.html', resq)
+
+
+@route_admin.route('/commodity/edit', methods=['GET', 'POST'])
+def edit():
+    resq = {'code': 200, 'msg': '操作成功'}
+    req = request.values
+    id = req['id']
+    status = req['status']
+    shop = Shop_Info.query.filter_by(Id=id).first()
+    shop.ShopStatus = status
+    db.session.add(shop)
+    db.session.commit()
+
+    return jsonify(resq)

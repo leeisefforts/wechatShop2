@@ -9,8 +9,13 @@ import json
 route_index = Blueprint('index_page', __name__)
 
 
-@route_index.route('/')
+@route_index.route('/', methods=['GET', 'POST'])
 def index():
+    return ops_render('index.html')
+
+
+@route_index.route('/index', methods=['GET', 'POST'])
+def indexinfo():
     return ops_render('index.html')
 
 

@@ -50,7 +50,6 @@ function fix_height() {
 var common_ops = {
     init: function () {
         this.eventBind();
-        this.setMenuIconHighLight();
     },
     eventBind: function () {
         $('.navbar-minimalize').click(function () {
@@ -65,9 +64,6 @@ var common_ops = {
         });
     },
     setMenuIconHighLight: function () {
-        if ($("#side-menu li").size() < 1) {
-            return;
-        }
 
         var pathname = window.location.pathname;
         var nav_name = "default";

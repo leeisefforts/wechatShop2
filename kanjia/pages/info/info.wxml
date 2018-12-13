@@ -1,15 +1,17 @@
 <!--pages/info/info.wxml-->
  <!-- 授权登录弹出框 -->
-<view class='shouquan'  style="height: {{height}};">
+ <!-- 授权登录弹出框 -->
+<view class='shouquan' wx:if='{{sq_show}}'  style="height: {{height}};">
   <view class='sq_box'>
     <view class='title'>需要您的授权</view>
     <view class='tishi'>为了提供更好的服务</view>
     <view class='tishi2'>请在稍后的提示框中点击“允许”</view>
     <image class='img' src='../../img/shouquan.jpg'></image>
-    <button class='btn' wx:if="{{canIUse}}"  open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">授权登录</button>
-    <view wx:else>请升级微信版本</view>
+    <button class='btn' wx:if="{{canIUse}}"  open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">我知道了</button>
+    <view class='shengji' wx:else>请升级微信版本</view>
   </view>
 </view>
+ 
 <scroll-view style="height: {{height}};" scroll-y bindscroll="scroll" scroll-top='{{scroll_top}}'>
   <view class='header'>
     <image class='img' style='height:{{img_w}}'/>

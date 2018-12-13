@@ -68,9 +68,9 @@ def memberShare():
     member_info = g.member_info
     model_share = WxShareHistory()
     if member_info:
-        model_share.member_id = member_info.id
-    model_share.share_url = url
-    model_share.created_time = getCurrentDate()
+        model_share.Member_Id = member_info.Id
+    model_share.Share_Url = url
+    model_share.CreateTime = getCurrentDate()
     db.session.add(model_share)
     db.session.commit()
     return jsonify(resp)

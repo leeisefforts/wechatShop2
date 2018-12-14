@@ -60,7 +60,9 @@
                                                 <select class="form-control wrap_shop_set" name="merchant">
                                                     <option value> 选择商家...</option>
                                                     {% for item in merchants %}
-                                                        <option value="{{ item.Id }}" {%  if item.Id == info.ShopMerchantId %} selected {% endif %}>{{ item.Name }}</option>
+                                                        <option value="{{ item.Id }}"
+                                                                {% if item.Id == info.ShopMerchantId %}
+                                                                selected {% endif %}>{{ item.Name }}</option>
                                                     {% endfor %}
                                                 </select>
                                             </div>
@@ -101,9 +103,17 @@
                                                        value="{{ info.ShopFloorPrice }}">
                                             </div>
                                         </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="form-label wrap_shop_set">商品库存</label>
+                                                <input type="number" class="form-control" name="stock"
+                                                       value="{{ info.Stock }}">
+                                            </div>
+                                        </div>
                                     </div>
                                     <input type="hidden" class="wrap_shop_set" name="id" value="{{ info.Id }}">
-                                    <input type="hidden" class="wrap_shop_set" name="ShopImageUrl" value="{{ info.ShopImageUrl }}">
+                                    <input type="hidden" class="wrap_shop_set" name="ShopImageUrl"
+                                           value="{{ info.ShopImageUrl }}">
                                     <button type="submit" class="btn btn-primary">提交</button>
                                 </form>
                             </div>

@@ -60,7 +60,4 @@ def check_member_login():
     if auth_info[0] != MemberService.geneAuthCode(member_info):
         return False
 
-    if member_info.status != 1:
-        return False
-
     return member_info

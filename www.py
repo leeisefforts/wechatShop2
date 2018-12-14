@@ -1,6 +1,7 @@
 from application import app
 
 from web.controller.interceptors.authIntercetor import *
+from web.controller.interceptors.apiAuthInterceptor import *
 
 from web.controller.index import route_index
 from web.controller.static import route_static

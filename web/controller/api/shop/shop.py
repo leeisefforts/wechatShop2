@@ -51,5 +51,14 @@ def shopinfo():
     id = req.get('id')
 
     info = Shop_Info.query.filter_by(Id=id).first()
-    resp['data'] = info
+    resp['data'] = {
+        'id': info.Id,
+        'name': "%s" % (info.ShopName),
+        'desc': "%s" % (info.ShopDesc),
+        'price': str(info.ShopPrice),
+        'min_price': str(info.ShopFloorPrice),
+        'stock': str(info.Stock),
+        'totalCount': str(info.TotalCount),
+        'pic_url': UrlManager.buildImageUrl(info.ShopImageUrl)
+    }
     return jsonify(resp)

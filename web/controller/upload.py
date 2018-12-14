@@ -55,6 +55,7 @@ def edit():
     modal_shop.ShopPrice = req['floorprice']
     modal_shop.ShopImageUrl = img_url
     modal_shop.ShopMerchantId = req['merchant']
+    modal_shop.Stock = req['stock']
 
     modal_shop.UpdateTime = getCurrentDate()
 

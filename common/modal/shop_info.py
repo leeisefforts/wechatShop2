@@ -16,6 +16,8 @@ class Shop_Info(db.Model):
     CreatTime = db.Column(DateTime, nullable=False, server_default=FetchedValue())
     UpdateTime = db.Column(DateTime, nullable=False, server_default=FetchedValue())
     ShopStatus = db.Column(Integer, nullable=False, server_default=FetchedValue())
+    Stock = db.Column(Integer, nullable=False, server_default=FetchedValue())
+    TotalCount = db.Column(Integer, nullable=False, server_default=FetchedValue())
 
     @property
     def Status_Desc(self):

@@ -32,4 +32,9 @@ def addmerchant():
     db.session.add(modal_info)
     db.session.commit()
 
-    return jsonify(req)
+    return jsonify(resp)
+
+@route_api.route('merchant', methods=['GET', 'POST'])
+def info():
+    resp = {'code': 200, 'msg': '操作成功'}
+    pass

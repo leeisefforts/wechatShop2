@@ -49,7 +49,7 @@ Page({
    */
   onLoad: function (options) {
     var _this = this;
-    console.log(this.data.user_info)
+    console.log('加载')
     //取出用户微信信息
     wx.getStorage({
       key: 'user_info',
@@ -57,13 +57,14 @@ Page({
         _this.setData({
           user_info: res
         })
-        console.log(_this.data.user_info)
+        console.log('成功')
       },
       // 获取失败说明没授权 打开授权提示框
       fail: function () {
         _this.setData({
           sq_show: true
         })
+        console.log('失败')
       }
     })
     // 获取屏幕可见区域

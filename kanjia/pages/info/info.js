@@ -13,26 +13,39 @@ Page({
     width: 0,
     img_w:0,
     kj_box: false,
-    scroll_top: 0
+    scroll_top: 0,
+    list : '',
+    openid : '',
+    pic_id : '',
+    shop_info: ''
   },
 
 
   //点击砍价
   kanjia:function(){
+
     this.setData({
       kj_box : true
     })
   } ,
   // 点击购买
   goumai : function(){
-    wx.requestPayment({
-      timeStamp: '',
-      nonceStr: '',
-      package: '',
-      signType: 'MD5',
-      paySign: '',
-      success(res) { },
-      fail(res) { }
+    var _this = this;
+    wx.showLoading({
+      title: '正在生成订单',
+    });
+    console.log(_this.data.shop_info)
+    wx.request({
+      url: 'http://127.0.0.1:5000/api/order/create',
+      method: 'POST',
+      header: app.getRequestHeader(),
+      data: { 'openId': _this.data.openid,'goods': JSON.stringify(_this.data.shop_info)},
+      success: function(res){
+
+        wx.showLoading({
+          title: '',
+        }).close()
+      }
     })
   },
 
@@ -47,7 +60,7 @@ Page({
   onShareAppMessage: function () {
     return {
       title: '你的标题',
-      path: '/pages/index/index',
+      path: '/pages/info/info?openid = ' + this.data.openid ,
       // imageUrl: '转发的图片，不填的话  就是页面截图',
     }
   },
@@ -88,6 +101,63 @@ Page({
    */
   onLoad: function (options) {
     var _this = this;
+    _this.setData({
+      pic_id : options
+    });
+
+    // 获取详情
+    wx.request({
+      url: 'http://127.0.0.1:5000/api/shopinfo?id=' + options.id,
+      method: 'GET',
+      data: { },
+      header: { "Content-Type": "application/x-www-form-urlencoded" },
+      dataType: 'json',
+      success: function (r) {
+        if (r.data.code == 200) {
+          
+          _this.setData({
+            shop_info: r.data.data
+          })
+        }
+      }
+    });
+
+    console.log(options)
+    wx.showShareMenu({
+      withShareTicket: true
+    });
+    // 获取小程序启动时的参数
+    // console.log(wx.getLaunchOptionsSync())
+    
+    wx.getStorage({
+      key: 'user_info',
+      success: function (res) {
+        _this.setData({
+          openid : res.data.openid
+        })
+      }
+    })
+
+
+    // 获取数据
+    wx.request({
+      url: app.http + 'api/shoplist',
+      method: 'GET',
+      data: {
+        p: 1,
+        mix_kw: ''
+      },
+      header: { "Content-Type": "application/x-www-form-urlencoded" },
+      dataType: 'json',
+      success: function (r) {
+        if (r.data.code == 200) {
+          _this.setData({
+            list: r.data.data.list
+          })
+        }
+      }
+    });
+
     //取出用户微信信息
     wx.getStorage({
       key: 'user_info',
@@ -95,7 +165,6 @@ Page({
         _this.setData({
           user_info: res
         })
-        console.log(_this.data.user_info)
       },
       // 获取失败说明没授权 打开授权提示框
       fail: function () {
@@ -105,7 +174,6 @@ Page({
       }
     })
 
-    console.log(_this.data.user_info)
 
 
     // 获取屏幕可见区域
@@ -131,7 +199,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    
   },
 
   /**

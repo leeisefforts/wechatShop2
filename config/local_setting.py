@@ -1,5 +1,5 @@
 APP = {
-    'domain': 'http://17bctech.com'
+    'domain': 'https://17bctech.com'
 }
 AUTH_COOKIE_NAME = 'UserCookie'
 SERVER_PORT = '5000'
@@ -41,9 +41,17 @@ UPLOAD = {
 }
 
 PAY_STATUS_MAPPING = {
-    "1": "已支付",
-    "-8": "待支付",
-    "0": "已关闭"
+    "1":"已支付",
+    "-8":"待支付",
+    "0":"已关闭"
+}
+
+PAY_STATUS_DISPLAY_MAPPING = {
+    "0":"订单关闭",
+    "1":"支付成功",
+    "-8":"待支付",
+    "-7":"待发货",
+    "-6":"待确认"
 }
 
 SHOP_STATUS_MAPPING = {

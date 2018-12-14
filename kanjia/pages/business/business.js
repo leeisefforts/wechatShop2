@@ -10,11 +10,14 @@ Page({
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
     sq_show: false,
     user_info: '',
+    openid: '',
+    token: '',
     iphone_length : 0,
     name_length:0,
     add_length: 0,
     height: 0,
     width: 0,
+    set_img : ''
   },
   // 记录姓名长度
   name_length: function (e) {
@@ -57,6 +60,13 @@ Page({
         duration: 2000
       })
       return false;
+    } else if (this.data.set_img == '') {
+      wx.showToast({
+        title: '请上传图片',
+        image: '../../img/x.png',
+        duration: 2000
+      })
+      return false;
     }else{
       wx.showToast({
         title: '已提交',
@@ -65,6 +75,34 @@ Page({
       })
     }
     
+  },
+  // 上传图片
+  add_img : function(){
+    var _this = this;
+    wx.chooseImage({
+      count: 1,
+      sizeType: ['compressed'],
+      sourceType: ['album', 'camera'],
+      success(res) {
+        console.log(res.tempFilePaths)
+        // 上传
+        wx.uploadFile({
+          url: app.http + 'api/upload',
+          filePath: res.tempFilePaths[0],
+          name: 'pic',
+          success(res) {
+            var obj = JSON.parse(res.data)
+            if (obj.code == 200){
+              _this.setData({
+                set_img: app.http + 'static/upload/' +obj.data
+              })
+            }
+            console.log(obj)
+          }
+        })
+      
+      }
+    })
   },
 
 
@@ -86,9 +124,10 @@ Page({
       key: 'user_info',
       success: function (res) {
         _this.setData({
-          user_info: res
+          user_info: res.data.user_info,
+          token : res.data.token,
+          openid : res.data.openid
         })
-        console.log(_this.data.user_info)
       },
       // 获取失败说明没授权 打开授权提示框
       fail: function () {
@@ -97,6 +136,7 @@ Page({
         })
       }
     })
+   
     // 获取屏幕可见区域
     wx.getSystemInfo({
       success: function (res) {

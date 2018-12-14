@@ -1,5 +1,5 @@
 <!--index.wxml-->
-<scroll-view style="height: {{height}};" scroll-y bindscroll="scroll" scroll-top='{{scroll_top}}'>
+<scroll-view style="height: {{height}};" scroll-y bindscroll="scroll" scroll-top='{{scroll_top}}'  bindscrolltolower='lower_load'>
  <!-- <view class='guize' bindtap='guize'>砍价规则</view> -->
  <!-- <view class='guize_con'>
     <view class='tiitle'>砍价活动规则</view>
@@ -37,21 +37,14 @@
  <!-- 列表 -->
  <view class='list'>
   <block wx:for='{{list}}' wx:for-index="index" wx:for-item="item">
-      <view class='list_clild' bindtap='list_click'>
-        <image class='image' />
+      <view class='list_clild' data-id='{{item.id}}' bindtap='list_click'>
+        <image class='image' src='{{item.pic_url}}' />
         <view class='content'>
-          <view class='title'>{{item.title}}</view>
-          <view class='canyu'>
-            <view class='tx'>
-              <block  wx:for='{{item.num}}' wx:for-index="tx_index" wx:for-item="tx_item"  wx:if='{{item.num}}<10'>
-                <image class='img'></image>
-              </block>
-            </view>
-            <view class='number'>{{item.num}}人正在参与</view>
-          </view>
+          <view class='title'>{{item.name}}</view>
+          <view class='jieshao'>{{item.desc}}</view>
           <view class='con'>
-            <text class='money'>￥0.00</text>
-            <text class='num'>原价￥<text class='yj'>{{item.money}}</text></text>
+            <text class='money'>￥{{item.min_price}}</text>
+            <text class='num'>原价￥<text class='yj'>{{item.price}}</text></text>
             <button class='kj_btn'>去砍价</button>
           </view>
         </view>

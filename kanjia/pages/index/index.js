@@ -13,7 +13,7 @@ Page({
     scroll_top:0,
     ss_text : '',
     ss_input : '',
-    list: [{ title: '这里是标题11111', num: 1236, money: 689.99 }, { title: '这里是标题22222222222222222222222222', num: 3298, money: 495.56 }, { title: '这里是标题11111', num: 1236, money: 689.99 }, { title: '这里是标题22222222222222222222222222', num: 3298, money: 495.56 }, { title: '这里是标题11111', num: 1236, money: 689.99 }, { title: '这里是标题22222222222222222222222222', num: 3298, money: 495.56 }]
+    list: ''
   },
  
   //事件处理函数
@@ -23,9 +23,10 @@ Page({
     })
   },
   // 点击进入商品详情
-  list_click : function(){
+  list_click : function(e){
+    console.log(e.currentTarget.dataset.id)
     wx.navigateTo({
-      url: '../info/info'
+      url: '../info/info?id=' + e.currentTarget.dataset.id
     })
   },
   // 点击搜索框
@@ -82,18 +83,44 @@ Page({
       this.setData({ sq_show: false })
     }
   },
+
+  //滚动到底部加载数据
+  lower_load : function(){
+    console.log('底部')
+  },
   
   // 页面加载
   onLoad: function () {
     var _this = this;
+
+
+    // 获取首页数据
+    wx.request({
+      url: app.http +'api/shoplist',
+      method: 'GET',
+      data: {
+        p: 1,
+        mix_kw : ''
+      },
+      header: { "Content-Type": "application/x-www-form-urlencoded" },
+      dataType: 'json',
+      success: function (r) {
+        if(r.data.code == 200){
+          _this.setData({
+            list: r.data.data.list
+          })
+        }
+      }
+    });
+
      //取出用户微信信息
       wx.getStorage({
         key: 'user_info',
         success: function(res) {
+
           _this.setData({
             user_info : res
           })
-          console.log(_this.data.user_info)
         },
         // 获取失败说明没授权 打开授权提示框
         fail: function () {
@@ -102,24 +129,6 @@ Page({
           })
         }
     })
-
-    console.log(_this.data.user_info)
-
-    
-    
-    // 获取首页数据
-    wx.request({
-      url: app.http,
-      method: 'GET',
-      data: {
-        
-      },
-      header: { "Content-Type": "application/x-www-form-urlencoded" },
-      dataType: 'json',
-      success: function (r) {
-        // console.log(r)
-      }
-    });
 
     var _this = this;
     // 获取屏幕可见区域

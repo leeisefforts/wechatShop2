@@ -28,6 +28,6 @@ def create():
 
     }
 
-    resp = target.createOrder(member_info.Id, items, params= params)
+    resp = target.createOrder(member_info.Id, items, params=params)
 
     return jsonify(resp)

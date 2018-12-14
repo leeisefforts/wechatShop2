@@ -9,7 +9,7 @@
 		"autoAudits": false
 	},
 	"compileType": "miniprogram",
-	"libVersion": "1.9.91",
+	"libVersion": "2.4.2",
 	"appid": "wx871b8985c8c8c4ab",
 	"projectname": "kanjia1",
 	"condition": {

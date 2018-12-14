@@ -6,6 +6,11 @@ from common.libs.WebHelper import getCurrentDate
 from common.libs.MemberService import MemberService
 from common.modal.member import Member
 from common.modal.OauthMemberBind import OauthMemberBind
+from common.modal.coupon_info import Coupon_Info
+from common.modal.shop_info import Shop_Info
+from sqlalchemy import and_
+
+import random, decimal
 
 
 @route_api.route("/member/login", methods=["GET", "POST"])
@@ -56,7 +61,7 @@ def login():
 
     member_info = Member.query.filter_by(Id=bind_info.Member_id).first()
     token = "%s#%s" % (MemberService.geneAuthCode(member_info), member_info.Id)
-    resp['data'] = {'token': token, 'openId':openid}
+    resp['data'] = {'token': token, 'openId': openid}
     return jsonify(resp)
 
 
@@ -65,12 +70,52 @@ def memberShare():
     resp = {'code': 200, 'msg': '操作成功~', 'data': {}}
     req = request.values
     url = req['url'] if 'url' in req else ''
+    shopId = req['shopId'] if 'shopId' in req else 0
+    toOpenId = req['toOpenId'] if 'toOpenId' in req else ''
+    avatarUrl = req['avatarUrl'] if 'toOpenId' in req else ''
+    nickName = req['nickName'] if 'toOpenId' in req else ''
+
     member_info = g.member_info
     model_share = WxShareHistory()
     if member_info:
         model_share.Member_Id = member_info.Id
     model_share.Share_Url = url
+    model_share.Shop_Id = shopId
+    model_share.ToOpenId = toOpenId
+    model_share.ToNickName = nickName
+    model_share.ToAvatar = avatarUrl
     model_share.CreateTime = getCurrentDate()
+
+    shop_info = Shop_Info.query.filter_by(Id=shopId).first()
+    rule = and_(Coupon_Info.Member_Id == shopId, Coupon_Info.ShopId == shopId)
+    coupon_info = Coupon_Info.query.filter(rule)
+
+    coupon_price = 0
+    if coupon_info:
+        modal_coupon = coupon_info
+        modal_coupon.UpdateTime = getCurrentDate()
+        coupon_price = modal_coupon.Price
+    else:
+        modal_coupon = Coupon_Info()
+        modal_coupon.Coupon_Name = '%s-%s'.format(shop_info.ShopName, member_info.Nickname)
+        modal_coupon.ShopId = shopId
+        modal_coupon.Member_Id = member_info.Id
+        modal_coupon.Price = shop_info.ShopPrice
+        modal_coupon.Status = 1
+        modal_coupon.CreateTime = modal_coupon.UpdateTime = getCurrentDate()
+
+    pp = coupon_price - shop_info.ShopFloorPrice
+    yhprice = decimal.Decimal(random.uniform(0.1, pp))
+    model_share.Price = yhprice
+    if yhprice >= pp:
+        modal_coupon.Price = shop_info.ShopFloorPrice  # 如果优惠金额低于底价 直接变成底价
+        modal_coupon.Coupon_Price = decimal.Decimal(shop_info.ShopPrice - shop_info.ShopFloorPrice)
+        modal_coupon.Status = 2  # 无法再进行砍价
+    else:
+        modal_coupon.Price -= yhprice
+        modal_coupon.Coupon_Price += yhprice
+
+    db.session.add(modal_coupon)
     db.session.add(model_share)
     db.session.commit()
     return jsonify(resp)

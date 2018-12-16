@@ -48,7 +48,7 @@ def shoplist():
 
 @route_api.route('/shopinfo', methods=['GET', 'POST'])
 def shopinfo():
-    resp = {'code': 200, 'msg': '操作成功~', 'data': {}, 'coupon': {}, 'shareHistory': {}}
+    resp = {'code': 200, 'msg': '操作成功~', 'data': {}, 'hasCoupon': 0}
     req = request.args
     id = req.get('id')
 
@@ -65,9 +65,7 @@ def shopinfo():
     }
 
     rule = and_(Coupon_Info.Member_Id == g.member_info.Id, Coupon_Info.ShopId == id)
-    coupon = Coupon_Info.query.filter(rule)
-    resp['coupon'] = {}
-    rule = and_(WxShareHistory.Member_Id == g.member_info.Id, WxShareHistory.Shop_Id == id)
-    shareHistory = WxShareHistory.query.filter(rule)
-    resp['shareHistory'] = {}
+    coupon = Coupon_Info.query.filter(rule).first()
+    if coupon:
+        resp['coupon'] = 1
     return jsonify(resp)

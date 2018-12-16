@@ -87,6 +87,7 @@ def memberShare():
     model_share.CreateTime = getCurrentDate()
     db.session.add(model_share)
     db.session.commit()
+
     shop_info = Shop_Info.query.filter_by(Id=shopId).first()
     rule = and_(Coupon_Info.Member_Id == shopId, Coupon_Info.ShopId == shopId)
     coupon_info = Coupon_Info.query.filter(rule).first()

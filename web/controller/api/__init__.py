@@ -8,6 +8,7 @@ from web.controller.api.member.member import *
 from web.controller.api.shop.shop import *
 from web.controller.api.merchant.merchant import *
 from web.controller.api.order.order import *
+from web.controller.api.coupon.coupon import *
 
 
 @route_api.route('/')

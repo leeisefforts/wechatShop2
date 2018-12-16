@@ -35,11 +35,11 @@ def addmerchant():
     return jsonify(resp)
 
 
-@route_api.route('merchant', methods=['GET', 'POST'])
+@route_api.route('/merchant/info', methods=['GET', 'POST'])
 def info():
     resp = {'code': 200, 'msg': '操作成功', 'data': {}}
     req = request.values
-
+    id = req['id'] if 'id' in req else 0
     info = Merchant_Info.query.filter_by(Id=id).first()
     resp['data'] = {
         'name': info.Name,

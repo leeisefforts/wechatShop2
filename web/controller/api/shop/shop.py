@@ -67,7 +67,7 @@ def shopinfo():
     rule = and_(Coupon_Info.Member_Id == g.member_info.Id, Coupon_Info.ShopId == id)
     coupon = Coupon_Info.query.filter(rule)
     resp['coupon'] = {}
-    rule = and_(WxShareHistory.Member_Id == g.member_info.Id, WxShareHistory.ShopId == id)
+    rule = and_(WxShareHistory.Member_Id == g.member_info.Id, WxShareHistory.Shop_Id == id)
     shareHistory = WxShareHistory.query.filter(rule)
     resp['shareHistory'] = {}
     return jsonify(resp)

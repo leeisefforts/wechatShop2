@@ -146,7 +146,7 @@ Page({
 
     // 获取首页数据
     wx.request({
-      url: app.http +'api/shoplist',
+      url: 'http://127.0.0.1:5000/api/shoplist',
       method: 'GET',
       data: {
         p: _this.data.page,

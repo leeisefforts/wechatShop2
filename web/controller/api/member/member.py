@@ -85,10 +85,11 @@ def memberShare():
     model_share.ToNickName = nickName
     model_share.ToAvatar = avatarUrl
     model_share.CreateTime = getCurrentDate()
-
+    db.session.add(model_share)
+    db.session.commit()
     shop_info = Shop_Info.query.filter_by(Id=shopId).first()
     rule = and_(Coupon_Info.Member_Id == shopId, Coupon_Info.ShopId == shopId)
-    coupon_info = Coupon_Info.query.filter(rule)
+    coupon_info = Coupon_Info.query.filter(rule).first()
 
     coupon_price = 0
     if coupon_info:
@@ -97,15 +98,15 @@ def memberShare():
         coupon_price = modal_coupon.Price
     else:
         modal_coupon = Coupon_Info()
-        modal_coupon.Coupon_Name = '%s-%s'.format(shop_info.ShopName, member_info.Nickname)
+        modal_coupon.Coupon_Name = (shop_info.ShopName + '-' + member_info.Nickname)
         modal_coupon.ShopId = shopId
         modal_coupon.Member_Id = member_info.Id
         modal_coupon.Price = shop_info.ShopPrice
         modal_coupon.Status = 1
         modal_coupon.CreateTime = modal_coupon.UpdateTime = getCurrentDate()
 
-    pp = coupon_price - shop_info.ShopFloorPrice
-    yhprice = decimal.Decimal(random.uniform(0.1, pp))
+    pp = shop_info.ShopPrice - shop_info.ShopFloorPrice if coupon_price == 0 else coupon_price - shop_info.ShopFloorPrice
+    yhprice = random.randint(0, int(pp))
     model_share.Price = yhprice
     if yhprice >= pp:
         modal_coupon.Price = shop_info.ShopFloorPrice  # 如果优惠金额低于底价 直接变成底价
@@ -113,10 +114,13 @@ def memberShare():
         modal_coupon.Status = 2  # 无法再进行砍价
     else:
         modal_coupon.Price -= yhprice
-        modal_coupon.Coupon_Price += yhprice
+        pprice = modal_coupon.Coupon_Price
+        if pprice:
+            modal_coupon.Coupon_Price = decimal.Decimal(pprice) + decimal.Decimal(yhprice)
+        else:
+            modal_coupon.Coupon_Price = decimal.Decimal(yhprice)
 
     db.session.add(modal_coupon)
-    db.session.add(model_share)
     db.session.commit()
     return jsonify(resp)
 

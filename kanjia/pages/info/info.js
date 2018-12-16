@@ -105,7 +105,7 @@ Page({
         // 获取详情
         wx.request({
           url: app.http + 'api/member/share',
-          method: 'GET',
+          method: 'POST',
           data: {
             url: '/pages/info/info',
             shopId: _this.data.pic_id,
@@ -162,7 +162,7 @@ Page({
       url: app.http + 'api/shopinfo?id=' + options.id,
       method: 'GET',
       data: { },
-      header: { "Content-Type": "application/x-www-form-urlencoded" },
+      header:app.getRequestHeader(),
       dataType: 'json',
       success: function (r) {
         if (r.data.code == 200) {
@@ -251,11 +251,16 @@ Page({
   },
 
   onTestApiByBryant: function(){
+    var _this = this;
     wx.request({
-      url:'http://127.0.0.1:5000/api/order/info',
-      method: 'GET',
+      url: 'http://127.0.0.1:5000/api/member/share',
+      method: 'POST',
       data: {
-        order_sn: 'f155cd8ef36e52c554b5bcf77575ec9e'
+        url: '/pages/info/info',
+        shopId: 6,
+        toOpenId: 'ozAhV4wDaYkDkrEZ457A39ZiPHBk',
+        avatarUrl: 'https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTIw2vSYPE9Savsy8wBhynJM4ZVd1sOvR0ibnLjhOGACianblKYdO1ycWK2IPVoFBgicbDaQfN4uYnNEQ/132',
+        nickName: 'Bryant'
       },
       header: app.getRequestHeader(),
       dataType: 'json',

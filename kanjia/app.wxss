@@ -50,20 +50,6 @@ page{
   text-align: center;
 }
 
-/* 价格 */
-.list .con .money{
-  font-size: 25px;
-  color: #007aff;
-}
-.list .con text{
-  font-size: 14px;
-}
-.list .con .num{
-  font-size: 14px;
-  color: #999999;
-  margin:0 0 0 15px;
-  text-decoration:line-through;
-}
 /* top */
 .fh_top{
   width:50px;

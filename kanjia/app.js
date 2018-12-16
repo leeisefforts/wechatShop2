@@ -1,18 +1,18 @@
 //app.js
 App({
   http: 'https://17bctech.com/',
-  user_info: '',
-  code: '',
-  onLaunch: function () {
-
+  user_info : '',
+  code : '',
+  onLaunch: function (option) {
+    
     var _this = this
     // 展示本地存储能力
     var logs = wx.getStorageSync('logs') || []
     logs.unshift(Date.now())
     wx.setStorageSync('logs', logs)
   },
-  onShow: function (e) {
-    console.log(e)
+  onShow: function (option){
+    console.log('小程序进来的参数：', option)
   },
   globalData: {
     userInfo: null
@@ -51,7 +51,7 @@ App({
     });
   },
   //用户点击授权登陆调用函数
-  login: function (that) {
+  login:function(that){
     var _this = this;
     // 获取用户信息
     wx.getSetting({
@@ -75,7 +75,7 @@ App({
                     data: res.code,
                   })
                   wx.request({
-                    url: _this.http + 'api/member/login',
+                    url: _this.http + '/api/member/login',
                     method: 'GET',
                     data: {
                       code: _this.code,
@@ -88,8 +88,6 @@ App({
                     dataType: 'json',
                     success: function (r) {
                       if (r.data.code == 200) {
-                        console.log(r.data.data.token)
-
                         _this.setCache('token', r.data.data.token)
                         _this.setCache('openid', r.data.data.openId)
                         _this.setCache('user_info', user_info)
@@ -101,37 +99,6 @@ App({
                       }
                     }
                   })
-                  // wx.getStorage({
-                  //   key: 'user_info',
-                  //   success: function (res) {
-
-                  //     console.log('cooooo')
-                  //     _this.user_info = res
-                  //     wx.request({
-                  //       url: _this.http + 'member/login',
-                  //       method: 'GET',
-                  //       data: {
-                  //         code: _this.code,
-                  //         nickName: res.data.nickName,
-                  //         gender: res.data.gender,
-                  //         avatarUrl: res.data.avatarUrl,
-                  //         city: res.data.city
-                  //       },
-                  //       header: { "Content-Type": "application/x-www-form-urlencoded" },
-                  //       dataType: 'json',
-                  //       success: function (r) {
-                  //         if (r.data.code == 200) {
-                  //           _this.token = r.data.data.token;
-                  //         } else {
-                  //           wx.showToast({
-                  //             title: '请注册后登录',
-                  //             icon: 'none',
-                  //           })
-                  //         }
-                  //       }
-                  //     })
-                  //   },
-                  // })
                 }
               })
 
@@ -146,6 +113,6 @@ App({
       }
     })
 
-
+  
   }
 })

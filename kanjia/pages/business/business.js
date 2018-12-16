@@ -12,33 +12,44 @@ Page({
     user_info: '',
     openid: '',
     token: '',
+    iphone_value : '',
     iphone_length : 0,
     name_length:0,
+    name_value: '',
     add_length: 0,
+    add_value :'',
     height: 0,
     width: 0,
-    set_img : ''
+    set_img : '',
+    sj:0,
+    sj_tj : '确认提交',
+    sj_tj_bind: 'sj_tj',
   },
-  // 记录姓名长度
+
+  // 姓名
   name_length: function (e) {
     this.setData({
-      name_length: e.detail.value.length
+      name_length: e.detail.value.length,
+      name_value: e.detail.value
     })
   },
-  // 记录手机号长度
+  // 手机号
   iphone_length : function(e){
     this.setData({
-      iphone_length: e.detail.value.length
+      iphone_length: e.detail.value.length,
+      iphone_value: e.detail.value
     })
   },
-  // 记录地址长度
+  // 地址
   add_length: function (e) {
     this.setData({
-      add_length: e.detail.value.length
+      add_length: e.detail.value.length,
+      add_value: e.detail.value
     })
   },
   // 点击提交
-  button : function(){
+  sj_tj : function(){
+    var _this = this;
     if (this.data.name_length < 1) {
       wx.showToast({
         title: '请输入姓名',
@@ -68,11 +79,34 @@ Page({
       })
       return false;
     }else{
-      wx.showToast({
-        title: '已提交',
-        icon: 'success',
-        duration: 2000
+      wx.showLoading({
+        title: '提交中',
       })
+      wx.request({
+        url: app.http + 'api/addmerchant',
+        method: 'GET',
+        data: {
+          id: _this.data.sj,
+          name: _this.data.name_value,
+          phone: _this.data.iphone_value,
+          address: _this.data.add_value,
+          imageUrl: _this.data.set_img,
+          openId: _this.data.openid,
+        },
+        header: { "Content-Type": "application/x-www-form-urlencoded" },
+        dataType: 'json',
+        success: function (r) {
+          if (r.data.code == 200) {
+            console.log('成功')
+            wx.hideLoading()
+            _this.setData({
+              sj: 1,
+              sj_tj: '确认修改',
+              sj_tj_bind: 'sj_tj',
+            })
+          }
+        }
+      });
     }
     
   },
@@ -119,24 +153,20 @@ Page({
    */
   onLoad: function (options) {
     var _this = this;
-    //取出用户微信信息
-    wx.getStorage({
-      key: 'user_info',
-      success: function (res) {
-        _this.setData({
-          user_info: res.data.user_info,
-          token : res.data.token,
-          openid : res.data.openid
-        })
-      },
-      // 获取失败说明没授权 打开授权提示框
-      fail: function () {
-        _this.setData({
-          sq_show: true
-        })
-      }
+    _this.setData({
+      openid: app.getCache('openid'),
+      token: app.getCache('token')
     })
-   
+    // 判断是否授权登陆过
+    if (_this.data.token == '') {
+      _this.setData({
+        sq_show: true
+      })
+    } else {
+      _this.setData({
+        sq_show: false
+      })
+    }
     // 获取屏幕可见区域
     wx.getSystemInfo({
       success: function (res) {

@@ -31,6 +31,6 @@
   <view class='sj_img' style='padding:10px 25px;' wx:if='{{set_img}}'>
     <image style='width:100%;display:block;' src='{{set_img}}'></image>
   </view>
-  <view class='button' bindtap='button'>确认提交</view>
+  <view class='button' bindtap='{{sj_tj_bind}}'>{{sj_tj}}</view>
 </view>
 

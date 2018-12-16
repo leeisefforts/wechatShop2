@@ -14,12 +14,12 @@
  
 <scroll-view style="height: {{height}};" scroll-y bindscroll="scroll" scroll-top='{{scroll_top}}'>
   <view class='header'>
-    <image class='img' style='height:{{img_w}}'/>
+    <image class='img' src='{{pic_url}}' style='height:{{img_w}}'/>
     <view class='info'>
-      <text class='money'>￥0.00</text>
-      <text class='num'>原价￥<text class='yj'>694.99</text></text>
-      <view class='title'>这里是标题这里是标题标题这里是标题</view>
-      <view class='con'>详细介绍详细介绍详细介绍详细介绍详细介绍详细介绍详细介绍详细介绍详细介绍详细介绍</view>
+      <text class='money'>￥{{price}}</text>
+      <text class='kucun'>库存：<text class='kc_num'>{{stock}}</text></text>
+      <view class='title'>{{name}}</view>
+      <view class='con'>{{desc}}</view>
     </view>
   </view>
   <view class='tw_icon'>

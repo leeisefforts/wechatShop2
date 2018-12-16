@@ -41,10 +41,8 @@
         <image class='image' src='{{item.pic_url}}' />
         <view class='content'>
           <view class='title'>{{item.name}}</view>
-          <view class='jieshao'>{{item.desc}}</view>
           <view class='con'>
-            <text class='money'>￥{{item.min_price}}</text>
-            <text class='num'>原价￥<text class='yj'>{{item.price}}</text></text>
+            <text class='money'>￥{{item.price}}</text>
             <button class='kj_btn'>去砍价</button>
           </view>
         </view>

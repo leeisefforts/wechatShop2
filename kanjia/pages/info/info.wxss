@@ -8,7 +8,6 @@ page{
 }
 .header .img{
   width: 100%;
-  background: pink;
 }
 .header .info{
   width: 100%;
@@ -33,11 +32,12 @@ page{
 .header .info text{
   font-size: 14px;
 }
-.header .info .num{
+.header .info .kucun{
   font-size: 14px;
   color: #999999;
-  margin:0 0 0 15px;
-  text-decoration:line-through;
+  margin:6px 0 0 0;
+  float:right;
+
 }
 .tw_icon{
   width: 100%;

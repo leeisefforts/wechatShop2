@@ -106,7 +106,6 @@ page{
   font-size: 14px;
   color: #999999;
   margin:0 0 0 15px;
-  text-decoration:line-through;
 }
 .list_clild .con .kj_btn{
   display:inline-block;

@@ -6,6 +6,8 @@ Page({
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
     sq_show: false,
     user_info: '',
+    openid : '',
+    token : '',
     height : 0,
     width: 0,
     topshow : false,
@@ -13,7 +15,8 @@ Page({
     scroll_top:0,
     ss_text : '',
     ss_input : '',
-    list: ''
+    list: '',
+    page : 1
   },
  
   //事件处理函数
@@ -42,6 +45,7 @@ Page({
   },
   // 搜索确实时
   bind_ss_confirm : function(e){
+
     var _this = this;
     console.log(e.detail.value)
   },
@@ -84,6 +88,37 @@ Page({
     }
   },
 
+  onShareAppMessage: function () {
+    console.log(this.data.openid)
+    return {
+      title: '你的标题',
+      desc: 'fff',
+      path: '/pages/index/index?id=22&open_id=' + this.data.openid,
+      success: function (res) {
+        console.log('success')
+        // 获取详情
+        wx.request({
+          url: app.http + 'api/member/share',
+          method: 'GET',
+          data: {
+            url: '/pages/info/info',
+            shopId: _this.data.pic_id,
+            toOpenId: _this.data.openid,
+            avatarUrl: _this.data.user_info.avatarUrl,
+            nickName: _this.data.user_info.nickName
+          },
+          header: { "Content-Type": "application/x-www-form-urlencoded" },
+          dataType: 'json',
+          success: function (r) {
+            if (r.data.code == 200) {
+
+            }
+          }
+        });
+      }
+    }
+  },
+
   //滚动到底部加载数据
   lower_load : function(){
     console.log('底部')
@@ -92,14 +127,29 @@ Page({
   // 页面加载
   onLoad: function () {
     var _this = this;
+    _this.setData({
+      openid: app.getCache('openid'),
+      token: app.getCache('token'),
+      user_info: app.getCache('user_info')
+    })
 
+    // 判断是否授权登陆过
+    if (_this.data.token == '') {
+      _this.setData({
+        sq_show: true
+      })
+    } else {
+      _this.setData({
+        sq_show: false
+      })
+    }
 
     // 获取首页数据
     wx.request({
       url: app.http +'api/shoplist',
       method: 'GET',
       data: {
-        p: 1,
+        p: _this.data.page,
         mix_kw : ''
       },
       header: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -107,28 +157,13 @@ Page({
       success: function (r) {
         if(r.data.code == 200){
           _this.setData({
-            list: r.data.data.list
+            list: r.data.data.list,
+            page : _this.data.page +1
           })
         }
+
       }
     });
-
-     //取出用户微信信息
-      wx.getStorage({
-        key: 'user_info',
-        success: function(res) {
-
-          _this.setData({
-            user_info : res
-          })
-        },
-        // 获取失败说明没授权 打开授权提示框
-        fail: function () {
-          _this.setData({
-            sq_show: true
-          })
-        }
-    })
 
     var _this = this;
     // 获取屏幕可见区域

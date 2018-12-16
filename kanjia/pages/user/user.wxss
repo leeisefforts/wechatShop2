@@ -13,7 +13,7 @@ page{
   box-shadow: 0 2px 7px #ccc
 }
 .nav_child{
-  width: 33.3%;
+  width: 50%;
   text-align: center;
 }
 .nav_click{

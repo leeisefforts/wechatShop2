@@ -9,12 +9,16 @@ Page({
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
     sq_show: false,
     user_info: '',
+    token:'',
+    openid : '',
     height: 0,
     topshow: false,
     nav1: 'nav_click',
     nav2: '',
-    nav3: '',
-    scroll_top: 0
+    scroll_top: 0,
+    dd_list : '',
+    kj_list: 'show',
+    aaa : '',
   },
   //滚动出现返回顶部
   scroll: function (e) {
@@ -49,31 +53,28 @@ Page({
    */
   onLoad: function (options) {
     var _this = this;
-    console.log('加载')
-    //取出用户微信信息
-    wx.getStorage({
-      key: 'user_info',
-      success: function (res) {
-        _this.setData({
-          user_info: res
-        })
-        console.log('成功')
-      },
-      // 获取失败说明没授权 打开授权提示框
-      fail: function () {
-        _this.setData({
-          sq_show: true
-        })
-        console.log('失败')
-      }
+    _this.setData({
+      openid: app.getCache('openid'),
+      token: app.getCache('token')
     })
+    // 判断是否授权登陆过
+    if (_this.data.token == ''){
+      _this.setData({
+        sq_show: true,
+        aaa: '失败'
+      })
+    }else{
+      _this.setData({
+        sq_show: false,
+        aaa: '成功'
+      })
+    }
     // 获取屏幕可见区域
     wx.getSystemInfo({
       success: function (res) {
         _this.setData({
           height: res.windowHeight + 'px'
         })
-        console.log(res.windowHeight);
       },
     })
   },
@@ -87,7 +88,8 @@ Page({
     _this.setData({
       nav1: 'nav_click',
       nav2: '',
-      nav3: '',
+      dd_list: '',
+      kj_list: 'show'
     });
     wx.hideLoading();
   },
@@ -99,19 +101,8 @@ Page({
     _this.setData({
       nav1: '',
       nav2: 'nav_click',
-      nav3: '',
-    });
-    wx.hideLoading();
-  },
-  nav3: function () {
-    wx.showLoading({
-      title: '加载中···',
-    })
-    var _this = this;
-    _this.setData({
-      nav1: '',
-      nav2: '',
-      nav3: 'nav_click',
+      dd_list: 'show',
+      kj_list: ''
     });
     wx.hideLoading();
   },

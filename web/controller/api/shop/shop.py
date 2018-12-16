@@ -48,7 +48,7 @@ def shoplist():
 
 @route_api.route('/shopinfo', methods=['GET', 'POST'])
 def shopinfo():
-    resp = {'code': 200, 'msg': '操作成功~', 'data': {}, 'hasCoupon': 0}
+    resp = {'code': 200, 'msg': '操作成功~', 'data': {}, 'coupon': 0}
     req = request.args
     id = req.get('id')
 

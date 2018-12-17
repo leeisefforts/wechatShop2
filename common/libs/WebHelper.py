@@ -144,20 +144,27 @@ def getDictFilterField(db_model, select_filed, key_field, id_list):
 
 
 def createQrCode_Url(pay_order_info):
-    qr = qrcode.QRCode(
-        version=1,
-        error_correction=qrcode.constants.ERROR_CORRECT_L,
-        box_size=10,
-        border=4,
-    )
-    url = app.config["APP"]["domain"] + '/api/coupon/writeoff?order_sn=' + pay_order_info.order_sn + '&couponId=-1'
-    qr.add_data(url)
-    qr.make(fit=True)
+    if pay_order_info.qrcode_url:
+        filepath = pay_order_info.qrcode_url
+    else:
+        filename = secure_filename(pay_order_info.order_sn + '.png')
+        filepath = app.root_path + '/web/static/qrcode/' + filename
 
-    img = qr.make_image()
-    filename = secure_filename(pay_order_info.order_sn + '.png')
-    filepath = app.root_path + '/web/static/qrcode/' + filename
-    img.save(filepath)
+        qr = qrcode.QRCode(
+            version=1,
+            error_correction=qrcode.constants.ERROR_CORRECT_L,
+            box_size=10,
+            border=4,
+        )
+        url = app.config["APP"]["domain"] + '/api/coupon/writeoff?order_sn=' + pay_order_info.order_sn + '&couponId=-1'
+        qr.add_data(url)
+        qr.make(fit=True)
+
+        img = qr.make_image()
+        pay_order_info.qrcode_url = filepath
+        db.session.add(pay_order_info)
+        db.session.commit()
+        img.save(filepath)
 
     info = Coupon_Info.query.filter(Order_sn=pay_order_info.order_sn).first()
     if info:

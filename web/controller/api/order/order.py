@@ -228,7 +228,7 @@ def orderCallback():
         qurl = pay_order_info.qrcode_url
     else:
         qurl = createQrCode_Url(pay_order_info)
-    target_pay.orderSuccess(pay_order_info.id, params={'pay_sn': callback_data['transaction_id'], 'qrcode_url': qurl})
+    target_pay.orderSuccess(pay_order_info.id, params={'pay_sn': callback_data['transaction_id']})
 
     # 生成二维码
 

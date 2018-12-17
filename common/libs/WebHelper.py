@@ -144,6 +144,11 @@ def getDictFilterField(db_model, select_filed, key_field, id_list):
 
 
 def createQrCode_Url(pay_order_info):
+    info = Coupon_Info.query.filter(Order_sn=pay_order_info.order_sn).first()
+    if info:
+        cid = info.Id
+    else:
+        cid = -1
     if pay_order_info.qrcode_url:
         filepath = pay_order_info.qrcode_url
     else:
@@ -156,19 +161,19 @@ def createQrCode_Url(pay_order_info):
             box_size=10,
             border=4,
         )
-        url = app.config["APP"]["domain"] + '/api/coupon/writeoff?order_sn=' + pay_order_info.order_sn + '&couponId=-1'
+        url = app.config["APP"]["domain"] + '/api/coupon/writeoff?order_sn=' + pay_order_info.order_sn + '&couponId=' + cid
         qr.add_data(url)
         qr.make(fit=True)
 
         img = qr.make_image()
-        pay_order_info.qrcode_url = filepath
+        pay_order_info.qrcode_url = 'qrcode/' + filename
         db.session.add(pay_order_info)
         db.session.commit()
         img.save(filepath)
 
-    info = Coupon_Info.query.filter(Order_sn=pay_order_info.order_sn).first()
-    if info:
-        info.QrCode_Url = filepath
+
+    if cid>0:
+        info.QrCode_Url = pay_order_info.qrcode_url
         db.session.add(info)
         db.session.commit()
     return filepath

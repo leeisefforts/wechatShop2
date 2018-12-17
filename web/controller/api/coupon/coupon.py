@@ -70,7 +70,7 @@ def couponInfo():
         'name': info.Coupon_Name,
         'price': str(info.Coupon_Price),
         'min_price': str(info.Price),
-        'qrCode_Url': info.QrCode_Url if info.QrCode_Url else '',
+        'qrCode_Url': UrlManager.buildStaticUrl(info.QrCode_Url) if info.QrCode_Url else '',
         'status': str(info.Status),
         'shop_info': {
             'id': s_info.Id,

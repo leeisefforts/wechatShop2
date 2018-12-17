@@ -173,7 +173,8 @@ def myOrderInfo():
         "yun_price": str(pay_order_info.yun_price),
         "total_price": str(pay_order_info.total_price),
         "goods": [],
-        "deadline": tmp_deadline.strftime("%Y-%m-%d %H:%M")
+        "deadline": tmp_deadline.strftime("%Y-%m-%d %H:%M"),
+        'qrCode_Url': UrlManager.buildStaticUrl(pay_order_info.qrcode_url) if pay_order_info.qrcode_url else '',
     }
 
     pay_order_items = PayOrderItem.query.filter_by(pay_order_id=pay_order_info.id).all()

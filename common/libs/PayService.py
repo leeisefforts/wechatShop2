@@ -6,6 +6,7 @@ from common.modal.pay.payOrder import PayOrder
 from common.modal.pay.payordercallbackData import PayOrderCallbackData
 from common.modal.pay.payOrderItem import PayOrderItem
 from common.modal.shopSaleChangeLog import ShopSaleChangeLog
+from common.modal.coupon_info import Coupon_Info
 from common.libs.WebHelper import getCurrentDate
 from common.libs.queueService import QueueService
 
@@ -14,7 +15,7 @@ class PayService():
     def __init__(self):
         pass
 
-    def createOrder(self, member_id, items=None, params=None):
+    def createOrder(self, member_id, items=None, coupon_Id=None, params=None, ):
         resp = {'code': 200, 'msg': "操作成功", 'data': {}}
 
         pay_price = decimal.Decimal(0.00)
@@ -65,7 +66,7 @@ class PayService():
                 tmp_left_stock = tmp_food_stock_mapping[item['id']]
                 if decimal.Decimal(item['price']) < 0:
                     continue
-                if 1 > int(tmp_left_stock): # int(item['number'])
+                if 1 > int(tmp_left_stock):  # int(item['number'])
                     raise Exception("该商品剩余: %s" % (tmp_left_stock))
 
                 tmp_ret = Shop_Info.query.filter_by(Id=item['id']).update({
@@ -85,6 +86,12 @@ class PayService():
                 tmp_pay_item.updated_time = tmp_pay_item.created_time = getCurrentDate()
 
                 db.session.add(tmp_pay_item)
+
+            if coupon_Id:
+                coupon_info = Coupon_Info.query.filter_by(Id=coupon_Id).first()
+                if coupon_info:
+                    coupon_info.Order_sn = model_pay_order.order_sn
+                    db.session.add(coupon_info)
             # 提交事务
             db.session.commit()
             resp['data'] = {
@@ -109,6 +116,7 @@ class PayService():
                 return True
 
             pay_order_info.pay_sn = params['pay_sn']
+            pay_order_info.qrcode_url = params['qrcode_url']
             pay_order_info.status = 1
             pay_order_info.express_status = -7
             pay_order_info.updated_time = getCurrentDate()

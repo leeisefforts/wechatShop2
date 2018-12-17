@@ -1,7 +1,7 @@
 from application import db, app
 from flask import jsonify, request, g
 from web.controller.api import route_api
-from common.libs.WebHelper import getCurrentDate, selectFilterObj, getFormatDate, getDictFilterField
+from common.libs.WebHelper import getCurrentDate, selectFilterObj, getFormatDate, getDictFilterField, createQrCode_Url
 from common.libs.PayService import PayService
 from common.modal.shop_info import Shop_Info
 from common.modal.pay.payOrder import PayOrder
@@ -19,6 +19,7 @@ def create():
     req = request.values
 
     params_goods = req['goods'] if 'goods' in req else None
+    coupon_Id = req['coupon_Id'] if 'coupon_Id' in req else ''
 
     items = []
     if params_goods:
@@ -36,7 +37,7 @@ def create():
 
     }
 
-    resp = target.createOrder(member_info.Id, items, params=params)
+    resp = target.createOrder(member_info.Id, items, coupon_Id, params=params)
 
     return jsonify(resp)
 
@@ -223,7 +224,11 @@ def orderCallback():
         return target_wechat.dict_to_xml(result_data), header
 
     target_pay = PayService()
-    target_pay.orderSuccess(pay_order_info.id, params={'pay_sn': callback_data['transaction_id']})
+    qurl = createQrCode_Url(pay_order_info)
+    target_pay.orderSuccess(pay_order_info.id, params={'pay_sn': callback_data['transaction_id'], 'qrcode_url': qurl})
+
+    # 生成二维码
+
 
     # 微信回调加入日志
     target_pay.addPayCallbackData(pay_order_id=pay_order_info.id, data=request.data)

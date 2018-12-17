@@ -24,6 +24,7 @@ class PayOrder(db.Model):
     pay_time = db.Column(DateTime, nullable=False, server_default=FetchedValue())
     updated_time = db.Column(DateTime, nullable=False, server_default=FetchedValue())
     created_time = db.Column(DateTime, nullable=False, server_default=FetchedValue())
+    qrcode_url = db.Column(String(256), nullable=False, server_default=FetchedValue())
 
 
     @property

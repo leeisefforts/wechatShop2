@@ -85,3 +85,11 @@ def couponInfo():
     }
 
     return jsonify(resp)
+
+
+@route_api.route('/coupon/writeoff', methods=['GET','POST'])
+def writeoff():
+    resp = {'code': 200, 'msg': '操作成功'}
+    req = request.values
+
+    return jsonify(resp)

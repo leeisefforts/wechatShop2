@@ -1,5 +1,10 @@
 from flask import render_template, g
-import datetime
+from application import app
+from common.modal.pay.payOrder import PayOrder
+from common.modal.coupon_info import Coupon_Info
+from werkzeug.utils import secure_filename
+from common.libs.UrlManager import UrlManager
+import datetime, qrcode
 
 '''
 统一渲染
@@ -136,3 +141,20 @@ def getDictFilterField(db_model, select_filed, key_field, id_list):
 
         ret[getattr(item, key_field)] = item
     return ret
+
+def createQrCode_Url(pay_order_info):
+    qr = qrcode.QRCode(
+        version=1,
+        error_correction=qrcode.constants.ERROR_CORRECT_L,
+        box_size=10,
+        border=4,
+    )
+    url = app.config["APP"]["domain"] + '/api/coupon/writeoff?order_sn='+pay_order_info.order_sn+'&couponId=-1'
+    qr.add_data(url)
+    qr.make(fit=True)
+
+    img = qr.make_image()
+    filename = secure_filename(pay_order_info.order_sn+'.png')
+    filepath = UrlManager.buildUrl('qrcode/'+filename)
+    img.save(filepath)
+    return filepath

@@ -16,3 +16,4 @@ class Coupon_Info(db.Model):
     UpdateTime = db.Column(DateTime, nullable=False, server_default=FetchedValue())
     Status = db.Column(Integer, nullable=False, server_default=FetchedValue())
     QrCode_Url = db.Column(String(128), nullable=False, server_default=FetchedValue())
+    Order_sn = db.Column(String(128), nullable=False, server_default=FetchedValue())

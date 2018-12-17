@@ -5,3 +5,4 @@ pymysql
 uwsgi
 flask_script
 requests
+qrcode

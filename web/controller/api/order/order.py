@@ -210,17 +210,13 @@ def orderCallback():
     gene_sign = target_wechat.create_sign(callback_data)
 
     if sign != gene_sign:
-        result_data['return_code'] = result_data['return_msg'] = "FAIL"
+        result_data['return_code'] = result_data['return_msg'] = "FAIL1"
         return target_wechat.dict_to_xml(result_data), header
 
     order_sn = callback_data['out_trade_no']
     pay_order_info = PayOrder.query.filter_by(order_sn=order_sn).first()
     if not pay_order_info:
-        result_data['return_code'] = result_data['return_msg'] = "FAIL"
-        return target_wechat.dict_to_xml(result_data), header
-
-    if int(pay_order_info.total_price * 100) == int(callback_data['total_fee']):
-        result_data['return_code'] = result_data['return_msg'] = "FAIL"
+        result_data['return_code'] = result_data['return_msg'] = "FAIL2"
         return target_wechat.dict_to_xml(result_data), header
 
     if pay_order_info.status == 1:

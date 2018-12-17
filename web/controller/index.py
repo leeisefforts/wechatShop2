@@ -72,7 +72,7 @@ def logout():
 def login():
     if request.method == "GET":
         if g.current_user:
-            return redirect(UrlManager.buildUrl("/admin/index"))
+            return redirect(UrlManager.buildUrl("/index"))
         return ops_render('login.html')
 
     result = {'code': 200, 'msg': '登录成功'}

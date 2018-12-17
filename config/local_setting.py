@@ -41,17 +41,17 @@ UPLOAD = {
 }
 
 PAY_STATUS_MAPPING = {
-    "1":"已支付",
-    "-8":"待支付",
-    "0":"已关闭"
+    "1": "已支付",
+    "-8": "待支付",
+    "0": "已关闭"
 }
 
 PAY_STATUS_DISPLAY_MAPPING = {
-    "0":"订单关闭",
-    "1":"支付成功",
-    "-8":"待支付",
-    "-7":"待发货",
-    "-6":"待确认"
+    "0": "订单关闭",
+    "1": "支付成功",
+    "-8": "待支付",
+    "-7": "待发货",
+    "-6": "待确认"
 }
 
 SHOP_STATUS_MAPPING = {
@@ -61,9 +61,9 @@ SHOP_STATUS_MAPPING = {
 }
 
 MINA_APP = {
-    'appid': 'wx871b8985c8c8c4ab',
-    'appkey': 'fcb9f2b868d4fede2a48c35e5c95d06d',
-    'paykey': 'TM8KwVFRlp0hsTWMQTxLplfFIzmk7csr',
-    'mch_id': '1513434041',
-    'callback_url': '/api/order/callback'
+    'appid':'wx1f244139ab0c54c8',
+    'appkey':'6e4fab0d29a50571678ba1559e627ebc',
+    'paykey':'TM8KwVFRlp0hsTWMQTxLplfFIzmk7csr',
+    'mch_id':'1513434041',
+    'callback_url':'/api/order/callback'
 }

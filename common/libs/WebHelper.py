@@ -161,7 +161,8 @@ def createQrCode_Url(pay_order_info):
             box_size=10,
             border=4,
         )
-        url = app.config["APP"]["domain"] + '/api/coupon/writeoff?order_sn=' + pay_order_info.order_sn + '&couponId=' + str(cid)
+        url = app.config["APP"][
+                  "domain"] + '/api/coupon/writeoff?order_sn=' + pay_order_info.order_sn + '&couponId=' + str(cid)
         qr.add_data(url)
         qr.make(fit=True)
 
@@ -171,8 +172,7 @@ def createQrCode_Url(pay_order_info):
         db.session.commit()
         img.save(filepath)
 
-
-    if cid>0:
+    if cid > 0:
         info.QrCode_Url = pay_order_info.qrcode_url
         db.session.add(info)
         db.session.commit()

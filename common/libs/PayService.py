@@ -116,7 +116,6 @@ class PayService():
                 return True
 
             pay_order_info.pay_sn = params['pay_sn']
-            pay_order_info.qrcode_url = params['qrcode_url']
             pay_order_info.status = 1
             pay_order_info.express_status = -7
             pay_order_info.updated_time = getCurrentDate()

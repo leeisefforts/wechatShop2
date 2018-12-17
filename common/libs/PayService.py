@@ -22,7 +22,7 @@ class PayService():
         foods_id = []
         items = [items]
         for item in items:
-            if decimal.Decimal(int(item['price'])) < 0:
+            if decimal.Decimal(item['price']) < 0:
                 continue_count += 1
                 continue
             pay_price = pay_price + decimal.Decimal(item['price'])

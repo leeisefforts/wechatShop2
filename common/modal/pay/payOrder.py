@@ -46,3 +46,4 @@ class PayOrder(db.Model):
         order_number = self.created_time.strftime("%Y%m%d%H%M%S")
         order_number = order_number + str(self.id).zfill(5)
         return order_number
+

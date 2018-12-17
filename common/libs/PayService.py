@@ -119,7 +119,7 @@ class PayService():
             pay_order_items = PayOrderItem.query.filter_by(pay_order_id=pay_order_id).all()
             for order_item in pay_order_items:
                 tmp_model_sale_log = ShopSaleChangeLog()
-                tmp_model_sale_log.shop_id = order_item.food_id
+                tmp_model_sale_log.food_id = order_item.food_id
                 tmp_model_sale_log.quantity = order_item.quantity
                 tmp_model_sale_log.price = order_item.price
                 tmp_model_sale_log.member_id = order_item.member_id

@@ -89,7 +89,7 @@ def memberShare():
     db.session.commit()
 
     shop_info = Shop_Info.query.filter_by(Id=shopId).first()
-    rule = and_(Coupon_Info.Member_Id == shopId, Coupon_Info.ShopId == shopId)
+    rule = and_(Coupon_Info.Member_Id == member_info.Id, Coupon_Info.ShopId == shopId)
     coupon_info = Coupon_Info.query.filter(rule).first()
 
     coupon_price = 0

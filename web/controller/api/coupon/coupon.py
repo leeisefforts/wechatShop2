@@ -3,6 +3,7 @@ from web.controller.api import route_api
 from common.modal.coupon_info import Coupon_Info
 from common.libs.WebHelper import getCurrentDate
 from common.libs.UrlManager import UrlManager
+from common.modal.shop_info import Shop_Info
 from flask import jsonify, request, g
 from sqlalchemy import or_
 import json
@@ -33,13 +34,24 @@ def couponlist():
     data_food_list = []
     if shop_list:
         for item in shop_list:
+            s_info = Shop_Info.query.filter_by(Id=item.ShopId).first()
             tmp_data = {
                 'id': item.Id,
                 'name': "%s" % (item.Coupon_Name),
                 'price': str(item.Coupon_Price),
                 'min_price': str(item.Price),
                 'createTime': str(item.CreateTime),
-                'status': str(item.Status)
+                'status': str(item.Status),
+                'shop_info': {
+                    'id': s_info.Id,
+                    'name': "%s" % (s_info.ShopName),
+                    'desc': "%s" % (s_info.ShopDesc),
+                    'price': str(s_info.ShopPrice),
+                    'min_price': str(s_info.ShopFloorPrice),
+                    'stock': str(s_info.Stock),
+                    'totalCount': str(s_info.TotalCount),
+                    'pic_url': UrlManager.buildImageUrl(s_info.ShopImageUrl)
+                }
             }
             data_food_list.append(tmp_data)
     resp['data']['list'] = data_food_list
@@ -53,12 +65,23 @@ def couponInfo():
     req = request.values
     id = req['id'] if 'id' in req else 0
     info = Coupon_Info.query.filter_by(Id=id).first()
+    s_info = Shop_Info.query.filter_by(Id=info.ShopId).first()
     resp['data'] = {
         'name': info.Coupon_Name,
         'price': str(info.Coupon_Price),
         'min_price': str(info.Price),
         'qrCode_Url': info.QrCode_Url if info.QrCode_Url else '',
-        'status': str(info.Status)
+        'status': str(info.Status),
+        'shop_info': {
+            'id': s_info.Id,
+            'name': "%s" % (s_info.ShopName),
+            'desc': "%s" % (s_info.ShopDesc),
+            'price': str(s_info.ShopPrice),
+            'min_price': str(s_info.ShopFloorPrice),
+            'stock': str(s_info.Stock),
+            'totalCount': str(s_info.TotalCount),
+            'pic_url': UrlManager.buildImageUrl(s_info.ShopImageUrl)
+        }
     }
 
     return jsonify(resp)

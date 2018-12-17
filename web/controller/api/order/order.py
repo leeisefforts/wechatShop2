@@ -41,47 +41,6 @@ def create():
     return jsonify(resp)
 
 
-@route_api.route("/order/info", methods=["POST"])
-def orderInfo():
-    resp = {'code': 200, 'msg': "操作成功", 'data': {}}
-    req = request.values
-    params_goods = req['goods'] if 'goods' in req else None
-
-    member_info = g.member_info
-    goods_list = []
-    if params_goods:
-        goods_list = json.loads(params_goods)
-
-    food_dic = {}
-    for item in goods_list:
-        food_dic[item['id']] = item['number']
-
-    food_ids = food_dic.keys()
-    food_list = Shop_Info.query.filter(Shop_Info.Id.in_(food_ids)).all()
-    data_food_list = []
-
-    yun_price = pay_price = decimal.Decimal(0.00)
-    if food_list:
-        for item in food_list:
-            tmp_data = {
-                'id': item.Id,
-                'name': item.ShopName,
-                'price': str(item.price),
-                'pic_url': UrlManager.buildImageUrl(item.main_image),
-                'number': food_dic[item.Id]
-            }
-            pay_price = pay_price + item.price
-            data_food_list.append(tmp_data)
-
-    # 获取地址
-
-    resp['data']['food_list'] = data_food_list
-    resp['data']['pay_price'] = str(pay_price)
-    resp['data']['yun_price'] = str(yun_price)
-    resp['data']['total_price'] = str(pay_price + yun_price)
-    return jsonify(resp)
-
-
 @route_api.route("/order/pay", methods=["POST"])
 def orderPay():
     resp = {'code': 200, 'msg': "操作成功", 'data': {}}

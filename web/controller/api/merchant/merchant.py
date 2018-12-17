@@ -41,11 +41,12 @@ def info():
     req = request.values
     id = req['id'] if 'id' in req else 0
     info = Merchant_Info.query.filter_by(OpenId=id).first()
-    resp['data'] = {
-        'name': info.Name,
-        'address': info.Address,
-        'phone': info.Phone,
-        'imageUrl': info.ImageUrl
-    }
+    if info:
+        resp['data'] = {
+            'name': info.Name,
+            'address': info.Address,
+            'phone': info.Phone,
+            'imageUrl': info.ImageUrl
+        }
 
     return jsonify(resp)

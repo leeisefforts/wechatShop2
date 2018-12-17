@@ -17,10 +17,10 @@
                     <li data-username="dashboard Default Ecommerce CRM Analytics Crypto Project" class="nav-item pcoded-hasmenu active pcoded-trigger">
                         <a href="javascript:" class="nav-link"><span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">管理员操作</span></a>
                         <ul class="pcoded-submenu">
+                            <li class=""><a href="{{ buildUrl('/') }}" class="">报表统计</a></li>
                             <li class=""><a href="{{ buildUrl('/admin/merchant') }}" class="">商户管理</a></li>
                             <li class=""><a href="{{ buildUrl('/admin/user') }}" class="">用户管理</a></li>
                             <li class=""><a href="{{ buildUrl('/admin/commodity') }}" class="">商品管理</a></li>
-                            <li class="active"><a href="{{ buildUrl('/admin/report') }}" class="">报表统计</a></li>
                             <li class=""><a href="{{ buildUrl('/admin/update?id=' + current_user.Id) }}" class="">管理员信息</a></li>
                         </ul>
                     </li>

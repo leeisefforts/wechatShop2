@@ -5,6 +5,7 @@ from common.modal.shop_info import Shop_Info
 from common.modal.pay.payOrder import PayOrder
 from common.modal.pay.payordercallbackData import PayOrderCallbackData
 from common.modal.pay.payOrderItem import PayOrderItem
+from common.modal.shopSaleChangeLog import ShopSaleChangeLog
 from common.libs.WebHelper import getCurrentDate
 from common.libs.queueService import QueueService
 
@@ -116,7 +117,15 @@ class PayService():
 
             # 售卖记录
             pay_order_items = PayOrderItem.query.filter_by(pay_order_id=pay_order_id).all()
+            for order_item in pay_order_items:
+                tmp_model_sale_log = ShopSaleChangeLog()
+                tmp_model_sale_log.shop_id = order_item.food_id
+                tmp_model_sale_log.quantity = order_item.quantity
+                tmp_model_sale_log.price = order_item.price
+                tmp_model_sale_log.member_id = order_item.member_id
+                tmp_model_sale_log.created_time = getCurrentDate()
 
+                db.session.add(tmp_model_sale_log)
             db.session.commit()
         except Exception as e:
             db.session.rollback()

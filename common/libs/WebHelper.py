@@ -1,5 +1,5 @@
 from flask import render_template, g
-from application import app
+from application import app, db
 from common.modal.pay.payOrder import PayOrder
 from common.modal.coupon_info import Coupon_Info
 from werkzeug.utils import secure_filename
@@ -142,6 +142,7 @@ def getDictFilterField(db_model, select_filed, key_field, id_list):
         ret[getattr(item, key_field)] = item
     return ret
 
+
 def createQrCode_Url(pay_order_info):
     qr = qrcode.QRCode(
         version=1,
@@ -149,12 +150,18 @@ def createQrCode_Url(pay_order_info):
         box_size=10,
         border=4,
     )
-    url = app.config["APP"]["domain"] + '/api/coupon/writeoff?order_sn='+pay_order_info.order_sn+'&couponId=-1'
+    url = app.config["APP"]["domain"] + '/api/coupon/writeoff?order_sn=' + pay_order_info.order_sn + '&couponId=-1'
     qr.add_data(url)
     qr.make(fit=True)
 
     img = qr.make_image()
-    filename = secure_filename(pay_order_info.order_sn+'.png')
-    filepath = UrlManager.buildUrl('qrcode/'+filename)
+    filename = secure_filename(pay_order_info.order_sn + '.png')
+    filepath = app.root_path + '/web/static/qrcode/' + filename
     img.save(filepath)
+
+    info = Coupon_Info.query.filter(Order_sn=pay_order_info.order_sn).first()
+    if info:
+        info.QrCode_Url = filepath
+        db.session.add(info)
+        db.session.commit()
     return filepath

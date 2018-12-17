@@ -224,7 +224,10 @@ def orderCallback():
         return target_wechat.dict_to_xml(result_data), header
 
     target_pay = PayService()
-    qurl = createQrCode_Url(pay_order_info)
+    if pay_order_info.qrcode_url:
+        qurl = pay_order_info.qrcode_url
+    else:
+        qurl = createQrCode_Url(pay_order_info)
     target_pay.orderSuccess(pay_order_info.id, params={'pay_sn': callback_data['transaction_id'], 'qrcode_url': qurl})
 
     # 生成二维码

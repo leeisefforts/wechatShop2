@@ -6,3 +6,4 @@ uwsgi
 flask_script
 requests
 qrcode
+Image

@@ -16,6 +16,9 @@ page{
   width: 50%;
   text-align: center;
 }
+.dd_nav_child{
+  width: 33.3%;
+}
 .nav_click{
   border-bottom: 2px solid #007aff;
   color: #007aff;
@@ -77,3 +80,15 @@ page{
   position:relative;
   bottom:-28px;
 }
+.list .con .jiage .money{
+  font-size:20px;
+  color:#007aff;
+}
+.list .con .jiage .kj_monery{
+  text-align:right;
+  font-size:16px;
+  margin-left:10px;
+  color:#888;
+  box-sizing: border-box
+}
+

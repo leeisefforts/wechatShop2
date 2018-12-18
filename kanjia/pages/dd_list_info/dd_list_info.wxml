@@ -1,6 +1,4 @@
-<!--pages/info/info.wxml-->
- <!-- 授权登录弹出框 -->
- <!-- 授权登录弹出框 -->
+<!-- 授权登录弹出框 -->
 <view class='shouquan' wx:if='{{sq_show}}'  style="height: {{height}};">
   <view class='sq_box'>
     <view class='title'>需要您的授权</view>
@@ -17,38 +15,19 @@
     <image class='img' mode='aspectFill' src='{{pic_url}}' style='height:{{img_w}}'/>
     <view class='info'>
       <text class='money'>￥{{price}}</text>
-      <text class='kucun'>库存：<text class='kc_num'>{{stock}}</text></text>
       <view class='title'>{{name}}</view>
-      <view class='con'>{{desc}}</view>
     </view>
   </view>
-  <view class='bottom'>
-  
-  </view>
-  <!-- 按钮 -->
-  <view class='button'>
-    <view class='goumai btn' bindtap='goumai'>原价购买</view>
-    <view class='kanjia btn' bindtap='kanjia'>发起砍价</view>
-  </view>
+ 
+ <!-- 二维码 -->
+ <view class='qrcode' wx:if='{{qrCode_Url}}'>
+    <view class='text'>将此二维码出示给商家</view>
+    <image style='width:{{width}};height:{{width}};' src='{{qrCode_Url}}'></image>
+ </view>
 
-    <!-- 按钮 -->
-  <view wx:if='{{status == 1}}' class='button'>
-    <view class='goumai btn' bindtap='goumai'>现价购买</view>
-    <view class='kanjia btn' bindtap='kanjia'>继续砍价</view>
-  </view>
   <!-- 购买按钮 -->
-  <view wx:elif='{{status == 2}}' class='button'>
+  <view  class='button'>
     <view class='goumai btn zdj_gm' bindtap='goumai'>最低价购买</view>
-  </view>
-
-  <!-- 砍价框 -->
-  <view wx:if='{{kj_box}}' class='kj_box' style='height:{{height}}'>
-    <view class='kj_con'>
-      <image src='../../img/kanjia.png'></image>
-      <view class='text'>恭喜您，砍价成功！</view>
-      <button class='yaoqing' open-type='share'>邀请好友帮我砍价</button>
-    </view>
-    <view class='close'><image src='../../img/x.png' bindtap='close'></image></view>
   </view>
 
   <!-- top -->

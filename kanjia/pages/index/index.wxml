@@ -1,5 +1,5 @@
 <!--index.wxml-->
-<scroll-view style="height: {{height}};" scroll-y bindscroll="scroll" scroll-top='{{scroll_top}}'  bindscrolltolower='lower_load'>
+<scroll-view style="height: {{height}};" scroll-y bindscroll="scroll" scroll-top='{{scroll_top}}' lower-threshold='100' bindscrolltolower='lower_load'>
  <!-- <view class='guize' bindtap='guize'>砍价规则</view> -->
  <!-- <view class='guize_con'>
     <view class='tiitle'>砍价活动规则</view>
@@ -32,13 +32,13 @@
 <!--占位子-->
 <view class='header_box'></view>
 <!-- 点击搜索框 -->
-<view class='yc'  wx:if="{{ss_yc}}"  style="height: {{height}};width: {{width}};" ></view>
+<!-- <view class='yc'  wx:if="{{ss_yc}}"  style="height: {{height}};width: {{width}};" ></view> -->
 <view></view>
  <!-- 列表 -->
- <view class='list'>
+ <view class='list' wx:if='{{con_show}}'>
   <block wx:for='{{list}}' wx:for-index="index" wx:for-item="item">
       <view class='list_clild' data-id='{{item.id}}' bindtap='list_click'>
-        <image class='image' src='{{item.pic_url}}' />
+        <image class='image' mode='aspectFill' src='{{item.pic_url}}' />
         <view class='content'>
           <view class='title'>{{item.name}}</view>
           <view class='con'>

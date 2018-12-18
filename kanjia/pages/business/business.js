@@ -22,8 +22,12 @@ Page({
     width: 0,
     set_img : '',
     sj:0,
-    sj_tj : '确认提交',
-    sj_tj_bind: 'sj_tj',
+    data_name :'',
+    data_phone : '',
+    data_address : '',
+    data_imageUrl : '',
+    button_show : true,
+    input_disabled : false
   },
 
   // 姓名
@@ -48,7 +52,8 @@ Page({
     })
   },
   // 点击提交
-  sj_tj : function(){
+  sj_tj_bind : function(){
+    console.log('点击')
     var _this = this;
     if (this.data.name_length < 1) {
       wx.showToast({
@@ -93,16 +98,19 @@ Page({
           imageUrl: _this.data.set_img,
           openId: _this.data.openid,
         },
-        header: { "Content-Type": "application/x-www-form-urlencoded" },
+        header: app.getRequestHeader(),
         dataType: 'json',
         success: function (r) {
           if (r.data.code == 200) {
-            console.log('成功')
             wx.hideLoading()
+            wx.showToast({
+              title: '提交成功',
+              icon: 'success',
+              duration: 2000
+            })
             _this.setData({
-              sj: 1,
-              sj_tj: '确认修改',
-              sj_tj_bind: 'sj_tj',
+              button_show : false,
+              input_disabled : true
             })
           }
         }
@@ -127,6 +135,7 @@ Page({
           success(res) {
             var obj = JSON.parse(res.data)
             if (obj.code == 200){
+              console.log(app.http + 'static/upload/' + obj.data)
               _this.setData({
                 set_img: app.http + 'static/upload/' +obj.data
               })
@@ -176,7 +185,35 @@ Page({
         })
       },
     })
+
+    //获取数据
+    wx.request({
+      url: app.http + 'api/merchant/info',
+      method: 'GET',
+      data: {
+        id: _this.data.openid
+      },
+      header: app.getRequestHeader(),
+      dataType: 'json',
+      success: function (r) {
+        if (r.data.code == 200) {
+          _this.setData({
+            data_name: r.data.data.name || _this.data.name_value,
+            data_phone: r.data.data.phone || _this.data.iphone_value,
+            data_address: r.data.data.address || _this.data.add_value,
+            data_imageUrl: r.data.data.imageUrl || _this.data.set_img
+          })
+        }
+        if (r.data.data.name){
+          _this.setData({
+            button_show: false,
+            input_disabled: true
+          })
+        }
+      }
+    });
   },
+
 
   /**
    * 生命周期函数--监听页面初次渲染完成

@@ -4,7 +4,9 @@
     "pages/business/business",
     
     "pages/info/info",
-    "pages/user/user"
+    "pages/user/user",
+    "pages/kj_list_info/kj_list_info",
+    "pages/dd_list_info/dd_list_info"
   ],
   "window":{
     "backgroundTextStyle": "dark",

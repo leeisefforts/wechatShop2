@@ -17,75 +17,52 @@ Page({
     kj_box: false,
     scroll_top: 0,
     list: '',
-    pic_id: '',
     price: 0,
     name: '',
     desc: '',
     pic_url: '',
     stock: 0,
     shop_info: '',
-    coupon : 0
+    order_sn : '',
+    qrCode_Url : ''
   },
 
-
-  //点击砍价
-  kanjia: function () {
-    console.log(this.data.coupon)
-    if(this.data.coupon == 1){
-      wx.showToast({
-        title: '已是砍价商品',
-        icon: 'success',
-        duration: 2000,
-        success : function(){
-         
-        }
-      })
-      setTimeout(function(){
-        wx.switchTab({
-          url: '../user/user',
-        })
-      },2000)
-    }else{
-      this.setData({
-        kj_box: true
-      })
-    }
-
-  },
   // 点击购买
   goumai: function () {
     var _this = this;
     wx.showLoading({
-      title: '正在生成订单',
+      title: '加载中',
     });
-    // console.log(_this.data.shop_info)
+    // 获取详情
     wx.request({
-      url: app.http + 'api/order/create',
+      url: app.http + 'api/order/pay',
       method: 'POST',
+      data: {
+        order_sn: _this.data.order_sn
+      },
       header: app.getRequestHeader(),
-      data: { 'openId': _this.data.openid, 'goods': JSON.stringify(_this.data.shop_info) },
-      success: function (res) {
-        if(res.data.code == 200){
-          wx.switchTab({
-            url: '../user/user',
+      dataType: 'json',
+      success: function (r) {
+        if (r.data.code == 200) {
+          console.log(r.data.data.pay_info.paySign)
+          wx.hideLoading()
+          wx.requestPayment({
+            timeStamp: r.data.data.pay_info.timeStamp,
+            nonceStr: r.data.data.pay_info.nonceStr,
+            package: r.data.data.pay_info.package,
+            signType: 'MD5',
+            paySign: r.data.data.pay_info.paySign,
+            success(res) {
+              console.log('支付成功')
+             },
+            fail(res) {
+              console.log(res)
+             }
           })
-          wx.setStorageSync('url', 'kj_list_info')
-        }else{
-          wx.showToast({
-            title: res.data.msg,
-            icon: 'none',
-            duration: 2000
-          })
+       
         }
       }
-    })
-  },
-
-  //点击关闭
-  close: function () {
-    this.setData({
-      kj_box: false
-    })
+    });
   },
 
 
@@ -127,12 +104,12 @@ Page({
    */
   onLoad: function (options) {
     var _this = this;
-  
+
     _this.setData({
       openid: app.getCache('openid'),
       token: app.getCache('token'),
-      pic_id: options.id,
-      user_info: app.getCache('user_info')
+      user_info: app.getCache('user_info'),
+      order_sn: options.ordersn
     })
 
 
@@ -151,21 +128,20 @@ Page({
 
     // 获取详情
     wx.request({
-      url: app.http + 'api/shopinfo?id=' + options.id,
-      method: 'GET',
-      data: {},
+      url: app.http + 'api/order/info',
+      method: 'POST',
+      data: {
+        order_sn: options.ordersn
+      },
       header: app.getRequestHeader(),
       dataType: 'json',
       success: function (r) {
         if (r.data.code == 200) {
           _this.setData({
-            price: r.data.data.price,
-            name: r.data.data.name,
-            desc: r.data.data.desc,
-            pic_url: r.data.data.pic_url,
-            stock: r.data.data.stock,
-            shop_info: r.data.data,
-            coupon : r.data.coupon
+            name: r.data.data.info.goods[0].name,
+            pic_url: r.data.data.info.goods[0].pic_url,
+            price: r.data.data.info.goods[0].price,
+            qrCode_Url: r.data.data.info.qrCode_Url
           })
         }
       }
@@ -192,47 +168,6 @@ Page({
         })
       },
     })
-  },
-
-
-  //转发
-  onShareAppMessage: function () {
-    var _this = this;
-    var shopId = _this.data.pic_id;
-    var toOpenId = _this.data.openid;
-    var avatarUrl = _this.data.user_info.avatarUrl ;
-    var nickName = _this.data.user_info.nickName;
-    return {
-      title: '你的标题',
-      desc: 'fff',
-      path: '/pages/info/info?id=' + _this.data.pic_id + '&open_id=' + _this.data.openid,
-      success: function (res) {
-        _this.onLoad()
-        console.log('分享成功')
-        // 获取详情
-        wx.request({
-          url: app.http + 'api/member/share',
-          method: 'POST',
-          data: {
-            url: '/pages/info/info',
-            shopId: shopId,
-            toOpenId: toOpenId,
-            avatarUrl: avatarUrl,
-            nickName: nickName
-          },
-          header: app.getRequestHeader(),
-          dataType: 'json',
-          success: function (r) {
-            if (r.data.code == 200) {
-              console.log( r.data)
-            }
-          }
-        });
-      },
-      fail: function (res) {
-        console.log('失败' + res)
-      }
-    }
   },
 
 

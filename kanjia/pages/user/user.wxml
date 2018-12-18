@@ -13,75 +13,58 @@
 <scroll-view style="height: {{height}};" scroll-y bindscroll="scroll" scroll-top='{{scroll_top}}'>
  <!-- 导航 -->
  <view class='nav'>
-    <view class='nav_child {{nav1}}' bindtap='nav1'>{{aaa}}</view>
+    <view class='nav_child {{nav1}}' bindtap='nav1'>砍价列表</view>
     <view class='nav_child {{nav2}}' bindtap='nav2'>订单列表</view>
  </view>
+
 <!-- 砍价列表 -->
-<view wx:if='{{kj_list}}' class='list kj_list'>
-  <view class='list_child'  bindtap='list_click'>
-    <view class='top'><image src='../../img/nav_kj_2.png' /><text>砍价中</text></view>
+<view wx:if='{{kj_show}}' class='list kj_list'>
+<block wx:for='{{kj_list}}' wx:for-index="index" wx:for-item="item">
+  <view class='list_child'  data-id='{{item.id}}'  bindtap='kj_click'>
+    <view class='top'><image src='../../img/nav_kj_2.png' />
+    <text wx:if='{{item.status == 1}}' >砍价中</text>
+    <text wx:else>砍价完成</text>
+    </view>
     <view class='con'>
       <view class='img'>
-        <image src='../../img/nav_zx_2.png' />
+        <image  mode='aspectFill' src='{{item.shop_info.pic_url}}' />
       </view>
       <view class='info'>
-        <view class='title'>进口牛油果2斤装</view>
+        <view class='title'>{{item.shop_info.name}}</view>
         <view class='jiage'>
-            <text class='money'>￥0.00</text>
-            <text class='num'>原价￥<text class='yj'>389.89</text></text>
+            <text class='money'>￥{{item.shop_info.price}}</text>
+            <text class='kj_monery'>（已砍{{item.price}}）</text>
           </view>
       </view>
     </view>
   </view>
-  <view class='list_child'>
-    <view class='top'><image src='../../img/nav_kj_2.png' /><text>砍价中</text></view>
-    <view class='con'>
-      <view class='img'>
-        <image src='../../img/nav_zx_2.png' />
-      </view>
-      <view class='info'>
-        <view class='title'>进口牛油果2斤装</view>
-        <view class='jiage'>
-            <text class='money'>￥0.00</text>
-            <text class='num'>原价￥<text class='yj'>389.89</text></text>
-          </view>
-      </view>
-    </view>
-  </view>
+  </block>
 </view>
 
 <!-- 订单列表 -->
-<view  wx:if='{{dd_list}}' class='list dd_list'>
-  <view class='list_child'  bindtap='list_click'>
-    <view class='top'><image src='../../img/nav_kj_2.png' /><text>购买完成</text></view>
+<view  wx:if='{{dd_show}}' class='list dd_list'>
+ <!-- 导航 -->
+ <view class='nav dd_nav'>
+    <view class='nav_child dd_nav_child {{dd_nav1}}' bindtap='dd_nav1'>未支付</view>
+    <view class='nav_child dd_nav_child {{dd_nav2}}' bindtap='dd_nav2'>待使用</view>
+    <view class='nav_child dd_nav_child {{dd_nav3}}' bindtap='dd_nav3'>已完成</view>
+ </view>
+<block wx:for='{{dd_list}}' wx:for-index="index" wx:for-item="item">
+  <view class='list_child' data-order_sn='{{item.order_sn}}'  bindtap='dd_click'>
+    <view class='top' style='width:100%;height:auto;padding:5px 10px 10px 10px;'><view style='font-size:16px;color:#007aff;'>{{item.status_desc}}</view><view style='font-size:14px;color:#666;margin-top:5px;'>(订单号：{{item.order_sn}})</view></view>
     <view class='con'>
       <view class='img'>
-        <image src='../../img/nav_zx_2.png' />
+        <image  mode='aspectFill'  src='{{item.goods_list[0].pic_url}}' />
       </view>
       <view class='info'>
-        <view class='title'>进口牛油果2斤装</view>
+        <view class='title'>{{item.goods_list[0].name}}</view>
         <view class='jiage'>
-            <text class='money'>￥0.00</text>
-            <text class='num'>原价￥<text class='yj'>389.89</text></text>
+            <text class='money'>￥{{item.total_price}}</text>
           </view>
       </view>
     </view>
   </view>
-  <view class='list_child'>
-    <view class='top'><image src='../../img/nav_kj_2.png' /><text>购买完成</text></view>
-    <view class='con'>
-      <view class='img'>
-        <image src='../../img/nav_zx_2.png' />
-      </view>
-      <view class='info'>
-        <view class='title'>进口牛油果2斤装</view>
-        <view class='jiage'>
-            <text class='money'>￥0.00</text>
-            <text class='num'>原价￥<text class='yj'>389.89</text></text>
-          </view>
-      </view>
-    </view>
-  </view>
+  </block>
 </view>
 
 

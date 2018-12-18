@@ -9,6 +9,7 @@ Page({
     openid : '',
     token : '',
     height : 0,
+    w_width : 0,
     width: 0,
     topshow : false,
     ss_yx : false,
@@ -16,7 +17,10 @@ Page({
     ss_text : '',
     ss_input : '',
     list: '',
-    page : 1
+    page : 1,
+    p_page :2,
+    ss_page : 1,
+    con_show : true
   },
  
   //事件处理函数
@@ -36,7 +40,8 @@ Page({
   ss_input:function(){
     this.setData({
       ss_yc : true,
-      ss_text: 1
+      ss_text: 1,
+      con_show : false
     })
   },
   //当搜索框输入时事件
@@ -48,14 +53,67 @@ Page({
 
     var _this = this;
     console.log(e.detail.value)
+
+    // 获取数据
+    wx.request({
+      url: app.http + 'api/shoplist',
+      method: 'GET',
+      data: {
+        p: _this.data.ss_page,
+        mix_kw: e.detail.value
+      },
+      header: app.getRequestHeader(),
+      dataType: 'json',
+      success: function (r) {
+        if (r.data.code == 200) {
+          if (r.data.data.list.length > 0){
+            
+            _this.setData({
+              list: r.data.data.list,
+              ss_yc: false,
+              con_show: true
+            })
+          }else{
+            wx.showToast({
+              title: '没有数据',
+              icon: 'none',
+              duration: 2000
+            })
+          }
+        }
+
+      }
+    });
   },
   //搜索框点击X取消事件
   ss_x: function () {
-    this.setData({
+    var _this = this;
+    _this.setData({
       ss_yc: false,
       ss_text: '',
-      ss_input : ''
+      ss_input : '',
+      con_show: true
     })
+
+    // 获取首页数据
+    wx.request({
+      url: app.http + 'api/shoplist',
+      method: 'GET',
+      data: {
+        p: _this.data.page,
+        mix_kw: ''
+      },
+      header: app.getRequestHeader(),
+      dataType: 'json',
+      success: function (r) {
+        if (r.data.code == 200) {
+          _this.setData({
+            list: r.data.data.list,
+          })
+        }
+
+      }
+    });
   },
 
   //滚动出现返回顶部
@@ -80,6 +138,37 @@ Page({
     })
   },
 
+  //滚动到底部加载数据
+  lower_load: function () {
+    console.log('底部');
+    var _this = this;
+    // 获取首页数据
+    wx.request({
+      url: app.http + 'api/shoplist',
+      method: 'GET',
+      data: {
+        p: _this.data.p_page,
+        mix_kw: ''
+      },
+      header: app.getRequestHeader(),
+      dataType: 'json',
+      success: function (r) {
+        console.log(_this.data.list)
+        if (r.data.code == 200) {
+          _this.setData({
+            list: _this.data.list.concat(r.data.data.list)
+          })
+          if (r.data.data.list.length > 0){
+            _this.setData({
+              p_page: _this.data.p_page + 1
+            })
+          }
+        }
+
+      }
+    });
+  },
+
   // 用户点击授权登录
   bindGetUserInfo: function (e) {
     app.login(this)
@@ -88,41 +177,7 @@ Page({
     }
   },
 
-  onShareAppMessage: function () {
-    console.log(this.data.openid)
-    return {
-      title: '你的标题',
-      desc: 'fff',
-      path: '/pages/index/index?id=22&open_id=' + this.data.openid,
-      success: function (res) {
-        console.log('success')
-        // 获取详情
-        wx.request({
-          url: app.http + 'api/member/share',
-          method: 'GET',
-          data: {
-            url: '/pages/info/info',
-            shopId: _this.data.pic_id,
-            toOpenId: _this.data.openid,
-            avatarUrl: _this.data.user_info.avatarUrl,
-            nickName: _this.data.user_info.nickName
-          },
-          header: { "Content-Type": "application/x-www-form-urlencoded" },
-          dataType: 'json',
-          success: function (r) {
-            if (r.data.code == 200) {
 
-            }
-          }
-        });
-      }
-    }
-  },
-
-  //滚动到底部加载数据
-  lower_load : function(){
-    console.log('底部')
-  },
   
   // 页面加载
   onLoad: function () {
@@ -152,13 +207,12 @@ Page({
         p: _this.data.page,
         mix_kw : ''
       },
-      header: { "Content-Type": "application/x-www-form-urlencoded" },
+      header: app.getRequestHeader(),
       dataType: 'json',
       success: function (r) {
         if(r.data.code == 200){
           _this.setData({
             list: r.data.data.list,
-            page : _this.data.page +1
           })
         }
 
@@ -171,7 +225,8 @@ Page({
       success: function (res) {
         _this.setData({
           height: res.windowHeight+'px',
-          width: res.windowWidth + 'px'
+          width: res.windowWidth + 'px',
+          w_width: (res.windowWidth - 40) + 'px',
         })
       },
     })

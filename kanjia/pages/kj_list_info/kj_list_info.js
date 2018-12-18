@@ -23,34 +23,16 @@ Page({
     desc: '',
     pic_url: '',
     stock: 0,
-    shop_info: '',
-    coupon : 0
+    shop_info: ''
   },
 
 
   //点击砍价
   kanjia: function () {
-    console.log(this.data.coupon)
-    if(this.data.coupon == 1){
-      wx.showToast({
-        title: '已是砍价商品',
-        icon: 'success',
-        duration: 2000,
-        success : function(){
-         
-        }
-      })
-      setTimeout(function(){
-        wx.switchTab({
-          url: '../user/user',
-        })
-      },2000)
-    }else{
-      this.setData({
-        kj_box: true
-      })
-    }
 
+    this.setData({
+      kj_box: true
+    })
   },
   // 点击购买
   goumai: function () {
@@ -58,13 +40,16 @@ Page({
     wx.showLoading({
       title: '正在生成订单',
     });
-    // console.log(_this.data.shop_info)
     wx.request({
       url: app.http + 'api/order/create',
       method: 'POST',
       header: app.getRequestHeader(),
-      data: { 'openId': _this.data.openid, 'goods': JSON.stringify(_this.data.shop_info) },
+      data: { 
+        'openId': _this.data.openid, 
+        'goods': JSON.stringify(_this.data.shop_info) 
+      },
       success: function (res) {
+        wx.hideLoading();
         if(res.data.code == 200){
           wx.switchTab({
             url: '../user/user',
@@ -77,7 +62,8 @@ Page({
             duration: 2000
           })
         }
-      }
+      },
+    
     })
   },
 
@@ -127,7 +113,7 @@ Page({
    */
   onLoad: function (options) {
     var _this = this;
-  
+
     _this.setData({
       openid: app.getCache('openid'),
       token: app.getCache('token'),
@@ -151,21 +137,23 @@ Page({
 
     // 获取详情
     wx.request({
-      url: app.http + 'api/shopinfo?id=' + options.id,
+      url: app.http + 'api/coupon/info',
       method: 'GET',
-      data: {},
+      data: {
+        id: options.id
+      },
       header: app.getRequestHeader(),
       dataType: 'json',
       success: function (r) {
         if (r.data.code == 200) {
           _this.setData({
-            price: r.data.data.price,
-            name: r.data.data.name,
-            desc: r.data.data.desc,
-            pic_url: r.data.data.pic_url,
-            stock: r.data.data.stock,
-            shop_info: r.data.data,
-            coupon : r.data.coupon
+            price: r.data.data.shop_info.price,
+            name: r.data.data.shop_info.name,
+            desc: r.data.data.shop_info.desc,
+            pic_url: r.data.data.shop_info.pic_url,
+            stock: r.data.data.shop_info.stock,
+            shop_info: r.data.data.shop_info,
+            status: r.data.data.status
           })
         }
       }
@@ -200,15 +188,13 @@ Page({
     var _this = this;
     var shopId = _this.data.pic_id;
     var toOpenId = _this.data.openid;
-    var avatarUrl = _this.data.user_info.avatarUrl ;
+    var avatarUrl = _this.data.user_info.avatarUrl;
     var nickName = _this.data.user_info.nickName;
     return {
       title: '你的标题',
       desc: 'fff',
       path: '/pages/info/info?id=' + _this.data.pic_id + '&open_id=' + _this.data.openid,
       success: function (res) {
-        _this.onLoad()
-        console.log('分享成功')
         // 获取详情
         wx.request({
           url: app.http + 'api/member/share',
@@ -224,7 +210,7 @@ Page({
           dataType: 'json',
           success: function (r) {
             if (r.data.code == 200) {
-              console.log( r.data)
+              console.log(r.data)
             }
           }
         });

@@ -15,10 +15,16 @@ Page({
     topshow: false,
     nav1: 'nav_click',
     nav2: '',
+    dd_nav1: 'nav_click',
+    dd_nav2: '',
+    dd_nav3: '',
     scroll_top: 0,
+    dd_show : '',
+    kj_show: 'show',
     dd_list : '',
-    kj_list: 'show',
-    aaa : '',
+    kj_list : '',
+    page: 1
+    
   },
   //滚动出现返回顶部
   scroll: function (e) {
@@ -60,13 +66,11 @@ Page({
     // 判断是否授权登陆过
     if (_this.data.token == ''){
       _this.setData({
-        sq_show: true,
-        aaa: '失败'
+        sq_show: true
       })
     }else{
       _this.setData({
-        sq_show: false,
-        aaa: '成功'
+        sq_show: false
       })
     }
     // 获取屏幕可见区域
@@ -77,9 +81,37 @@ Page({
         })
       },
     })
+    //获取数据
+    wx.request({
+      url: app.http + 'api/coupon/list',
+      method: 'GET',
+      data: {
+        p: _this.data.page,
+        mix_kw: ''
+      },
+      header: app.getRequestHeader(),
+      dataType: 'json',
+      success: function (r) {
+        if (r.data.code == 200) {
+          if(r.data.data.list.length > 0){
+            _this.setData({
+              kj_list: r.data.data.list,
+            })
+          }else{
+            wx.showToast({
+              title: '暂时没有数据',
+              icon: 'none',
+              duration: 2500
+            })
+          }
+         
+        }
+      }
+    });
+
   },
 
-  // 点击导航
+  // 砍价列表
   nav1: function () {
     wx.showLoading({
       title: '加载中···',
@@ -88,11 +120,38 @@ Page({
     _this.setData({
       nav1: 'nav_click',
       nav2: '',
-      dd_list: '',
-      kj_list: 'show'
+      dd_show: '',
+      kj_show: 'show'
     });
-    wx.hideLoading();
+    //获取数据
+    wx.request({
+      url: app.http + 'api/coupon/list',
+      method: 'GET',
+      data: {
+        p: _this.data.page,
+        mix_kw: ''
+      },
+      header: app.getRequestHeader(),
+      dataType: 'json',
+      success: function (r) {
+        wx.hideLoading();
+        if (r.data.code == 200) {
+          if (r.data.data.list.length > 0){
+            _this.setData({
+              kj_list: r.data.data.list
+            })
+          }else{
+            wx.showToast({
+              title: '暂时没有数据',
+              icon: 'none',
+              duration: 2500
+            })
+          }
+        }
+      }
+    });
   },
+  //订单列表
   nav2: function () {
     wx.showLoading({
       title: '加载中···',
@@ -101,15 +160,128 @@ Page({
     _this.setData({
       nav1: '',
       nav2: 'nav_click',
-      dd_list: 'show',
-      kj_list: ''
+      dd_show: 'show',
+      kj_show: ''
     });
-    wx.hideLoading();
+    //获取订单未完成数据
+    wx.request({
+      url:  'http://127.0.0.1:5000/api/order/list',
+      method: 'GET',
+      data: {
+        status : -8
+      },
+      header: app.getRequestHeader(),
+      dataType: 'json',
+      success: function (r) {
+        wx.hideLoading();
+        if (r.data.code == 200) {
+          if (r.data.data.pay_order_list.length > 0) {
+            _this.setData({
+              dd_list: r.data.data.pay_order_list
+            })
+          } else {
+            wx.showToast({
+              title: '暂时没有数据',
+              icon: 'none',
+              duration: 2500
+            })
+          }
+        }
+      }
+    });
+
   },
-  // 点击进入商品详情
-  list_click: function () {
+
+
+  dd_requset: function (status) {
+    var _this = this;
+    //获取订单未完成数据
+    wx.request({
+      url:  'http://127.0.0.1:5000/api/order/list',
+      method: 'GET',
+      data: {
+        status: status
+      },
+      header: app.getRequestHeader(),
+      dataType: 'json',
+      success: function (r) {
+        wx.hideLoading();
+        if (r.data.code == 200) {
+          if (r.data.data.pay_order_list.length > 0) {
+            _this.setData({
+              dd_list: r.data.data.pay_order_list
+            })
+          } else {
+            _this.setData({
+              dd_list: []
+            })
+            wx.showToast({
+              title: '暂时没有数据',
+              icon: 'none',
+              duration: 2500
+            })
+          }
+        }
+      }
+    });
+  },
+
+
+  //订单未完成
+  dd_nav1 : function(){
+    wx.showLoading({
+      title: '加载中···',
+    })
+    var _this = this;
+    _this.setData({
+      dd_nav1: 'nav_click',
+      dd_nav2: '',
+      dd_nav3: '',
+    });
+    _this.dd_requset(-8)
+  },
+
+  //订单待使用
+  dd_nav2: function () {
+    wx.showLoading({
+      title: '加载中···',
+    })
+    var _this = this;
+    _this.setData({
+      dd_nav1: '',
+      dd_nav2: 'nav_click',
+      dd_nav3: '',
+    });
+    //获取订单未完成数据
+    _this.dd_requset(-7)
+  },
+
+  //订单已完成
+  dd_nav3: function () {
+    wx.showLoading({
+      title: '加载中···',
+    })
+    var _this = this;
+    _this.setData({
+      dd_nav1: '',
+      dd_nav2: '',
+      dd_nav3: 'nav_click',
+    });
+    //获取数据
+    _this.dd_requset(1)
+  },
+
+  // 砍价列表点击进入详情
+  kj_click: function (e) {
     wx.navigateTo({
-      url: '../info/info'
+      url: '../kj_list_info/kj_list_info?id=' + e.currentTarget.dataset.id
+    })
+  },
+
+  // 订单列表点击进入详情
+  dd_click: function (e) {
+    wx.navigateTo({
+      url: '../dd_list_info/dd_list_info?ordersn=' + e.currentTarget.dataset.order_sn
     })
   },
   
@@ -148,7 +320,78 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    console.log('000')
+    var _this = this;
+    var _url = wx.getStorageSync('url');
+    console.log(_url)
+    if(_url){
+      _this.setData({
+        nav1: '',
+        nav2: 'nav_click',
+        dd_show: 'show',
+        kj_show: ''
+      });
+      //获取数据
+      wx.request({
+        url: app.http + 'api/order/list',
+        method: 'GET',
+        data: {
+          status: -8
+        },
+        header: app.getRequestHeader(),
+        dataType: 'json',
+        success: function (r) {
+          wx.removeStorageSync('url')
+          if (r.data.code == 200) {
+            if (r.data.data.pay_order_list.length > 0) {
+              _this.setData({
+                dd_list: r.data.data.pay_order_list
+              })
+            } else {
+              wx.showToast({
+                title: '暂时没有数据',
+                icon: 'none',
+                duration: 2500
+              })
+            }
+          }
+        }
+      });
+    }else{
+      _this.setData({
+        nav1: 'nav_click',
+        nav2: '',
+        dd_show: '',
+        kj_show: 'show'
+      });
+    }
+    //获取砍价列表数据
+    wx.request({
+      url: app.http + 'api/coupon/list',
+      method: 'GET',
+      data: {
+        p: _this.data.page,
+        mix_kw: ''
+      },
+      header: app.getRequestHeader(),
+      dataType: 'json',
+      success: function (r) {
+        if (r.data.code == 200) {
+          if (r.data.data.list.length > 0) {
+            _this.setData({
+              kj_list: r.data.data.list
+            })
+          } else {
+            wx.showToast({
+              title: '暂时没有数据',
+              icon: 'none',
+              duration: 2500
+            })
+          }
+        }
+      }
+    });
+    
   },
 
   /**

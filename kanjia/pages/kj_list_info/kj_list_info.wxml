@@ -1,6 +1,4 @@
-<!--pages/info/info.wxml-->
- <!-- 授权登录弹出框 -->
- <!-- 授权登录弹出框 -->
+<!-- 授权登录弹出框 -->
 <view class='shouquan' wx:if='{{sq_show}}'  style="height: {{height}};">
   <view class='sq_box'>
     <view class='title'>需要您的授权</view>
@@ -22,16 +20,13 @@
       <view class='con'>{{desc}}</view>
     </view>
   </view>
+  <!-- <view class='tw_icon'>
+    <image src='../../img/tuwen.png'/>
+  </view> -->
   <view class='bottom'>
   
   </view>
   <!-- 按钮 -->
-  <view class='button'>
-    <view class='goumai btn' bindtap='goumai'>原价购买</view>
-    <view class='kanjia btn' bindtap='kanjia'>发起砍价</view>
-  </view>
-
-    <!-- 按钮 -->
   <view wx:if='{{status == 1}}' class='button'>
     <view class='goumai btn' bindtap='goumai'>现价购买</view>
     <view class='kanjia btn' bindtap='kanjia'>继续砍价</view>

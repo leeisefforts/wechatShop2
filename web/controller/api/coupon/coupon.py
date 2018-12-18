@@ -29,8 +29,7 @@ def couponlist():
         rule = or_(Coupon_Info.Coupon_Name.ilike("%{0}%".format(mix_kw)))
         query = query.filter(rule)
 
-    shop_list = query.order_by(Coupon_Info.Id.desc()) \
-        .offset(offset).limit(page_size).all()
+    shop_list = query.order_by(Coupon_Info.Id.desc()).all()
 
     data_food_list = []
     if shop_list:

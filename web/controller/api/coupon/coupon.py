@@ -1,6 +1,7 @@
 from application import app, db
 from web.controller.api import route_api
 from common.modal.coupon_info import Coupon_Info
+from common.modal.pay.payOrder import PayOrder
 from common.libs.WebHelper import getCurrentDate
 from common.libs.UrlManager import UrlManager
 from common.modal.shop_info import Shop_Info
@@ -91,5 +92,18 @@ def couponInfo():
 def writeoff():
     resp = {'code': 200, 'msg': '操作成功'}
     req = request.values
+    order_sn = req['order_sn'] if 'order_sn' in req else ''
+    couponId = req['couponId'] if 'couponId' in req else ''
 
+    order_info = PayOrder.query.filter_by(order_sn=order_sn).first()
+    if order_info:
+        order_info.express_status = 1
+        db.session.add(order_info)
+        db.session.commit()
+
+    coupon_info = Coupon_Info.query.filter_by(Id=couponId).first()
+    if coupon_info:
+        coupon_info.Status = 4
+        db.session.add(coupon_info)
+        db.session.commit()
     return jsonify(resp)

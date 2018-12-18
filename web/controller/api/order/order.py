@@ -174,7 +174,9 @@ def myOrderInfo():
         "total_price": str(pay_order_info.total_price),
         "goods": [],
         "deadline": tmp_deadline.strftime("%Y-%m-%d %H:%M"),
-        'qrCode_Url': UrlManager.buildStaticUrl(pay_order_info.qrcode_url) if pay_order_info.qrcode_url else '',
+        'qrCode_Url': app.config["APP"][
+                          "domain"] + UrlManager.buildStaticUrl(
+            pay_order_info.qrcode_url) if pay_order_info.qrcode_url else '',
     }
 
     pay_order_items = PayOrderItem.query.filter_by(pay_order_id=pay_order_info.id).all()
@@ -229,7 +231,6 @@ def orderCallback():
     target_pay.orderSuccess(pay_order_info.id, params={'pay_sn': callback_data['transaction_id']})
 
     # 生成二维码
-
 
     # 微信回调加入日志
     target_pay.addPayCallbackData(pay_order_id=pay_order_info.id, data=request.data)

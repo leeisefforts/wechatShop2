@@ -3,6 +3,7 @@ from flask import request, jsonify
 from web.controller.api import route_api
 from common.libs.WebHelper import getCurrentDate
 from common.modal.merchant_info import Merchant_Info
+from common.modal.shop_info import Shop_Info
 
 
 @route_api.route('/addmerchant', methods=['GET', 'POST'])
@@ -29,6 +30,7 @@ def addmerchant():
     modal_info.Phone = phone
     modal_info.ImageUrl = imageUrl
     modal_info.OpenId = openId
+    modal_info.Status = 1
     db.session.add(modal_info)
     db.session.commit()
 
@@ -48,5 +50,8 @@ def info():
             'phone': info.Phone,
             'imageUrl': info.ImageUrl
         }
+
+    shop_list = Shop_Info.query.filter_by(ShopMerchantId= id).all()
+    resp['shop_list'] = shop_list
 
     return jsonify(resp)

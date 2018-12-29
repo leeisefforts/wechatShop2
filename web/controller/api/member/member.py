@@ -100,7 +100,7 @@ def memberShare():
         modal_coupon = Coupon_Info()
         modal_coupon.Coupon_Name = (shop_info.ShopName + '- 优惠券')
         modal_coupon.ShopId = shopId
-        modal_coupon.Member_Id = 0
+        modal_coupon.Member_Id = member_info.Id
         modal_coupon.Price = shop_info.ShopPrice
         modal_coupon.Status = 1
         modal_coupon.CreateTime = modal_coupon.UpdateTime = getCurrentDate()

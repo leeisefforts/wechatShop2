@@ -203,12 +203,12 @@ Page({
     var avatarUrl = _this.data.user_info.avatarUrl ;
     var nickName = _this.data.user_info.nickName;
     return {
-      title: '你的标题',
-      desc: 'fff',
+      title: '快来帮我砍一刀！' + _this.data.name,
+      imageUrl : _this.data.pic_url,
       path: '/pages/info/info?id=' + _this.data.pic_id + '&open_id=' + _this.data.openid,
       success: function (res) {
         _this.onLoad()
-        console.log('分享成功')
+        console.log('分享成功' + _this.data.pic_id + _this.data.openid)
         // 获取详情
         wx.request({
           url: app.http + 'api/member/share',
@@ -224,7 +224,7 @@ Page({
           dataType: 'json',
           success: function (r) {
             if (r.data.code == 200) {
-              console.log( r.data)
+              console.log('回调成功' + r.data)
             }
           }
         });

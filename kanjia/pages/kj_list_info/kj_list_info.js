@@ -191,8 +191,8 @@ Page({
     var avatarUrl = _this.data.user_info.avatarUrl;
     var nickName = _this.data.user_info.nickName;
     return {
-      title: '你的标题',
-      desc: 'fff',
+      title: '快来帮我砍一刀！' + _this.data.name,
+      imageUrl: _this.data.pic_url,
       path: '/pages/info/info?id=' + _this.data.pic_id + '&open_id=' + _this.data.openid,
       success: function (res) {
         // 获取详情

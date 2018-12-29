@@ -165,7 +165,7 @@ Page({
     });
     //获取订单未完成数据
     wx.request({
-      url:  'http://127.0.0.1:5000/api/order/list',
+      url: app.http + 'api/order/list',
       method: 'GET',
       data: {
         status : -8
@@ -192,12 +192,12 @@ Page({
 
   },
 
-
+  //订单列表获取数据函数
   dd_requset: function (status) {
     var _this = this;
     //获取订单未完成数据
     wx.request({
-      url:  'http://127.0.0.1:5000/api/order/list',
+      url: app.http + 'api/order/list',
       method: 'GET',
       data: {
         status: status
@@ -422,10 +422,4 @@ Page({
 
   },
 
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
-  }
 })

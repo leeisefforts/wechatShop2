@@ -265,4 +265,9 @@ Page({
       hasUserInfo: true
     })
   },
+
+// 转发
+  onShareAppMessage : function(){
+
+  }
 })

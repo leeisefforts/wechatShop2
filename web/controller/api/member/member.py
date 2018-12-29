@@ -74,6 +74,7 @@ def memberShare():
     toOpenId = req['toOpenId'] if 'toOpenId' in req else ''
     avatarUrl = req['avatarUrl'] if 'toOpenId' in req else ''
     nickName = req['nickName'] if 'toOpenId' in req else ''
+    coupon_id = req['coupon_id'] if 'coupon_id' in req else ''
 
     member_info = g.member_info
     model_share = WxShareHistory()
@@ -89,19 +90,17 @@ def memberShare():
     db.session.commit()
 
     shop_info = Shop_Info.query.filter_by(Id=shopId).first()
-    rule = and_(Coupon_Info.Member_Id == member_info.Id, Coupon_Info.ShopId == shopId)
-    coupon_info = Coupon_Info.query.filter(rule).first()
 
     coupon_price = 0
-    if coupon_info:
-        modal_coupon = coupon_info
+    if coupon_id:
+        modal_coupon = Coupon_Info.query.filter_by(Id=coupon_id).first()
         modal_coupon.UpdateTime = getCurrentDate()
         coupon_price = modal_coupon.Price
     else:
         modal_coupon = Coupon_Info()
-        modal_coupon.Coupon_Name = (shop_info.ShopName + '-' + member_info.Nickname)
+        modal_coupon.Coupon_Name = (shop_info.ShopName + '- 优惠券')
         modal_coupon.ShopId = shopId
-        modal_coupon.Member_Id = member_info.Id
+        modal_coupon.Member_Id = 0
         modal_coupon.Price = shop_info.ShopPrice
         modal_coupon.Status = 1
         modal_coupon.CreateTime = modal_coupon.UpdateTime = getCurrentDate()

@@ -20,8 +20,8 @@ page{
   width: 33.3%;
 }
 .nav_click{
-  border-bottom: 2px solid #007aff;
-  color: #007aff;
+  border-bottom: 2px solid #F94819;
+  color: #F94819;
 }
 /* 列表 */
 .list_child{
@@ -44,7 +44,7 @@ page{
 }
 .list .top text{
   font-size:16px;
-  color:#007aff;
+  color:#F94819;
   display:block;
   line-height:28px;
   height:36px;
@@ -72,9 +72,14 @@ page{
 .list .con .info{
   padding-top:10px;
   margin-left:15px;
+  width: 72%;
 }
 .list .con .title{
   font-size:16px;
+  overflow:hidden;
+text-overflow:ellipsis;
+white-space:nowrap;
+
 }
 .list .con .jiage{
   position:relative;
@@ -82,7 +87,7 @@ page{
 }
 .list .con .jiage .money{
   font-size:20px;
-  color:#007aff;
+  color:#333;
 }
 .list .con .jiage .kj_monery{
   text-align:right;

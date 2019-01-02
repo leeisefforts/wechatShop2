@@ -23,7 +23,9 @@ Page({
     desc: '',
     pic_url: '',
     stock: 0,
-    shop_info: ''
+    shop_info: '',
+    shopid : '',
+    coupon_id : ''
   },
 
 
@@ -153,7 +155,8 @@ Page({
             pic_url: r.data.data.shop_info.pic_url,
             stock: r.data.data.shop_info.stock,
             shop_info: r.data.data.shop_info,
-            status: r.data.data.status
+            status: r.data.data.status,
+            coupon_id: r.data.data.shop_info.id,
           })
         }
       }
@@ -190,10 +193,11 @@ Page({
     var toOpenId = _this.data.openid;
     var avatarUrl = _this.data.user_info.avatarUrl;
     var nickName = _this.data.user_info.nickName;
+    var coupon_id = _this.data.coupon_id
     return {
       title: '快来帮我砍一刀！' + _this.data.name,
       imageUrl: _this.data.pic_url,
-      path: '/pages/info/info?id=' + _this.data.pic_id + '&open_id=' + _this.data.openid,
+      path: '/pages/info/info?id=' + _this.data.pic_id + '&open_id=' + _this.data.openid + '&shopId=' + shopId + '&coupon_id=' + coupon_id,
       success: function (res) {
         // 获取详情
         wx.request({
@@ -204,19 +208,18 @@ Page({
             shopId: shopId,
             toOpenId: toOpenId,
             avatarUrl: avatarUrl,
-            nickName: nickName
+            nickName: nickName,
+            coupon_id: coupon_id
           },
           header: app.getRequestHeader(),
           dataType: 'json',
           success: function (r) {
             if (r.data.code == 200) {
-              console.log(r.data)
             }
           }
         });
       },
       fail: function (res) {
-        console.log('失败' + res)
       }
     }
   },

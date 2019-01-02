@@ -19,7 +19,7 @@ page{
 /* 搜索 */
 .search{
   height:40px;
-  background:#007aff;
+  background:#F94819;
   position:fixed;
   width:100%;
   z-index:1;
@@ -97,7 +97,7 @@ page{
 }
 .list_clild .con .money{
   font-size: 25px;
-  color: #007aff;
+  color: #333;
 }
 .list_clild .con text{
   font-size: 14px;
@@ -111,7 +111,7 @@ page{
   display:inline-block;
   width:33%;
   height:40px;
-  background:#007aff;
+  background:#F94819;
   font-size:16px;
   color:#ffff;
   text-align:center;

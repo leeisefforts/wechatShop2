@@ -24,7 +24,8 @@ Page({
     stock: 0,
     shop_info: '',
     order_sn : '',
-    qrCode_Url : ''
+    qrCode_Url : '',
+    status : ''
   },
 
   // 点击购买
@@ -33,7 +34,6 @@ Page({
     wx.showLoading({
       title: '加载中',
     });
-    // 获取详情
     wx.request({
       url: app.http + 'api/order/pay',
       method: 'POST',
@@ -44,7 +44,6 @@ Page({
       dataType: 'json',
       success: function (r) {
         if (r.data.code == 200) {
-          console.log(r.data.data.pay_info.paySign)
           wx.hideLoading()
           wx.requestPayment({
             timeStamp: r.data.data.pay_info.timeStamp,
@@ -53,10 +52,13 @@ Page({
             signType: 'MD5',
             paySign: r.data.data.pay_info.paySign,
             success(res) {
-              console.log('支付成功')
+              wx.showToast({
+                title: '支付成功',
+                icon: 'success',
+                duration: 2000
+              })
              },
             fail(res) {
-              console.log(res)
              }
           })
        
@@ -141,7 +143,8 @@ Page({
             name: r.data.data.info.goods[0].name,
             pic_url: r.data.data.info.goods[0].pic_url,
             price: r.data.data.info.goods[0].price,
-            qrCode_Url: r.data.data.info.qrCode_Url
+            qrCode_Url: r.data.data.info.qrCode_Url,
+            status: r.data.data.info.status,
           })
         }
       }

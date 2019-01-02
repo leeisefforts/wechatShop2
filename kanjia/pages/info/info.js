@@ -30,7 +30,11 @@ Page({
 
   //点击砍价
   kanjia: function () {
-    console.log(this.data.coupon)
+    var _this = this;
+    var shopId = _this.data.pic_id;
+    var toOpenId = _this.data.openid;
+    var avatarUrl = _this.data.user_info.avatarUrl;
+    var nickName = _this.data.user_info.nickName;
     if(this.data.coupon == 1){
       wx.showToast({
         title: '已是砍价商品',
@@ -46,6 +50,26 @@ Page({
         })
       },2000)
     }else{
+      //砍价成功
+      wx.request({
+        url: app.http + 'api/member/share',
+        method: 'POST',
+        data: {
+          url: '/pages/info/info',
+          shopId: shopId,
+          toOpenId: toOpenId,
+          avatarUrl: avatarUrl,
+          nickName: nickName
+        },
+        header: app.getRequestHeader(),
+        dataType: 'json',
+        success: function (r) {
+          console.log('回调成功' + r.data.code)
+          if (r.data.code == 200) {
+            console.log('回调成功' + r.data.data)
+          }
+        }
+      });
       this.setData({
         kj_box: true
       })
@@ -58,7 +82,6 @@ Page({
     wx.showLoading({
       title: '正在生成订单',
     });
-    // console.log(_this.data.shop_info)
     wx.request({
       url: app.http + 'api/order/create',
       method: 'POST',
@@ -147,9 +170,7 @@ Page({
       })
     }
 
-
-
-    // 获取详情
+    // 获取商品详情
     wx.request({
       url: app.http + 'api/shopinfo?id=' + options.id,
       method: 'GET',
@@ -207,30 +228,29 @@ Page({
       imageUrl : _this.data.pic_url,
       path: '/pages/info/info?id=' + _this.data.pic_id + '&open_id=' + _this.data.openid,
       success: function (res) {
+        console.log('转发成功')
         _this.onLoad()
-        console.log('分享成功' + _this.data.pic_id + _this.data.openid)
-        // 获取详情
-        wx.request({
-          url: app.http + 'api/member/share',
-          method: 'POST',
-          data: {
-            url: '/pages/info/info',
-            shopId: shopId,
-            toOpenId: toOpenId,
-            avatarUrl: avatarUrl,
-            nickName: nickName
-          },
-          header: app.getRequestHeader(),
-          dataType: 'json',
-          success: function (r) {
-            if (r.data.code == 200) {
-              console.log('回调成功' + r.data)
-            }
-          }
-        });
+        // //
+        // wx.request({
+        //   url: app.http + 'api/member/share',
+        //   method: 'POST',
+        //   data: {
+        //     url: '/pages/info/info',
+        //     shopId: shopId,
+        //     toOpenId: toOpenId,
+        //     avatarUrl: avatarUrl,
+        //     nickName: nickName
+        //   },
+        //   header: app.getRequestHeader(),
+        //   dataType: 'json',
+        //   success: function (r) {
+        //     console.log('回调成功' + r.data)
+        //     if (r.data.code == 200) {
+        //     }
+        //   }
+        // });
       },
       fail: function (res) {
-        console.log('失败' + res)
       }
     }
   },

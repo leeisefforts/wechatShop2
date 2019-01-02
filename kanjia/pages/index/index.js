@@ -31,7 +31,6 @@ Page({
   },
   // 点击进入商品详情
   list_click : function(e){
-    console.log(e.currentTarget.dataset.id)
     wx.navigateTo({
       url: '../info/info?id=' + e.currentTarget.dataset.id
     })
@@ -52,7 +51,6 @@ Page({
   bind_ss_confirm : function(e){
 
     var _this = this;
-    console.log(e.detail.value)
 
     // 获取数据
     wx.request({
@@ -140,7 +138,6 @@ Page({
 
   //滚动到底部加载数据
   lower_load: function () {
-    console.log('底部');
     var _this = this;
     // 获取首页数据
     wx.request({
@@ -153,7 +150,6 @@ Page({
       header: app.getRequestHeader(),
       dataType: 'json',
       success: function (r) {
-        console.log(_this.data.list)
         if (r.data.code == 200) {
           _this.setData({
             list: _this.data.list.concat(r.data.data.list)
@@ -258,6 +254,13 @@ Page({
       })
     }
   },
+
+  //转发
+  onShareAppMessage: function () {
+   
+  },
+
+
   getUserInfo: function(e) {
     app.globalData.userInfo = e.detail.userInfo
     this.setData({
@@ -266,8 +269,4 @@ Page({
     })
   },
 
-// 转发
-  onShareAppMessage : function(){
-
-  }
 })

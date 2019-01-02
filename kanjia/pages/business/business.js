@@ -53,7 +53,6 @@ Page({
   },
   // 点击提交
   sj_tj_bind : function(){
-    console.log('点击')
     var _this = this;
     if (this.data.name_length < 1) {
       wx.showToast({
@@ -126,7 +125,6 @@ Page({
       sizeType: ['compressed'],
       sourceType: ['album', 'camera'],
       success(res) {
-        console.log(res.tempFilePaths)
         // 上传
         wx.uploadFile({
           url: app.http + 'api/upload',
@@ -135,12 +133,10 @@ Page({
           success(res) {
             var obj = JSON.parse(res.data)
             if (obj.code == 200){
-              console.log(app.http + 'static/upload/' + obj.data)
               _this.setData({
                 set_img: app.http + 'static/upload/' +obj.data
               })
             }
-            console.log(obj)
           }
         })
       

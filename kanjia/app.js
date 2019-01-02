@@ -1,6 +1,6 @@
 //app.js
 App({
-  http: 'https://17bctech.com/',
+  http: 'https://kanjia.meishishequ.cn/',
   user_info : '',
   code : '',
   onLaunch: function (option) {

@@ -323,11 +323,13 @@ Page({
     console.log('000')
     var _this = this;
     var _url = wx.getStorageSync('url');
-    console.log(_url)
-    if(_url){
+    if (_url) {
       _this.setData({
         nav1: '',
         nav2: 'nav_click',
+        dd_nav1: 'nav_click',
+        dd_nav2: '',
+        dd_nav3: '',
         dd_show: 'show',
         kj_show: ''
       });
@@ -357,7 +359,7 @@ Page({
           }
         }
       });
-    }else{
+    } else {
       _this.setData({
         nav1: 'nav_click',
         nav2: '',
@@ -391,7 +393,7 @@ Page({
         }
       }
     });
-    
+
   },
 
   /**

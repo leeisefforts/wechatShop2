@@ -1,5 +1,5 @@
 APP = {
-    'domain': 'https://17bctech.com'
+    'domain': 'https://kanjia.meishishequ.cn'
 }
 AUTH_COOKIE_NAME = 'UserCookie'
 SERVER_PORT = '5000'

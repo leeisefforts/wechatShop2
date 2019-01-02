@@ -51,7 +51,7 @@
  </view>
 <block wx:for='{{dd_list}}' wx:for-index="index" wx:for-item="item">
   <view class='list_child' data-order_sn='{{item.order_sn}}'  bindtap='dd_click'>
-    <view class='top' style='width:100%;height:auto;padding:5px 10px 10px 10px;'><view style='font-size:16px;color:#007aff;'>{{item.status_desc}}</view><view style='font-size:14px;color:#666;margin-top:5px;'>(订单号：{{item.order_sn}})</view></view>
+    <view class='top' style='width:100%;height:auto;padding:5px 10px 10px 10px;'><view style='font-size:16px;color:#F94819;'>{{item.status_desc}}</view><view style='font-size:14px;color:#666;margin-top:5px;'>(订单号：{{item.order_sn}})</view></view>
     <view class='con'>
       <view class='img'>
         <image  mode='aspectFill'  src='{{item.goods_list[0].pic_url}}' />

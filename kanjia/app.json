@@ -10,14 +10,14 @@
   ],
   "window":{
     "backgroundTextStyle": "dark",
-    "navigationBarBackgroundColor": "#007aff",
+    "navigationBarBackgroundColor": "#F94819",
     "navigationBarTitleText": "砍价商品",
     "navigationBarTextStyle": "#fff",
     "enablePullDownRefresh": true
   },
   "tabBar": {
     "color":"#777",
-    "selectedColor" : "#007aff",
+    "selectedColor" : "#F94819",
     "list": [
       {
         "pagePath": "pages/index/index",

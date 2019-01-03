@@ -52,6 +52,15 @@ def info():
         }
 
     shop_list = Shop_Info.query.filter_by(ShopMerchantId= id).all()
-    resp['shop_list'] = shop_list
+    if len(shop_list) == 1:
+        resp['shop_list'] = [{
+            'ShopName': shop_list[0].ShopName,
+            'ShopDesc': shop_list[0].ShopDesc,
+            'TotalCount': shop_list[0].TotalCount,
+            'Stock': shop_list[0].Stock,
+            'ShopImageUrl': shop_list[0].ShopImageUrl
+        }]
+    else:
+        resp['shop_list'] = shop_list
 
     return jsonify(resp)

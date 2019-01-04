@@ -192,13 +192,14 @@ def myOrderInfo():
                 "pic_url": UrlManager.buildImageUrl(tmp_food_info.ShopImageUrl),
             }
             info['goods'].append(tmp_data)
-            merchant = Merchant_Info.query.filter_by(Id=tmp_food_info.ShopMerchantId).first()
-            resp['merchant'] = {
-                'name': merchant.Name,
-                'address': merchant.Address,
-                'imageUrl': merchant.ImageUrl,
-                'phone': merchant.Phone
-            }
+            if tmp_food_info:
+                merchant = Merchant_Info.query.filter_by(Id=tmp_food_info.ShopMerchantId).first()
+                resp['merchant'] = {
+                    'name': merchant.Name,
+                    'address': merchant.Address,
+                    'imageUrl': merchant.ImageUrl,
+                    'phone': merchant.Phone
+                }
     resp['data']['info'] = info
     return jsonify(resp)
 

@@ -66,32 +66,39 @@ def couponInfo():
     req = request.values
     id = req['id'] if 'id' in req else 0
     info = Coupon_Info.query.filter_by(Id=id).first()
-    s_info = Shop_Info.query.filter_by(Id=info.ShopId).first()
-    merchant = Merchant_Info.query.filter_by(Id=s_info.ShopMerchantId).first()
-    resp['data'] = {
-        'name': info.Coupon_Name,
-        'price': str(info.Coupon_Price),
-        'min_price': str(info.Price),
-        'qrCode_Url': app.config["APP"][
-                          "domain"] + UrlManager.buildStaticUrl(info.QrCode_Url) if info.QrCode_Url else '',
-        'status': str(info.Status),
-        'shop_info': {
-            'id': s_info.Id,
-            'name': "%s" % (s_info.ShopName),
-            'desc': "%s" % (s_info.ShopDesc),
-            'price': str(s_info.ShopPrice),
-            'min_price': str(s_info.ShopFloorPrice),
-            'stock': str(s_info.Stock),
-            'totalCount': str(s_info.TotalCount),
-            'pic_url': UrlManager.buildImageUrl(s_info.ShopImageUrl)
+
+    if info:
+        resp['data'] = {
+            'name': info.Coupon_Name,
+            'price': str(info.Coupon_Price),
+            'min_price': str(info.Price),
+            'qrCode_Url': app.config["APP"][
+                              "domain"] + UrlManager.buildStaticUrl(info.QrCode_Url) if info.QrCode_Url else '',
+            'status': str(info.Status),
+            'shop_info': {
+
+            }
         }
-    }
-    resp['merchant'] = {
-        'name': merchant.Name,
-        'address': merchant.Address,
-        'imageUrl': merchant.ImageUrl,
-        'phone': merchant.Phone
-    }
+
+        s_info = Shop_Info.query.filter_by(Id=info.ShopId).first()
+        if s_info:
+            merchant = Merchant_Info.query.filter_by(Id=s_info.ShopMerchantId).first()
+            resp['merchant'] = {
+                'name': merchant.Name,
+                'address': merchant.Address,
+                'imageUrl': merchant.ImageUrl,
+                'phone': merchant.Phone
+            }
+            resp['data']['shop_info'] = {
+                'id': s_info.Id,
+                'name': "%s" % (s_info.ShopName),
+                'desc': "%s" % (s_info.ShopDesc),
+                'price': str(s_info.ShopPrice),
+                'min_price': str(s_info.ShopFloorPrice),
+                'stock': str(s_info.Stock),
+                'totalCount': str(s_info.TotalCount),
+                'pic_url': UrlManager.buildImageUrl(s_info.ShopImageUrl)
+            }
     return jsonify(resp)
 
 

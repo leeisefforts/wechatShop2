@@ -51,8 +51,8 @@ def edit():
 
     modal_shop.ShopName = req['shopname']
     modal_shop.ShopDesc = req['shopdesc']
-    modal_shop.ShopFloorPrice = req['price']
-    modal_shop.ShopPrice = req['floorprice']
+    modal_shop.ShopFloorPrice = req['floorprice']
+    modal_shop.ShopPrice = req['price']
     modal_shop.ShopImageUrl = img_url
     modal_shop.ShopMerchantId = req['merchant']
     modal_shop.Stock = req['stock']

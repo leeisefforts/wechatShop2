@@ -20,6 +20,7 @@ PAGE_SIZE = 50
 PAGE_DISPLAY = 10
 
 STATUS_MAPPING = {
+    "3": "禁用",
     "2": "审核拒绝",
     "1": "审核通过",
     "0": "未审核"

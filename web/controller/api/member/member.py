@@ -92,7 +92,7 @@ def memberShare():
     shop_info = Shop_Info.query.filter_by(Id=shopId).first()
 
     coupon_price = 0
-    if coupon_id:
+    if coupon_id and coupon_id != '0':
         modal_coupon = Coupon_Info.query.filter_by(Id=coupon_id).first()
         modal_coupon.UpdateTime = getCurrentDate()
         coupon_price = modal_coupon.Price

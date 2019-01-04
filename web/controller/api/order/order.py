@@ -75,7 +75,6 @@ def orderPay():
         'notify_url': notify_url,
         'trade_type': 'JSAPI',
         'openid': oauth_bind_info.Openid
-
     }
 
     pay_info = target_wechat.get_pay_info(data)

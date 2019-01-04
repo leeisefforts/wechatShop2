@@ -61,9 +61,9 @@ SHOP_STATUS_MAPPING = {
 }
 
 MINA_APP = {
-    'appid':'wx1f244139ab0c54c8',
-    'appkey':'6e4fab0d29a50571678ba1559e627ebc',
-    'paykey':'TM8KwVFRlp0hsTWMQTxLplfFIzmk7csr',
-    'mch_id':'1513434041',
+    'appid':'wxab76ef5e1739710e',
+    'appkey':'8b225cb387861356b215e8c1ffab0eea',
+    'paykey':'chizaiacheng190111chibeiguanfang',  # chizaiacheng190111chibeiguanfang
+    'mch_id':'1522854361',  # 1522854361
     'callback_url':'/api/order/callback'
 }

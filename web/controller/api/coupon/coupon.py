@@ -67,7 +67,7 @@ def couponInfo():
     id = req['id'] if 'id' in req else 0
     info = Coupon_Info.query.filter_by(Id=id).first()
     s_info = Shop_Info.query.filter_by(Id=info.ShopId).first()
-    merchant = Merchant_Info.query.filter_by(Id=info.ShopMerchantId).first()
+    merchant = Merchant_Info.query.filter_by(Id=s_info.ShopMerchantId).first()
     resp['data'] = {
         'name': info.Coupon_Name,
         'price': str(info.Coupon_Price),

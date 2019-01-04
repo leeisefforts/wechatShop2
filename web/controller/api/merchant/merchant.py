@@ -4,6 +4,7 @@ from web.controller.api import route_api
 from common.libs.WebHelper import getCurrentDate
 from common.modal.merchant_info import Merchant_Info
 from common.modal.shop_info import Shop_Info
+from common.libs.UrlManager import UrlManager
 
 
 @route_api.route('/addmerchant', methods=['GET', 'POST'])
@@ -58,7 +59,7 @@ def info():
                 'ShopDesc': shop_list[0].ShopDesc,
                 'TotalCount': shop_list[0].TotalCount,
                 'Stock': shop_list[0].Stock,
-                'ShopImageUrl': shop_list[0].ShopImageUrl
+                'ShopImageUrl': UrlManager.buildImageUrl(shop_list[0].ShopImageUrl)
             }]
         else:
             tmp_datas = []
@@ -68,7 +69,7 @@ def info():
                     'ShopDesc': item.ShopDesc,
                     'TotalCount': item.TotalCount,
                     'Stock': item.Stock,
-                    'ShopImageUrl': item.ShopImageUrl
+                    'ShopImageUrl': UrlManager.buildImageUrl(item.ShopImageUrl)
                 }
                 tmp_datas.append(tmp_data)
             resp['shop_list'] = tmp_datas

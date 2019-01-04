@@ -44,6 +44,11 @@ def couponlist():
                 'createTime': str(item.CreateTime),
                 'status': str(item.Status),
                 'shop_info': {
+
+                }
+            }
+            if s_info:
+                tmp_data['shop_info'] = {
                     'id': s_info.Id,
                     'name': "%s" % (s_info.ShopName),
                     'desc': "%s" % (s_info.ShopDesc),
@@ -53,7 +58,6 @@ def couponlist():
                     'totalCount': str(s_info.TotalCount),
                     'pic_url': UrlManager.buildImageUrl(s_info.ShopImageUrl)
                 }
-            }
             data_food_list.append(tmp_data)
     resp['data']['list'] = data_food_list
     resp['data']['has_more'] = 0 if len(data_food_list) < page_size else 1

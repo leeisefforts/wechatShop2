@@ -1,8 +1,10 @@
 //app.js
 App({
+  // http: 'https://www.17bctech.com/',
   http: 'https://kanjia.meishishequ.cn/',
   user_info : '',
   code : '',
+  fx_cs : '',
   onLaunch: function (option) {
     
     var _this = this
@@ -12,7 +14,8 @@ App({
     wx.setStorageSync('logs', logs)
   },
   onShow: function (option){
-    console.log('小程序进来的参数：', option)
+    this.fx_cs = option.query.id
+    console.log('小程序进来的参数：', option.query.id)
   },
   globalData: {
     userInfo: null
@@ -87,6 +90,8 @@ App({
                     header: getApp().getRequestHeader(),
                     dataType: 'json',
                     success: function (r) {
+
+                      console.log(r.data)
                       if (r.data.code == 200) {
                         _this.setCache('token', r.data.data.token)
                         _this.setCache('openid', r.data.data.openId)
@@ -114,5 +119,5 @@ App({
     })
 
   
-  }
+  },
 })

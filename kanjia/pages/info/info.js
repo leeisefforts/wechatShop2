@@ -24,7 +24,11 @@ Page({
     pic_url: '',
     stock: 0,
     shop_info: '',
-    coupon : 0
+    coupon : 0,
+    data_name: '',
+    data_phone: '',
+    data_address: '',
+    data_imageUrl:'',
   },
 
 
@@ -35,6 +39,9 @@ Page({
     var toOpenId = _this.data.openid;
     var avatarUrl = _this.data.user_info.avatarUrl;
     var nickName = _this.data.user_info.nickName;
+    var coupon_id = _this.data.coupon;
+    console.log(coupon_id)
+    console.log('购买' + app.getRequestHeader())
     if(this.data.coupon == 1){
       wx.showToast({
         title: '已是砍价商品',
@@ -59,7 +66,8 @@ Page({
           shopId: shopId,
           toOpenId: toOpenId,
           avatarUrl: avatarUrl,
-          nickName: nickName
+          nickName: nickName,
+          coupon_id: coupon_id
         },
         header: app.getRequestHeader(),
         dataType: 'json',
@@ -137,12 +145,79 @@ Page({
 
   // 用户点击授权登录
   bindGetUserInfo: function (e) {
-    app.login(this)
+    var _this =this;
+    app.login(_this)
     if (e.detail && e.detail.rawData) {
-      this.setData({ sq_show: false })
+      _this.setData({ sq_show: false })
+      console.log(app.fx_cs)
+      _this.onLoad()
+      // 获取商品详情
+      if (_this.data.pic_id) {
+        wx.request({
+          url: app.http + 'api/shopinfo?id=' + _this.data.pic_id,
+          method: 'GET',
+          data: {},
+          header: app.getRequestHeader(),
+          dataType: 'json',
+          success: function (r) {
+            console.log('授权' + r.data)
+            if (r.data.code == 200) {
+              _this.setData({
+                price: r.data.data.price,
+                name: r.data.data.name,
+                desc: r.data.data.desc,
+                pic_url: r.data.data.pic_url,
+                stock: r.data.data.stock,
+                shop_info: r.data.data,
+                coupon: r.data.coupon,
+                data_name: r.data.merchant.name,
+                data_phone: r.data.merchant.phone,
+                data_address: r.data.merchant.address,
+                data_imageUrl: r.data.merchant.imageUrl
+              })
+            }
+          }
+        });
+      } else {
+        wx.request({
+          url: app.http + 'api/shopinfo?id=' + app.fx_cs,
+          method: 'GET',
+          data: {},
+          header: app.getRequestHeader(),
+          dataType: 'json',
+          success: function (r) {
+            if (r.data.code == 200) {
+              _this.setData({
+                price: r.data.data.price,
+                name: r.data.data.name,
+                desc: r.data.data.desc,
+                pic_url: r.data.data.pic_url,
+                stock: r.data.data.stock,
+                shop_info: r.data.data,
+                coupon: r.data.coupon
+              })
+            }
+          }
+        });
+      }
     }
   },
 
+  //拨打商家电话
+  PhoneCall: function () {
+    console.log(this.data.data_phone)
+    var phone = this.data.data_phone
+    wx.makePhoneCall({
+      phoneNumber: phone 
+    })
+  },
+
+  //去首页
+  home: function () {
+    wx.switchTab({
+      url: '../index/index',
+    })
+  },
 
 
   /**
@@ -150,47 +225,78 @@ Page({
    */
   onLoad: function (options) {
     var _this = this;
-  
+    console.log('onLoad刷新' + app.getRequestHeader())
     _this.setData({
       openid: app.getCache('openid'),
       token: app.getCache('token'),
       pic_id: options.id,
       user_info: app.getCache('user_info')
     })
-
-
     // 判断是否授权登陆过
-    if (_this.data.token == '') {
-      _this.setData({
-        sq_show: true
-      })
-    } else {
-      _this.setData({
-        sq_show: false
-      })
-    }
-
-    // 获取商品详情
-    wx.request({
-      url: app.http + 'api/shopinfo?id=' + options.id,
-      method: 'GET',
-      data: {},
-      header: app.getRequestHeader(),
-      dataType: 'json',
-      success: function (r) {
-        if (r.data.code == 200) {
-          _this.setData({
-            price: r.data.data.price,
-            name: r.data.data.name,
-            desc: r.data.data.desc,
-            pic_url: r.data.data.pic_url,
-            stock: r.data.data.stock,
-            shop_info: r.data.data,
-            coupon : r.data.coupon
-          })
-        }
+    setTimeout(function () {
+      console.log(_this.data.token)
+      if (_this.data.token == '') {
+        _this.setData({
+          sq_show: true
+        })
+      } else {
+        _this.setData({
+          sq_show: false
+        })
       }
-    });
+    }, 2000)
+    // 获取商品详情
+    var url = app.http + 'api/shopinfo?id=' + options.id
+    console.log(url)
+    if (options.id){
+      wx.request({
+        url: url,
+        method: 'GET',
+        data: {},
+        header: app.getRequestHeader(),
+        dataType: 'json',
+        success: function (r) {
+          console.log('loadoptions' + r.data)
+          if (r.data.code == 200) {
+            _this.setData({
+              price: r.data.data.price,
+              name: r.data.data.name,
+              desc: r.data.data.desc,
+              pic_url: r.data.data.pic_url,
+              stock: r.data.data.stock,
+              shop_info: r.data.data,
+              coupon: r.data.coupon,
+              data_name: r.data.merchant.name,
+              data_phone: r.data.merchant.phone,
+              data_address: r.data.merchant.address,
+              data_imageUrl: r.data.merchant.imageUrl
+            })
+          }
+        }
+      });
+    }else{
+      wx.request({
+        url: app.http + 'api/shopinfo?id=' + app.fx_cs,
+        method: 'GET',
+        data: {},
+        header: app.getRequestHeader(),
+        dataType: 'json',
+        success: function (r) {
+          console.log('loadfx_cs' + r.data)
+          if (r.data.code == 200) {
+            _this.setData({
+              price: r.data.data.price,
+              name: r.data.data.name,
+              desc: r.data.data.desc,
+              pic_url: r.data.data.pic_url,
+              stock: r.data.data.stock,
+              shop_info: r.data.data,
+              coupon: r.data.coupon
+            })
+          }
+        }
+      });
+    }
 
     wx.showShareMenu({
       withShareTicket: true
@@ -268,6 +374,24 @@ Page({
    */
   onShow: function () {
 
+    var _this = this;
+    _this.setData({
+      openid: app.getCache('openid'),
+      token: app.getCache('token')
+    })
+    // 判断是否授权登陆过
+    setTimeout(function () {
+      console.log(_this.data.token)
+      if (_this.data.token == '') {
+        _this.setData({
+          sq_show: true
+        })
+      } else {
+        _this.setData({
+          sq_show: false
+        })
+      }
+    }, 2000)
   },
 
   /**

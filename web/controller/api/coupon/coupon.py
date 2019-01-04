@@ -1,6 +1,7 @@
 from application import app, db
 from web.controller.api import route_api
 from common.modal.coupon_info import Coupon_Info
+from common.modal.merchant_info import Merchant_Info
 from common.modal.pay.payOrder import PayOrder
 from common.libs.WebHelper import getCurrentDate
 from common.libs.UrlManager import UrlManager
@@ -66,6 +67,7 @@ def couponInfo():
     id = req['id'] if 'id' in req else 0
     info = Coupon_Info.query.filter_by(Id=id).first()
     s_info = Shop_Info.query.filter_by(Id=info.ShopId).first()
+    merchant = Merchant_Info.query.filter_by(Id=info.ShopMerchantId).first()
     resp['data'] = {
         'name': info.Coupon_Name,
         'price': str(info.Coupon_Price),
@@ -84,7 +86,12 @@ def couponInfo():
             'pic_url': UrlManager.buildImageUrl(s_info.ShopImageUrl)
         }
     }
-
+    resp['merchant'] = {
+        'name': merchant.Name,
+        'address': merchant.Address,
+        'imageUrl': merchant.ImageUrl,
+        'phone': merchant.Phone
+    }
     return jsonify(resp)
 
 

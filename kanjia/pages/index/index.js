@@ -31,6 +31,7 @@ Page({
   },
   // 点击进入商品详情
   list_click : function(e){
+    console.log(e.currentTarget.dataset.id)
     wx.navigateTo({
       url: '../info/info?id=' + e.currentTarget.dataset.id
     })
@@ -183,18 +184,20 @@ Page({
       token: app.getCache('token'),
       user_info: app.getCache('user_info')
     })
+    console.log(app.getCache('token'))
 
     // 判断是否授权登陆过
-    if (_this.data.token == '') {
-      _this.setData({
-        sq_show: true
-      })
-    } else {
-      _this.setData({
-        sq_show: false
-      })
-    }
-
+    setTimeout(function () {
+      if (_this.data.token == '') {
+        _this.setData({
+          sq_show: true
+        })
+      } else {
+        _this.setData({
+          sq_show: false
+        })
+      }
+    }, 1000)
     // 获取首页数据
     wx.request({
       url: app.http +'api/shoplist',
@@ -255,6 +258,30 @@ Page({
     }
   },
 
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow: function () {
+
+    var _this = this;
+    _this.setData({
+      openid: app.getCache('openid'),
+      token: app.getCache('token')
+    })
+    // 判断是否授权登陆过
+    setTimeout(function () {
+      console.log(_this.data.token)
+      if (_this.data.token == '') {
+        _this.setData({
+          sq_show: true
+        })
+      } else {
+        _this.setData({
+          sq_show: false
+        })
+      }
+    }, 1000)
+  },
   //转发
   onShareAppMessage: function () {
    

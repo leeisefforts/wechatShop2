@@ -24,7 +24,6 @@ Page({
     dd_list : '',
     kj_list : '',
     page: 1
-    
   },
   //滚动出现返回顶部
   scroll: function (e) {
@@ -64,15 +63,18 @@ Page({
       token: app.getCache('token')
     })
     // 判断是否授权登陆过
-    if (_this.data.token == ''){
-      _this.setData({
-        sq_show: true
-      })
-    }else{
-      _this.setData({
-        sq_show: false
-      })
-    }
+    setTimeout(function () {
+      console.log(_this.data.token)
+      if (_this.data.token == '') {
+        _this.setData({
+          sq_show: true
+        })
+      } else {
+        _this.setData({
+          sq_show: false
+        })
+      }
+    },2000)
     // 获取屏幕可见区域
     wx.getSystemInfo({
       success: function (res) {
@@ -320,6 +322,24 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+    var _this = this;
+    _this.setData({
+      openid: app.getCache('openid'),
+      token: app.getCache('token')
+    })
+    // 判断是否授权登陆过
+    setTimeout(function () {
+      console.log(_this.data.token)
+      if (_this.data.token == '') {
+        _this.setData({
+          sq_show: true
+        })
+      } else {
+        _this.setData({
+          sq_show: false
+        })
+      }
+    }, 2000)
     console.log('000')
     var _this = this;
     var _url = wx.getStorageSync('url');

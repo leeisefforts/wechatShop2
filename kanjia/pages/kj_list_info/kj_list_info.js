@@ -25,7 +25,11 @@ Page({
     stock: 0,
     shop_info: '',
     shopid : '',
-    coupon_id : ''
+    coupon_id: '',
+    data_name: '',
+    data_phone: '',
+    data_address: '',
+    data_imageUrl: ''
   },
 
 
@@ -107,8 +111,22 @@ Page({
       this.setData({ sq_show: false })
     }
   },
+  
+  //拨打商家电话
+  PhoneCall: function () {
+    console.log(this.data.data_phone)
+    var phone = this.data.data_phone
+    wx.makePhoneCall({
+      phoneNumber: phone // 仅为示例，并非真实的电话号码
+    })
+  },
 
-
+  //去首页
+  home: function () {
+    wx.switchTab({
+      url: '../index/index',
+    })
+  },
 
   /**
    * 生命周期函数--监听页面加载
@@ -161,6 +179,36 @@ Page({
         }
       }
     });
+
+
+
+    //获取商家信息
+    wx.request({
+      url: app.http + 'api/merchant/info',
+      method: 'GET',
+      data: {
+        id: _this.data.openid
+      },
+      header: app.getRequestHeader(),
+      dataType: 'json',
+      success: function (r) {
+        if (r.data.code == 200) {
+          _this.setData({
+            data_name: r.data.data.name,
+            data_phone: r.data.data.phone,
+            data_address: r.data.data.address,
+            data_imageUrl: r.data.data.imageUrl
+          })
+        }
+        if (r.data.data.name) {
+          _this.setData({
+            button_show: false,
+            input_disabled: true
+          })
+        }
+      }
+    });
+
 
     wx.showShareMenu({
       withShareTicket: true

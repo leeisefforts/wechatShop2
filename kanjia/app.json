@@ -2,7 +2,7 @@
   "pages":[
     "pages/index/index",
     "pages/business/business",
-    
+   
     "pages/info/info",
     "pages/user/user",
     "pages/kj_list_info/kj_list_info",

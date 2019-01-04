@@ -11,6 +11,7 @@
 </view>
  
 <scroll-view style="height: {{height}};" scroll-y bindscroll="scroll" scroll-top='{{scroll_top}}'>
+  <view class='home' bindtap='home'>《去首页</view>
   <!-- 商品信息 -->
   <view class='header'>
     <image class='img' mode='aspectFill' src='{{pic_url}}' style='height:{{img_w}}'/>
@@ -28,14 +29,14 @@
     <view class='title'><view>商家信息</view></view>
     <view class='con'>
       <view class='img'>
-        <image  mode='aspectFill' src='../../img/aaa.png'></image>
+        <image  mode='aspectFill' src='{{data_imageUrl}}'></image>
       </view>
-      <view class='name'>黄记煌三汁焖锅（王府井店）</view>
-      <view class='address'><image src='../../img/address.png'></image><text>湖南省长沙市岳麓区金星路王府井购物广场</text></view>
-      <view class='phone'><image src='../../img/phone.png'></image><text>400-5555-5555</text></view>
+      <view class='name'>{{data_name}}</view>
+      <view class='address'><image src='../../img/address.png'></image><text>{{data_address}}</text></view>
+      <view class='phone'><image src='../../img/phone.png'></image><text bindtap='PhoneCall'>{{data_phone}}</text></view>
     </view>
   </view>
-
+  
   <!-- 按钮 -->
   <view class='zw' style='height:90px'></view>
   <view wx:if='{{status == 1}}' class='button'>

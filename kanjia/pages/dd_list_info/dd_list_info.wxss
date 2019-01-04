@@ -39,52 +39,19 @@ page{
   float:right;
 
 }
-/* 商家信息 */
-.sj_info{
-  width:100%;
-  background:#fff;
-  margin-top:15px;
-}
-.sj_info .title,.qrcode .title{
-  width:100%;
+
+/* 二维码 */
+.qrcode .title {
   height:50px;
   border-bottom:1px solid #eee;
 }
-.sj_info .title view,.qrcode .title view{
+.qrcode .title view {
   font-size:16px;
   line-height:50px;
   border-left:5px solid #F94819;
   padding-left:20px;
 }
-.sj_info .con{
-  padding:10px 25px 20px 25px;
-}
-.sj_info .con .img image{
-  display:block;
-  height:200px;
-  width:100%;
-  background: #F94819;
-  border-radius:10px;
-}
-.sj_info .con .name{
-  margin:20px 0 10px 0;
-  font-weight:bold;
-}
-.sj_info .con .address{
-  margin: 8px 0;
-}
-.sj_info .con .address text,.sj_info .con .phone text{
-  margin-left:10px;
-  font-size:16px;
-  color:#555;
-}
-.sj_info .con .address image,.sj_info .con .phone image{
-  width:20px;
-  height:20px;
-  position:relative;
-  top:3px;
-  left:2px;
-}
+
 
 /* 按钮 */
 .button{

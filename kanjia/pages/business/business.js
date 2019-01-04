@@ -14,10 +14,10 @@ Page({
     token: '',
     iphone_value : '',
     iphone_length : 0,
-    name_length:0,
+    name_length: 0,
     name_value: '',
     add_length: 0,
-    add_value :'',
+    add_value: '',
     height: 0,
     width: 0,
     set_img : '',
@@ -56,14 +56,14 @@ Page({
     var _this = this;
     if (this.data.name_length < 1) {
       wx.showToast({
-        title: '请输入姓名',
+        title: '请输入店名',
         image: '../../img/x.png',
         duration: 2000
       })
       return false;
-    } else if (this.data.iphone_length !== 11 || this.data.iphone_length < 1){
+    } else if (this.data.iphone_length < 1){
       wx.showToast({
-        title: '手机格式不正常',
+        title: '请输入电话',
         image: '../../img/x.png',
         duration: 2000
       })
@@ -75,7 +75,7 @@ Page({
         duration: 2000
       })
       return false;
-    } else if (this.data.set_img == '') {
+    }  else if (this.data.set_img == '') {
       wx.showToast({
         title: '请上传图片',
         image: '../../img/x.png',
@@ -163,15 +163,18 @@ Page({
       token: app.getCache('token')
     })
     // 判断是否授权登陆过
-    if (_this.data.token == '') {
-      _this.setData({
-        sq_show: true
-      })
-    } else {
-      _this.setData({
-        sq_show: false
-      })
-    }
+    setTimeout(function () {
+      console.log(_this.data.token)
+      if (_this.data.token == '') {
+        _this.setData({
+          sq_show: true
+        })
+      } else {
+        _this.setData({
+          sq_show: false
+        })
+      }
+    }, 2000)
     // 获取屏幕可见区域
     wx.getSystemInfo({
       success: function (res) {
@@ -182,32 +185,34 @@ Page({
       },
     })
 
-    //获取数据
-    wx.request({
-      url: app.http + 'api/merchant/info',
-      method: 'GET',
-      data: {
-        id: _this.data.openid
-      },
-      header: app.getRequestHeader(),
-      dataType: 'json',
-      success: function (r) {
-        if (r.data.code == 200) {
-          _this.setData({
-            data_name: r.data.data.name || _this.data.name_value,
-            data_phone: r.data.data.phone || _this.data.iphone_value,
-            data_address: r.data.data.address || _this.data.add_value,
-            data_imageUrl: r.data.data.imageUrl || _this.data.set_img
-          })
+      //获取数据
+    if (_this.data.openid){
+      wx.request({
+        url: app.http + 'api/merchant/info',
+        method: 'GET',
+        data: {
+          id: _this.data.openid
+        },
+        header: app.getRequestHeader(),
+        dataType: 'json',
+        success: function (r) {
+          if (r.data.code == 200) {
+            _this.setData({
+              data_name: r.data.data.name || _this.data.name_value,
+              data_phone: r.data.data.phone || _this.data.iphone_value,
+              data_address: r.data.data.address || _this.data.add_value,
+              data_imageUrl: r.data.data.imageUrl || _this.data.set_img
+            })
+          }
+          if (r.data.data.name) {
+            _this.setData({
+              button_show: false,
+              input_disabled: true
+            })
+          }
         }
-        if (r.data.data.name){
-          _this.setData({
-            button_show: false,
-            input_disabled: true
-          })
-        }
-      }
-    });
+      });
+    }
   },
 
 
@@ -222,6 +227,55 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+
+    var _this = this;
+    _this.setData({
+      openid: app.getCache('openid'),
+      token: app.getCache('token')
+    })
+    // 判断是否授权登陆过
+    setTimeout(function () {
+      console.log(_this.data.token)
+      if (_this.data.token == '') {
+        _this.setData({
+          sq_show: true
+        })
+      } else {
+        _this.setData({
+          sq_show: false
+        })
+      }
+    }, 2000)
+
+
+    //获取数据
+    if (_this.data.openid) {
+      wx.request({
+        url: app.http + 'api/merchant/info',
+        method: 'GET',
+        data: {
+          id: _this.data.openid
+        },
+        header: app.getRequestHeader(),
+        dataType: 'json',
+        success: function (r) {
+          if (r.data.code == 200) {
+            _this.setData({
+              data_name: r.data.data.name || _this.data.name_value,
+              data_phone: r.data.data.phone || _this.data.iphone_value,
+              data_address: r.data.data.address || _this.data.add_value,
+              data_imageUrl: r.data.data.imageUrl || _this.data.set_img
+            })
+          }
+          if (r.data.data.name) {
+            _this.setData({
+              button_show: false,
+              input_disabled: true
+            })
+          }
+        }
+      });
+    }
 
   },
 

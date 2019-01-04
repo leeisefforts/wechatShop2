@@ -61,6 +61,16 @@ def info():
                 'ShopImageUrl': shop_list[0].ShopImageUrl
             }]
         else:
-            resp['shop_list'] = shop_list
+            tmp_datas = []
+            for item in shop_list:
+                tmp_data = {
+                    'ShopName': item.ShopName,
+                    'ShopDesc': item.ShopDesc,
+                    'TotalCount': item.TotalCount,
+                    'Stock': item.Stock,
+                    'ShopImageUrl': item.ShopImageUrl
+                }
+                tmp_datas.append(tmp_data)
+            resp['shop_list'] = tmp_datas
 
     return jsonify(resp)

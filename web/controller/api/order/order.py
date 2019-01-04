@@ -4,6 +4,7 @@ from web.controller.api import route_api
 from common.libs.WebHelper import getCurrentDate, selectFilterObj, getFormatDate, getDictFilterField, createQrCode_Url
 from common.libs.PayService import PayService
 from common.modal.shop_info import Shop_Info
+from common.modal.merchant_info import Merchant_Info
 from common.modal.pay.payOrder import PayOrder
 from common.modal.pay.payordercallbackData import PayOrderCallbackData
 from common.modal.pay.payOrderItem import PayOrderItem
@@ -191,6 +192,13 @@ def myOrderInfo():
                 "pic_url": UrlManager.buildImageUrl(tmp_food_info.ShopImageUrl),
             }
             info['goods'].append(tmp_data)
+            merchant = Merchant_Info.query.filter_by(Id=tmp_food_info.ShopMerchantId).first()
+            resp['merchant'] = {
+                'name': merchant.Name,
+                'address': merchant.Address,
+                'imageUrl': merchant.ImageUrl,
+                'phone': merchant.Phone
+            }
     resp['data']['info'] = info
     return jsonify(resp)
 

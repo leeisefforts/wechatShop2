@@ -51,16 +51,16 @@ def info():
             'imageUrl': info.ImageUrl
         }
 
-    shop_list = Shop_Info.query.filter_by(ShopMerchantId= id).all()
-    if len(shop_list) == 1:
-        resp['shop_list'] = [{
-            'ShopName': shop_list[0].ShopName,
-            'ShopDesc': shop_list[0].ShopDesc,
-            'TotalCount': shop_list[0].TotalCount,
-            'Stock': shop_list[0].Stock,
-            'ShopImageUrl': shop_list[0].ShopImageUrl
-        }]
-    else:
-        resp['shop_list'] = shop_list
+        shop_list = Shop_Info.query.filter_by(ShopMerchantId= info.Id).all()
+        if len(shop_list) == 1:
+            resp['shop_list'] = [{
+                'ShopName': shop_list[0].ShopName,
+                'ShopDesc': shop_list[0].ShopDesc,
+                'TotalCount': shop_list[0].TotalCount,
+                'Stock': shop_list[0].Stock,
+                'ShopImageUrl': shop_list[0].ShopImageUrl
+            }]
+        else:
+            resp['shop_list'] = shop_list
 
     return jsonify(resp)

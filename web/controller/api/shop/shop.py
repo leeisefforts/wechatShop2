@@ -1,6 +1,7 @@
 from web.controller.api import route_api
 from common.modal.shop_info import Shop_Info
 from common.modal.coupon_info import Coupon_Info
+from common.modal.merchant_info import Merchant_Info
 from common.modal.wxShare import WxShareHistory
 from flask import request, jsonify, g
 from common.libs.UrlManager import UrlManager
@@ -53,6 +54,7 @@ def shopinfo():
     id = req.get('id')
 
     info = Shop_Info.query.filter_by(Id=id).first()
+    merchant = Merchant_Info.query.filter_by(Id=info.ShopMerchantId).first()
     resp['data'] = {
         'id': info.Id,
         'name': "%s" % (info.ShopName),
@@ -63,7 +65,12 @@ def shopinfo():
         'totalCount': str(info.TotalCount),
         'pic_url': UrlManager.buildImageUrl(info.ShopImageUrl)
     }
-
+    resp['merchant'] = {
+        'name': merchant.Name,
+        'address': merchant.Address,
+        'imageUrl': merchant.ImageUrl,
+        'phone': merchant.Phone
+    }
     rule = and_(Coupon_Info.Member_Id == g.member_info.Id, Coupon_Info.ShopId == id)
     coupon = Coupon_Info.query.filter(rule).first()
     if coupon:

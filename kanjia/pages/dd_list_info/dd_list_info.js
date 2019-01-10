@@ -163,34 +163,10 @@ Page({
             price: r.data.data.info.goods[0].price,
             qrCode_Url: r.data.data.info.qrCode_Url,
             status: r.data.data.info.status,
-          })
-        }
-      }
-    });
-
-
-    //获取商家信息
-    wx.request({
-      url: app.http + 'api/merchant/info',
-      method: 'GET',
-      data: {
-        id: _this.data.openid
-      },
-      header: app.getRequestHeader(),
-      dataType: 'json',
-      success: function (r) {
-        if (r.data.code == 200) {
-          _this.setData({
-            data_name: r.data.data.name,
-            data_phone: r.data.data.phone,
-            data_address: r.data.data.address,
-            data_imageUrl: r.data.data.imageUrl
-          })
-        }
-        if (r.data.data.name) {
-          _this.setData({
-            button_show: false,
-            input_disabled: true
+            data_name: r.data.merchant.name,
+            data_phone: r.data.merchant.phone,
+            data_address: r.data.merchant.address,
+            data_imageUrl: r.data.merchant.imageUrl
           })
         }
       }

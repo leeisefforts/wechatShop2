@@ -1,0 +1,84 @@
+/* pages/user/user.wxss */
+page{
+  background: #f1f1f1;
+}
+/* 列表 */
+.list_child{
+  width: 95%;
+  background: #fff;
+  border-radius: 10px;
+  margin: 10px auto;
+}
+.list .top{
+  width:100%;
+  height:38px;
+  padding:5px 10px 0 10px;
+  box-sizing: border-box;
+}
+.list .top image{
+  width:25px;
+  height:25px;
+  display:block;
+  float:left;
+}
+.list .top text{
+  font-size:16px;
+  color:#F94819;
+  display:block;
+  line-height:28px;
+  height:36px;
+  float:left;
+  margin-left:10px;
+}
+.list .con{
+  width:100%;
+  box-sizing: border-box;
+  /* height:120px; */
+  padding:10px;
+  border-top:1px solid #eee;
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+}
+.list .con .img{
+  width:100px;
+  height:100px;
+}
+.list .con .img image{
+  width:100px;
+  height:100px;
+  border-radius:5px;
+}
+.list .con .info{
+  padding-top:10px;
+  margin-left:15px;
+  width: 72%;
+}
+.list .con .title{
+  font-size:16px;
+  overflow:hidden;
+text-overflow:ellipsis;
+white-space:nowrap;
+
+}
+.list .con .jiage{
+  position:relative;
+  bottom:-7px;
+}
+.list .con .jiage .money{
+  font-size:20px;
+  color:#333;
+}
+.list .con .jiage .kj_monery{
+  text-align:right;
+  font-size:16px;
+  margin-left:10px;
+  color:#888;
+  box-sizing: border-box
+}
+.address{
+  font-size:14px;
+  color:#666;
+  margin-top:15px;
+}
+

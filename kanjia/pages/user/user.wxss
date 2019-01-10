@@ -2,99 +2,52 @@
 page{
   background: #f1f1f1;
 }
-/* 导航 */
-.nav{
-  width: 100%;
-  height: 40px;
-  line-height: 40px;
-  background: #fff;
-  font-size: 14px;
-  display: flex;
-  box-shadow: 0 2px 7px #ccc
-}
-.nav_child{
-  width: 50%;
-  text-align: center;
-}
-.dd_nav_child{
-  width: 33.3%;
-}
-.nav_click{
-  border-bottom: 2px solid #F94819;
-  color: #F94819;
-}
-/* 列表 */
-.list_child{
-  width: 95%;
-  background: #fff;
-  border-radius: 10px;
-  margin: 10px auto;
-}
-.list .top{
+.top{
   width:100%;
-  height:38px;
-  padding:5px 10px 0 10px;
-  box-sizing: border-box;
+  height:120px;
+  background:linear-gradient(to top,rgb(252, 132, 99) , #F94819);
 }
-.list .top image{
+.top .img{
+  float:left;
+}
+.top image{
+  width:70px;
+  height:70px;
+  border-radius:50%;
+  border:4px solid #fff;
+  margin:21px 20px 0 30px
+}
+.top .name{
+  float:left;
+  font-size:22px;
+  color:#fff;
+  line-height:107px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  width:56%;
+}
+.kj_dd{
+  width:100%;
+  height:50px;
+  background:#fff;
+  margin:20px 0;
+  padding:0 20px 0 15px;
+  box-sizing:border-box;
+  line-height:50px;
+  font-size:16px;
+}
+.kj_dd .jt{
+  width:20px;
+  height:20px;
+  float:right;
+  margin-top:15px;
+  position: relative
+}
+.kj_dd .icon{
   width:25px;
   height:25px;
-  display:block;
-  float:left;
-}
-.list .top text{
-  font-size:16px;
-  color:#F94819;
-  display:block;
-  line-height:28px;
-  height:36px;
-  float:left;
-  margin-left:10px;
-}
-.list .con{
-  width:100%;
-  box-sizing: border-box;
- height:120px;
-  padding:10px;
-  border-top:1px solid #eee;
-  display: flex;
-  flex-direction: row;
-  justify-content: left;
-}
-.list .con .img{
-  width:100px;
-  height:100px;
-}
-.list .con .img image{
-  width:100%;
-  height:100%;
-  border-radius:5px;
-}
-.list .con .info{
-  padding-top:10px;
-  margin-left:15px;
-  width: 72%;
-}
-.list .con .title{
-  font-size:16px;
-  overflow:hidden;
-text-overflow:ellipsis;
-white-space:nowrap;
-
-}
-.list .con .jiage{
   position:relative;
-  bottom:-28px;
+  top:5px;
+  margin-right:10px
 }
-.list .con .jiage .money{
-  font-size:20px;
-  color:#333;
-}
-.list .con .jiage .kj_monery{
-  text-align:right;
-  font-size:16px;
-  margin-left:10px;
-  color:#888;
-  box-sizing: border-box
-}
-

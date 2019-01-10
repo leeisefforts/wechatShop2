@@ -45,17 +45,10 @@ Page({
     if(this.data.coupon == 1){
       wx.showToast({
         title: '已是砍价商品',
-        icon: 'success',
+        icon: 'none',
         duration: 2000,
-        success : function(){
-         
-        }
+        success : function(){}
       })
-      setTimeout(function(){
-        wx.switchTab({
-          url: '../user/user',
-        })
-      },2000)
     }else{
       //砍价成功
       wx.request({
@@ -97,8 +90,8 @@ Page({
       data: { 'openId': _this.data.openid, 'goods': JSON.stringify(_this.data.shop_info) },
       success: function (res) {
         if(res.data.code == 200){
-          wx.switchTab({
-            url: '../user/user',
+          wx.navigateTo({
+            url: '../dd_list/dd_list',
           })
           wx.setStorageSync('url', 'kj_list_info')
         }else{
@@ -194,7 +187,11 @@ Page({
                 pic_url: r.data.data.pic_url,
                 stock: r.data.data.stock,
                 shop_info: r.data.data,
-                coupon: r.data.coupon
+                coupon: r.data.coupon,
+                data_name: r.data.merchant.name,
+                data_phone: r.data.merchant.phone,
+                data_address: r.data.merchant.address,
+                data_imageUrl: r.data.merchant.imageUrl
               })
             }
           }
@@ -291,7 +288,11 @@ Page({
               pic_url: r.data.data.pic_url,
               stock: r.data.data.stock,
               shop_info: r.data.data,
-              coupon: r.data.coupon
+              coupon: r.data.coupon,
+              data_name: r.data.merchant.name,
+              data_phone: r.data.merchant.phone,
+              data_address: r.data.merchant.address,
+              data_imageUrl: r.data.merchant.imageUrl
             })
           }
         }

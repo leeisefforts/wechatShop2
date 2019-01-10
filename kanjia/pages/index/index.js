@@ -53,6 +53,9 @@ Page({
 
     var _this = this;
 
+    wx.showLoading({
+      title: '加载中···',
+    })
     // 获取数据
     wx.request({
       url: app.http + 'api/shoplist',
@@ -64,6 +67,7 @@ Page({
       header: app.getRequestHeader(),
       dataType: 'json',
       success: function (r) {
+        wx.hideLoading()
         if (r.data.code == 200) {
           if (r.data.data.list.length > 0){
             
@@ -198,6 +202,9 @@ Page({
         })
       }
     }, 1000)
+    wx.showLoading({
+      title: '加载中···',
+    })
     // 获取首页数据
     wx.request({
       url: app.http +'api/shoplist',
@@ -209,6 +216,7 @@ Page({
       header: app.getRequestHeader(),
       dataType: 'json',
       success: function (r) {
+        wx.hideLoading()
         if(r.data.code == 200){
           _this.setData({
             list: r.data.data.list,

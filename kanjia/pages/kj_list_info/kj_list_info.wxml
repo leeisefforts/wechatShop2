@@ -26,7 +26,7 @@
   
   <!-- 商家信息  -->
   <view class='sj_info'>
-    <view class='title'><view>商家信息</view></view>
+    <view class='title'><view>商户信息</view></view>
     <view class='con'>
       <view class='img'>
         <image  mode='aspectFill' src='{{data_imageUrl}}'></image>

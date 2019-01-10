@@ -57,8 +57,8 @@ Page({
       success: function (res) {
         wx.hideLoading();
         if(res.data.code == 200){
-          wx.switchTab({
-            url: '../user/user',
+          wx.navigateTo({
+            url: '../dd_list/dd_list',
           })
           wx.setStorageSync('url', 'kj_list_info')
         }else{
@@ -167,7 +167,7 @@ Page({
       success: function (r) {
         if (r.data.code == 200) {
           _this.setData({
-            price: r.data.data.shop_info.price,
+            price: r.data.data.min_price,
             name: r.data.data.shop_info.name,
             desc: r.data.data.shop_info.desc,
             pic_url: r.data.data.shop_info.pic_url,
@@ -175,40 +175,14 @@ Page({
             shop_info: r.data.data.shop_info,
             status: r.data.data.status,
             coupon_id: r.data.data.shop_info.id,
+            data_name: r.data.merchant.name,
+            data_phone: r.data.merchant.phone,
+            data_address: r.data.merchant.address,
+            data_imageUrl: r.data.merchant.imageUrl
           })
         }
       }
     });
-
-
-
-    //获取商家信息
-    wx.request({
-      url: app.http + 'api/merchant/info',
-      method: 'GET',
-      data: {
-        id: _this.data.openid
-      },
-      header: app.getRequestHeader(),
-      dataType: 'json',
-      success: function (r) {
-        if (r.data.code == 200) {
-          _this.setData({
-            data_name: r.data.data.name,
-            data_phone: r.data.data.phone,
-            data_address: r.data.data.address,
-            data_imageUrl: r.data.data.imageUrl
-          })
-        }
-        if (r.data.data.name) {
-          _this.setData({
-            button_show: false,
-            input_disabled: true
-          })
-        }
-      }
-    });
-
 
     wx.showShareMenu({
       withShareTicket: true

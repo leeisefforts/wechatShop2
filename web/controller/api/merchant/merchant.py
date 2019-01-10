@@ -70,7 +70,6 @@ def info():
         now = datetime.datetime.now()
         zeroToday = now - datetime.timedelta(hours=now.hour, minutes=now.minute, seconds=now.second,
                                              microseconds=now.microsecond)
-        tomorrow = zeroToday + datetime.timedelta(hours=24, minutes=00, seconds=00)
 
         if len(shop_list) == 1:
             resp['shop_list'] = [{
@@ -81,10 +80,11 @@ def info():
                 'ShopImageUrl': UrlManager.buildImageUrl(shop_list[0].ShopImageUrl)
             }]
             coupon_count += Coupon_Info.query.filter_by(ShopId=shop_list[0].Id).count()
-            total_order_count += PayOrderItem.query.filter_by(food_id=shop_list[0].Id).count()
-            rule = and_(PayOrderItem.food_id == shop_list[0].Id,
-                        (PayOrderItem.created_time - zeroToday) <= 1)
-            today_order_count += PayOrderItem.query.filter(rule).count()
+            p_list = PayOrderItem.query.filter_by(food_id=shop_list[0].Id).all()
+            total_order_count = len(p_list)
+            for p_info in p_list:
+                if (p_info.created_time - zeroToday).days <= 1 and (p_info.created_time - zeroToday).days >= 0:
+                    today_order_count += 1
         else:
             tmp_datas = []
             for item in shop_list:
@@ -96,9 +96,12 @@ def info():
                     'ShopImageUrl': UrlManager.buildImageUrl(item.ShopImageUrl)
                 }
                 coupon_count += Coupon_Info.query.filter_by(ShopId=item.Id).count()
-                total_order_count += PayOrderItem.query.filter_by(food_id=item.Id).count()
-                rule = and_(PayOrderItem.food_id == item.Id, (PayOrderItem.created_time - zeroToday) <= 1)
-                today_order_count += PayOrderItem.query.filter(rule).count()
+
+                p_list = PayOrderItem.query.filter_by(food_id=item.Id).all()
+                total_order_count = len(p_list)
+                for p_info in p_list:
+                    if (p_info.created_time - zeroToday).days <= 1 and (p_info.created_time - zeroToday).days >= 0:
+                        today_order_count += 1
                 tmp_datas.append(tmp_data)
             resp['shop_list'] = tmp_datas
         resp['data']['coupon_count'] = coupon_count
@@ -119,7 +122,7 @@ def recepit_list():
         data = {
             'id': item.id,
             'merchant_id': item.merchant_id,
-            'createtime': item.createtime,
+            'createtime': datetime.datetime(item.createtime),
             'status': item.status,
             'balance': str(item.balance),
             'total_balance': str(item.total_balance)

@@ -1,0 +1,45 @@
+<!--pages/user/user.wxml-->
+ <!-- 授权登录弹出框 -->
+<view class='shouquan' wx:if='{{sq_show}}'  style="height: {{height}};">
+  <view class='sq_box'>
+    <view class='title'>需要您的授权</view>
+    <view class='tishi'>为了提供更好的服务</view>
+    <view class='tishi2'>请在稍后的提示框中点击“允许”</view>
+    <image class='img' src='../../img/shouquan.jpg'></image>
+    <button class='btn' wx:if="{{canIUse}}"  open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">我知道了</button>
+    <view class='shengji' wx:else>请升级微信版本</view>
+  </view>
+</view>
+<scroll-view style="height: {{height}};" scroll-y bindscroll="scroll" scroll-top='{{scroll_top}}'>
+
+<!-- 砍价列表 -->
+<view wx:if='{{kj_show}}' class='list kj_list'>
+<block wx:for='{{kj_list}}' wx:for-index="index" wx:for-item="item">
+  <view class='list_child'  data-id='{{item.id}}'  bindtap='kj_click'>
+    <view class='top'><image src='../../img/nav_kj_2.png' />
+    <text wx:if='{{item.status == 1}}' >砍价中</text>
+    <text wx:else>砍价完成</text>
+    </view>
+    <view class='con'>
+      <view class='img'>
+        <image  mode='aspectFill' src='{{item.shop_info.pic_url}}' />
+      </view>
+      <view class='info'>
+        <view class='title'>{{item.shop_info.name}}</view>
+        <view class='jiage'>
+          <text class='money'>￥{{item.min_price}}</text>
+          <text class='kj_monery'>（已砍{{item.price}}）</text>
+        </view>
+        <view class='address'>湖南省长沙市岳麓区河西王府井5楼5002</view>
+      </view>
+    </view>
+  </view>
+  </block>
+</view>
+
+ <!-- top -->
+  <view wx:if="{{topshow}}" class='fh_top'  id="id" bindtap = "handletap" >
+    <view class='jt'><image src='../../img/top.png' /></view>
+    <view class='text'>置顶</view>
+  </view>
+</scroll-view>

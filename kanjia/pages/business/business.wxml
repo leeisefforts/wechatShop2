@@ -11,26 +11,65 @@
     <view class='shengji' wx:else>请升级微信版本</view>
   </view>
 </view>
-<view class='info'>
+<!-- 申请商户 -->
+<view class='info' wx:if='{{sqsh_show}}'>
   <view class='row'>
-    <text class='name row_left'>商家店名</text>
-    <input type='text' class='input' value='{{data_name}}' disabled='{{input_disabled}}' bindinput='name_length' placeholder='商家店名'></input>
+    <text class='name row_left'>商户店名</text>
+    <input type='text' class='input' value='{{data_name}}' disabled='{{input_disabled}}' bindinput='name_length' placeholder='商户店名'></input>
   </view>
   <view class='row'>
-    <text class='iphone row_left'>商家电话</text>
-    <input type='number' class='input' value='{{data_phone}}' disabled='{{input_disabled}}' bindinput='iphone_length' maxlength='11' placeholder='商家电话'></input>
+    <text class='iphone row_left'>商户电话</text>
+    <input type='number' class='input' value='{{data_phone}}' disabled='{{input_disabled}}' bindinput='iphone_length' maxlength='11' placeholder='商户电话'></input>
   </view>
   <view class='row'>
-    <text class='address row_left'>商家地址</text>
-    <input type='text' class='input' bindinput='add_length' disabled='{{input_disabled}}' value='{{data_address}}' placeholder='商家详细地址'></input>
+    <text class='address row_left'>商户地址</text>
+    <input type='text' class='input' bindinput='add_length' disabled='{{input_disabled}}' value='{{data_address}}' placeholder='商户详细地址'></input>
   </view>
   <view class='row'>
-    <text class='address row_left'>商家图片</text>
+    <text class='address row_left'>商户图片</text>
     <view class='add_img' wx:if='{{button_show}}' bindtap='add_img'> <image src='../../img/add.png'></image> <text>上传图片</text></view>
   </view>
   <view class='sj_img' style='padding:10px 25px;' wx:if='{{data_imageUrl || set_img}}'>
     <image style='width:100%;display:block;' mode='aspectFill'  src='{{data_imageUrl || set_img}}'></image>
   </view>
   <view class='button' wx:if='{{button_show}}' bindtap='sj_tj_bind'>确认提交</view>
+</view>
+
+<!-- 商户中心 -->
+<view wx:if='{{shzx_show}}'>
+  <view class='sh_top'>
+    <view class='img'><image src='{{data_imageUrl}}' mode='aspectFill' ></image></view>
+    <view class='sh_info'>
+      <view>商户店名：{{data_name}}</view>
+      <view>商户电话：{{data_phone}}</view>
+      <view>商户地址：{{data_address}}</view>
+    </view>
+  </view>
+  <view class='sh_yue'>
+    <view class='yue'>当前余额：{{dqyue}}元</view>
+    <view class='tx' bindtap='tixian'>我要提现</view>
+  </view>
+  <view class='sh_con'>
+    <view class='day_num list'>
+      <view class='num'>{{today_order_count}}</view>
+      <view>今日订单</view>
+    </view>
+    <view class='ddzx list'>
+      <view class='num'>{{total_order_count}}</view>
+      <view>订单总数</view>
+    </view>
+    <view class='kjzdd list'>
+      <view class='num'>{{coupon_count}}</view>
+      <view>砍价中订单</view>
+    </view>
+    <view class='txjl list' bindtap='tixian_jl'>
+      <view class='num'>{{receipt_count}}</view>
+      <view>提现记录</view>
+    </view>
+    <view class='sys list' bindtap='scanCode'>
+      <image src='../../img/sys.png'></image>
+      <view>扫一扫</view>
+    </view>
+  </view>
 </view>
 

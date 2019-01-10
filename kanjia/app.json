@@ -1,12 +1,16 @@
 {
   "pages":[
+    
     "pages/index/index",
-    "pages/business/business",
-   
-    "pages/info/info",
     "pages/user/user",
+    "pages/business/business",
+    "pages/tixian_jl/tixian_jl",
+    "pages/info/info",
+    "pages/kj_list/kj_list",
+    "pages/tixian/tixian",
     "pages/kj_list_info/kj_list_info",
-    "pages/dd_list_info/dd_list_info"
+    "pages/dd_list_info/dd_list_info",
+     "pages/dd_list/dd_list"
   ],
   "window":{
     "backgroundTextStyle": "dark",
@@ -33,7 +37,7 @@
       },
       {
         "pagePath": "pages/business/business",
-        "text": "商家入驻",
+        "text": "商户中心",
         "iconPath": "/img/nav_shangjia.png",
         "selectedIconPath": "/img/nav_shangjia_2.png"
       }

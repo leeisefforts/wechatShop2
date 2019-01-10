@@ -1,0 +1,32 @@
+<!--pages/business/business.wxml-->
+
+ <!-- 授权登录弹出框 -->
+<view class='shouquan' wx:if='{{sq_show}}'  style="height: {{height}};">
+  <view class='sq_box'>
+    <view class='title'>需要您的授权</view>
+    <view class='tishi'>为了提供更好的服务</view>
+    <view class='tishi2'>请在稍后的提示框中点击“允许”</view>
+    <image class='img' src='../../img/shouquan.jpg'></image>
+    <button class='btn' wx:if="{{canIUse}}"  open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">我知道了</button>
+    <view class='shengji' wx:else>请升级微信版本</view>
+  </view>
+</view>
+<!-- 申请商户 -->
+<view class='info'>
+  <view class='row'>
+    <text class='yue row_left'>当前余额</text>
+    <input type='text' class='input' value='599.66' disabled ></input>
+  </view>
+  <view class='row'>
+    <text class='tx_je row_left'>提现金额</text>
+    <input type='number' class='input' bindinput='tx_je' value='' placeholder='提现金额'></input>
+  </view>
+  <view class='row'>
+    <text class='skm row_left'>收款码</text>
+    <view class='skm_img' bindtap='skm_img'> <image src='../../img/add.png'></image> <text>上传收款码</text></view>
+  </view>
+  <view class='sj_img' style="height: {{width}};width:{{width}};margin:20px auto;"  wx:if='{{skm_img_url}}'>
+    <image style='width:100%;display:block;' mode='aspectFill'  src='{{skm_img_url}}'></image>
+  </view>
+  <view class='button' bindtap='sj_tj_bind'>确认提现</view>
+</view>

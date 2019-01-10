@@ -1,0 +1,63 @@
+<!--pages/user/user.wxml-->
+ <!-- 授权登录弹出框 -->
+<view class='shouquan' wx:if='{{sq_show}}'  style="height: {{height}};">
+  <view class='sq_box'>
+    <view class='title'>需要您的授权</view>
+    <view class='tishi'>为了提供更好的服务</view>
+    <view class='tishi2'>请在稍后的提示框中点击“允许”</view>
+    <image class='img' src='../../img/shouquan.jpg'></image>
+    <button class='btn' wx:if="{{canIUse}}"  open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">我知道了</button>
+    <view class='shengji' wx:else>请升级微信版本</view>
+  </view>
+</view>
+<scroll-view style="height: {{height}};" scroll-y bindscroll="scroll" scroll-top='{{scroll_top}}'>
+
+<!-- 订单列表 -->
+<view  class='list dd_list'>
+ <!-- 导航 -->
+ <view class='nav dd_nav'>
+    <view class='nav_child dd_nav_child {{dd_nav1}}' bindtap='dd_nav1'>未支付</view>
+    <view class='nav_child dd_nav_child {{dd_nav2}}' bindtap='dd_nav2'>待使用</view>
+    <view class='nav_child dd_nav_child {{dd_nav3}}' bindtap='dd_nav3'>已完成</view>
+ </view>
+<block wx:for='{{dd_list}}' wx:for-index="index" wx:for-item="item">
+  <view class='list_child' data-order_sn='{{item.order_sn}}'  bindtap='dd_click'>
+    <view class='top' style='width:100%;height:auto;padding:5px 10px 10px 10px;'><view style='font-size:16px;color:#F94819;'>{{item.status_desc}}</view><view style='font-size:14px;color:#666;margin-top:5px;'>(订单号：{{item.order_sn}})</view></view>
+    <view class='con'>
+      <view class='img'>
+        <image  mode='aspectFill'  src='{{item.goods_list[0].pic_url}}' />
+      </view>
+      <view class='info'>
+        <view class='title'>{{item.goods_list[0].name}}</view>
+        <view class='jiage'><text class='money'>￥{{item.total_price}}</text> </view>
+        <view wx:if='{{dd_nav3}}' class='address'>2019-01-25</view>
+        <view wx:else class='address'>地址地址地址地址</view>
+      </view>
+    </view>
+  </view>
+  </block>
+  
+  <!-- <view class='list_child' data-order_sn='{{item.order_sn}}'  bindtap='dd_click'>
+    <view class='top' style='width:100%;height:auto;padding:5px 10px 10px 10px;'><view style='font-size:16px;color:#F94819;'>{{item.status_desc}}</view><view style='font-size:14px;color:#666;margin-top:5px;'>(订单号：{{item.order_sn}})</view></view>
+    <view class='con'>
+      <view class='img'>
+        <image  mode='aspectFill'  src='{{item.goods_list[0].pic_url}}' />
+      </view>
+      <view class='info'>
+        <view class='title'>商品名称</view>
+        <view class='jiage'><text class='money'>￥25.60</text></view>
+        <view wx:if='{{dd_nav3}}' class='address'>2019-01-25</view>
+        <view wx:else class='address'>地址地址地址地址</view>
+      </view>
+    </view>
+  </view> -->
+
+</view>
+
+
+ <!-- top -->
+  <view wx:if="{{topshow}}" class='fh_top'  id="id" bindtap = "handletap" >
+    <view class='jt'><image src='../../img/top.png' /></view>
+    <view class='text'>置顶</view>
+  </view>
+</scroll-view>

@@ -1,0 +1,32 @@
+/* pages/tixian_jl/tixian_jl.wxss */
+page{
+  background: #f1f1f1;
+}
+.list{
+  width:100%;
+  background:#fff;
+  padding:15px 25px;
+  border-bottom:1px solid #f1f1f1;
+  height: 80px;
+  box-sizing: border-box;
+}
+.list .left{
+  width:80%;
+  float:left;
+}
+.list .right{
+  width:20%;
+  float:right;
+  line-height:49px;
+  text-align:right;
+  color: #F94819;
+}
+.list .left .title{
+  font-size:16px;
+  color:#000;
+}
+.list .left .date{
+  font-size:14px;
+  color:#666;
+  margin-top:10px;
+}

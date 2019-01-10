@@ -1,0 +1,12 @@
+<!--pages/tixian_jl/tixian_jl.wxml-->
+<view class='con'>
+ <block wx:for='{{list}}' wx:for-index="index" wx:for-item="item">
+    <view class='list'>
+      <view class='left'>
+        <view class='title'>余额提现</view>
+        <view class='date'>{{item.createtime}}</view>
+      </view>
+      <view class='right'>{{item.balance}}</view>
+    </view>
+  </block>
+</view>

@@ -27,7 +27,17 @@ Page({
     data_address : '',
     data_imageUrl : '',
     button_show : true,
-    input_disabled : false
+    input_disabled : false,
+    sp_list : '',
+    sp_list_size : 0,
+    sqsh_show : true,
+    shzx_show : false,
+    merchantId : '',
+    dqyue : '0',
+    today_order_count: '0',
+    total_order_count : '0',
+    receipt_count: '0',
+    coupon_count :'0'
   },
 
   // 姓名
@@ -75,14 +85,16 @@ Page({
         duration: 2000
       })
       return false;
-    }  else if (this.data.set_img == '') {
+    } 
+     else if (this.data.set_img == '') {
       wx.showToast({
         title: '请上传图片',
         image: '../../img/x.png',
         duration: 2000
       })
       return false;
-    }else{
+    }
+    else{
       wx.showLoading({
         title: '提交中',
       })
@@ -153,6 +165,53 @@ Page({
     }
   },
 
+  // 提现
+  tixian: function () {
+    var _this = this;
+    wx.navigateTo({
+      url: '../tixian/tixian?merchantId=' + _this.data.merchantId,
+    })
+  },
+
+  tixian_jl: function () {
+    var _this = this;
+    wx.navigateTo({
+      url: '../tixian_jl/tixian_jl?merchantId=' + _this.data.merchantId,
+    })
+  },
+
+
+  //扫码
+  scanCode : function(){
+    var _this = this;
+    wx.scanCode({
+      success(res) {
+        wx.showLoading({
+          title: '加载中···',
+        })
+        wx.request({
+          url: res.result,
+          method: 'GET',
+          data: {
+            merchantId: _this.data.merchantId
+          },
+          header: app.getRequestHeader(),
+          dataType: 'json',
+          success: function (r) {
+            wx.hideLoading()
+            if (r.data.code == 200) {
+              _this.setData({
+                
+              })
+            }
+          }
+        });
+      }
+    })
+  },
+
+
+
   /**
    * 生命周期函数--监听页面加载
    */
@@ -164,7 +223,6 @@ Page({
     })
     // 判断是否授权登陆过
     setTimeout(function () {
-      console.log(_this.data.token)
       if (_this.data.token == '') {
         _this.setData({
           sq_show: true
@@ -185,6 +243,9 @@ Page({
       },
     })
 
+    wx.showLoading({
+      title: '加载中···',
+    })
       //获取数据
     if (_this.data.openid){
       wx.request({
@@ -196,13 +257,31 @@ Page({
         header: app.getRequestHeader(),
         dataType: 'json',
         success: function (r) {
+          wx.hideLoading()
           if (r.data.code == 200) {
             _this.setData({
               data_name: r.data.data.name || _this.data.name_value,
               data_phone: r.data.data.phone || _this.data.iphone_value,
               data_address: r.data.data.address || _this.data.add_value,
-              data_imageUrl: r.data.data.imageUrl || _this.data.set_img
+              data_imageUrl: r.data.data.imageUrl || _this.data.set_img,
+              sp_list: r.data.shop_list,
+              sp_list_size: r.data.shop_list.length,
+              dqyue: (parseInt(r.data.data.freezeBalance) + parseInt(r.data.data.totalBalance)).toFixed(2),
+              today_order_count: r.data.data.today_order_count,
+              total_order_count: r.data.data.total_order_count,
+              receipt_count: r.data.data.receipt_count,
+              coupon_count: r.data.data.coupon_count
             })
+             //显示商户中心
+            if (r.data.data.name) {
+              wx.setNavigationBarTitle({
+                title : '商户中心'
+              })
+              _this.setData({
+                sqsh_show : false,
+                shzx_show : true
+              })
+            }
           }
           if (r.data.data.name) {
             _this.setData({
@@ -229,13 +308,22 @@ Page({
   onShow: function () {
 
     var _this = this;
+    //显示商户中心
+    if (_this.data.data_name) {
+      wx.setNavigationBarTitle({
+        title: '商户中心'
+      })
+      _this.setData({
+        sqsh_show: false,
+        shzx_show: true
+      })
+    }
     _this.setData({
       openid: app.getCache('openid'),
       token: app.getCache('token')
     })
     // 判断是否授权登陆过
     setTimeout(function () {
-      console.log(_this.data.token)
       if (_this.data.token == '') {
         _this.setData({
           sq_show: true
@@ -264,7 +352,8 @@ Page({
               data_name: r.data.data.name || _this.data.name_value,
               data_phone: r.data.data.phone || _this.data.iphone_value,
               data_address: r.data.data.address || _this.data.add_value,
-              data_imageUrl: r.data.data.imageUrl || _this.data.set_img
+              data_imageUrl: r.data.data.imageUrl || _this.data.set_img,
+              merchantId: r.data.data.id
             })
           }
           if (r.data.data.name) {

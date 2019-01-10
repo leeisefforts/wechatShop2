@@ -178,6 +178,7 @@ def receipt_balance():
     balance_log.balance = balance
     balance_log.total_balance = merchant_info.TotalBalance
     balance_log.freeze_balance = merchant_info.FreezeBalance
+    balance_log.receipt_qrcode = receipt_qrcode
     db.session.add(balance_log)
     db.session.commit()
     return jsonify(resp)

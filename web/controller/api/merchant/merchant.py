@@ -4,10 +4,13 @@ from web.controller.api import route_api
 from common.libs.WebHelper import getCurrentDate
 from common.modal.Blance_Log import Balance_Log
 from common.modal.merchant_info import Merchant_Info
+from common.modal.pay.payOrderItem import PayOrderItem
+from common.modal.coupon_info import Coupon_Info
 from common.modal.shop_info import Shop_Info
 from common.libs.UrlManager import UrlManager
 
 from sqlalchemy import and_
+import datetime, time
 
 
 @route_api.route('/addmerchant', methods=['GET', 'POST'])
@@ -56,9 +59,19 @@ def info():
             'imageUrl': info.ImageUrl,
             'totalBalance': str(info.TotalBalance),
             'freezeBalance': str(info.FreezeBalance),
+            'total_order_count': 0,
+            'today_order_count': 0,
+            'coupon_count': 0,
+            'receipt_count': Balance_Log.query.filter_by(merchant_id=info.Id, operating=4).count()
         }
 
         shop_list = Shop_Info.query.filter_by(ShopMerchantId=info.Id).all()
+        total_order_count = today_order_count = coupon_count = 0
+        now = datetime.datetime.now()
+        zeroToday = now - datetime.timedelta(hours=now.hour, minutes=now.minute, seconds=now.second,
+                                             microseconds=now.microsecond)
+        tomorrow = zeroToday + datetime.timedelta(hours=24, minutes=00, seconds=00)
+
         if len(shop_list) == 1:
             resp['shop_list'] = [{
                 'ShopName': shop_list[0].ShopName,
@@ -67,6 +80,11 @@ def info():
                 'Stock': shop_list[0].Stock,
                 'ShopImageUrl': UrlManager.buildImageUrl(shop_list[0].ShopImageUrl)
             }]
+            coupon_count += Coupon_Info.query.filter_by(ShopId=shop_list[0].Id).count()
+            total_order_count += PayOrderItem.query.filter_by(food_id=shop_list[0].Id).count()
+            rule = and_(PayOrderItem.food_id == shop_list[0].Id,
+                        (PayOrderItem.created_time - zeroToday) <= 1)
+            today_order_count += PayOrderItem.query.filter(rule).count()
         else:
             tmp_datas = []
             for item in shop_list:
@@ -77,9 +95,15 @@ def info():
                     'Stock': item.Stock,
                     'ShopImageUrl': UrlManager.buildImageUrl(item.ShopImageUrl)
                 }
+                coupon_count += Coupon_Info.query.filter_by(ShopId=item.Id).count()
+                total_order_count += PayOrderItem.query.filter_by(food_id=item.Id).count()
+                rule = and_(PayOrderItem.food_id == item.Id, (PayOrderItem.created_time - zeroToday) <= 1)
+                today_order_count += PayOrderItem.query.filter(rule).count()
                 tmp_datas.append(tmp_data)
             resp['shop_list'] = tmp_datas
-
+        resp['data']['coupon_count'] = coupon_count
+        resp['data']['total_order_count'] = total_order_count
+        resp['data']['today_order_count'] = today_order_count
     return jsonify(resp)
 
 

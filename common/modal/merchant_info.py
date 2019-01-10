@@ -1,5 +1,5 @@
 from application import db, app
-from sqlalchemy import Integer, Column, DateTime, String
+from sqlalchemy import Integer, DateTime, String, DECIMAL
 from sqlalchemy.schema import FetchedValue
 
 
@@ -14,6 +14,8 @@ class Merchant_Info(db.Model):
     CreateTime = db.Column(DateTime, nullable=False, server_default=FetchedValue())
     Status = db.Column(Integer, nullable=False, server_default=FetchedValue())
     OpenId = db.Column(String(256), nullable=False, server_default=FetchedValue())
+    TotalBalance = db.Column(DECIMAL, nullable=False, server_default=FetchedValue())
+    FreezeBalance = db.Column(DECIMAL, nullable=False, server_default=FetchedValue())
 
     @property
     def Status_Desc(self):

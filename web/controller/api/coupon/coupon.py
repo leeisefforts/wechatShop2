@@ -2,13 +2,16 @@ from application import app, db
 from web.controller.api import route_api
 from common.modal.coupon_info import Coupon_Info
 from common.modal.merchant_info import Merchant_Info
+from common.modal.Blance_Log import Balance_Log
+from common.modal.shop_info import Shop_Info
+from common.modal.pay.payOrderItem import PayOrderItem
 from common.modal.pay.payOrder import PayOrder
 from common.libs.WebHelper import getCurrentDate
 from common.libs.UrlManager import UrlManager
 from common.modal.shop_info import Shop_Info
-from flask import jsonify, request, g
+from flask import jsonify, request, g, redirect
 from sqlalchemy import or_
-import json
+import json, decimal
 
 
 @route_api.route('/coupon/list')
@@ -112,16 +115,69 @@ def writeoff():
     req = request.values
     order_sn = req['order_sn'] if 'order_sn' in req else ''
     couponId = req['couponId'] if 'couponId' in req else ''
+    merchantId = req['merchantId'] if 'merchantId' in req else ''
 
     order_info = PayOrder.query.filter_by(order_sn=order_sn).first()
+    coupon_info = Coupon_Info.query.filter_by(Id=couponId).first()
+    merchant_info = Merchant_Info.query.filter_by(Id=merchantId).first()
+
     if order_info:
+        shop_id = PayOrderItem.query.filter_by(pay_order_id=order_info.id).first().food_id
+
+        shopMerchantId = Shop_Info.query.filter_by(Id=shop_id).first().ShopMerchantId
+        if int(shopMerchantId) != int(merchantId):
+            resp['code'] = -1
+            resp['msg'] = '商户不匹配'
+            return jsonify(resp)
+
         order_info.express_status = 1
         db.session.add(order_info)
         db.session.commit()
 
-    coupon_info = Coupon_Info.query.filter_by(Id=couponId).first()
     if coupon_info:
         coupon_info.Status = 4
         db.session.add(coupon_info)
         db.session.commit()
+
+    # 计算余额
+    merchant_info.TotalBalance += order_info.total_price
+    db.session.add(merchant_info)
+    db.session.commit()
+
+    # 余额写入日志
+    balance_log = Balance_Log()
+    balance_log.createtime = balance_log.updatetime = getCurrentDate()
+    balance_log.status = 1
+    balance_log.merchant_id = merchantId,
+    balance_log.operating = 1,  # 1 添加操作
+    balance_log.balance = order_info.total_price
+    balance_log.total_balance = merchant_info.TotalBalance
+    balance_log.freeze_balance = 0
+    db.session.add(balance_log)
+    db.session.commit()
+    return jsonify(resp)
+
+
+@route_api.route('/receipt', methods=['POST'])
+def receipt_balance():
+    resp = {'code': 200, 'msg': '提现申请已提交'}
+    req = request.values
+    merchantId = req['merchantId'] if 'merchantId' in req else -1
+    balance = req['balance'] if 'balance' in req else 0
+    receipt_qrcode = req['qrcode'] if 'qrcode' in req else ''
+
+    merchant_info = Merchant_Info.query.filter_by(Id=merchantId).first()
+    merchant_info.FreezeBalance = decimal.Decimal(balance)
+    merchant_info.TotalBalance -= merchant_info.FreezeBalance
+
+    balance_log = Balance_Log()
+    balance_log.createtime = balance_log.updatetime = getCurrentDate()
+    balance_log.status = 1
+    balance_log.merchant_id = merchantId,
+    balance_log.operating = 4,  # 4 提现申请  status =1 提现审核 status=2 已提现
+    balance_log.balance = balance
+    balance_log.total_balance = merchant_info.TotalBalance
+    balance_log.freeze_balance = merchant_info.FreezeBalance
+    db.session.add(balance_log)
+    db.session.commit()
     return jsonify(resp)

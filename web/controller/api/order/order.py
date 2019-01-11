@@ -253,7 +253,7 @@ def orderOps():
     member_info = g.member_info
     order_sn = req['order_sn'] if 'order_sn' in req else ''
     act = req['act'] if 'act' in req else ''
-    pay_order_info = PayOrder.query.filter_by(order_sn=order_sn, member_id=member_info.id).first()
+    pay_order_info = PayOrder.query.filter_by(order_sn=order_sn, member_id=member_info.Id).first()
     if not pay_order_info:
         resp['code'] = -1
         resp['msg'] = "系统繁忙,请稍后再试"

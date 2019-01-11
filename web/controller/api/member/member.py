@@ -77,18 +77,6 @@ def memberShare():
     coupon_id = req['coupon_id'] if 'coupon_id' in req else ''
 
     member_info = g.member_info
-    model_share = WxShareHistory()
-    if member_info:
-        model_share.Member_Id = member_info.Id
-    model_share.Share_Url = url
-    model_share.Shop_Id = shopId
-    model_share.ToOpenId = toOpenId
-    model_share.ToNickName = nickName
-    model_share.ToAvatar = avatarUrl
-    model_share.CreateTime = getCurrentDate()
-    db.session.add(model_share)
-    db.session.commit()
-
     shop_info = Shop_Info.query.filter_by(Id=shopId).first()
 
     coupon_price = 0
@@ -104,6 +92,25 @@ def memberShare():
         modal_coupon.Price = shop_info.ShopPrice
         modal_coupon.Status = 1
         modal_coupon.CreateTime = modal_coupon.UpdateTime = getCurrentDate()
+
+    model_share = WxShareHistory()
+    rule = and_(WxShareHistory.Coupon_Id == modal_coupon.Id, WxShareHistory.ToOpenId == toOpenId)
+    ss = WxShareHistory.query.filter(rule).first()
+    if ss:
+        resp['code'] = -1
+        resp['msg'] = '你已经帮忙砍过价了'
+        return jsonify(resp)
+    if member_info:
+        model_share.Member_Id = member_info.Id
+    model_share.Share_Url = url
+    model_share.Shop_Id = shopId
+    model_share.ToOpenId = toOpenId
+    model_share.ToNickName = nickName
+    model_share.ToAvatar = avatarUrl
+    model_share.CreateTime = getCurrentDate()
+    model_share.Coupon_Id = -1
+    db.session.add(model_share)
+    db.session.commit()
 
     pp = shop_info.ShopPrice - shop_info.ShopFloorPrice if coupon_price == 0 else coupon_price - shop_info.ShopFloorPrice
     yhprice = random.randint(0, int(pp))
@@ -122,8 +129,11 @@ def memberShare():
 
     db.session.add(modal_coupon)
     db.session.commit()
+    model_share.Coupon_Id = modal_coupon.Id
+    db.session.add(model_share)
+    db.session.commit()
     data = {
-        'coupon_price': modal_coupon.Coupon_Price
+        'coupon_price': str(modal_coupon.Coupon_Price)
     }
     resp['data'] = data
     return jsonify(resp)
@@ -145,21 +155,18 @@ def share_list():
     resp = {'code': 200, 'msg': '操作成功~', 'data': {}}
     req = request.values
     id = req['id'] if 'id' in req else -1
-    list = Coupon_Info.query.filter_by(ShopId=id).all()
+    list = WxShareHistory.query.filter_by(Coupon_Id=id).all()
     tmp_list = []
     for item in list:
         data = {
             'Id': item.Id,
-            'Coupon_Name': item.Coupon_Name,
-            'ShopId': item.ShopId,
-            'Coupon_Price': item.Coupon_Price,
-            'Member_Id': item.Member_Id,
-            'Price': item.Price,
+            'ToOpenId': item.ToOpenId,
+            'ToNickName': item.ToNickName,
+            'ToAvatar': item.ToAvatar,
+            'Price': str(item.Price),
             'CreateTime': item.CreateTime,
-            'UpdateTime': item.UpdateTime,
-            'Status': item.Status,
-            'QrCode_Url': item.QrCode_Url,
-            'Order_sn': item.Order_sn
+            'Shop_Id': item.Shop_Id,
+            'Coupon_Id': item.Coupon_Id
         }
         tmp_list.append(data)
     resp['data'] = tmp_list

@@ -15,3 +15,4 @@ class WxShareHistory(db.Model):
     Price = db.Column(DECIMAL, nullable=False, server_default=FetchedValue())
     CreateTime = db.Column(DateTime, nullable=False, server_default=FetchedValue())
     Shop_Id = db.Column(Integer, nullable=False, server_default=FetchedValue())
+    Coupon_Id = db.Column(Integer, nullable=False, server_default=FetchedValue())

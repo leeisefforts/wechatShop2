@@ -10,7 +10,7 @@ from common.modal.coupon_info import Coupon_Info
 from common.modal.shop_info import Shop_Info
 from sqlalchemy import and_
 
-import random, decimal
+import random, decimal, datetime
 
 
 @route_api.route("/member/login", methods=["GET", "POST"])

@@ -73,6 +73,13 @@ def shopinfo():
     }
     rule = and_(Coupon_Info.Member_Id == g.member_info.Id, Coupon_Info.ShopId == id)
     coupon = Coupon_Info.query.filter(rule).first()
+    resp['coupon_info'] = {}
     if coupon:
+        cou = {
+            'id': coupon.Id,
+            'name': coupon.Coupon_Name
+        }
         resp['coupon'] = 1
+        resp['coupon_info'] = cou
+
     return jsonify(resp)

@@ -134,7 +134,7 @@ def memberShare():
     db.session.add(model_share)
     db.session.commit()
     data = {
-        'coupon_price': str(modal_coupon.Coupon_Price)
+        'coupon_price': str(model_share.Price)
     }
     resp['data'] = data
     return jsonify(resp)

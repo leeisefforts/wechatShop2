@@ -72,11 +72,12 @@ def memberShare():
     url = req['url'] if 'url' in req else ''
     shopId = req['shopId'] if 'shopId' in req else 0
     toOpenId = req['toOpenId'] if 'toOpenId' in req else ''
+    memberId = req['memberId'] if 'memberId' in req else ''
     avatarUrl = req['avatarUrl'] if 'toOpenId' in req else ''
     nickName = req['nickName'] if 'toOpenId' in req else ''
     coupon_id = req['coupon_id'] if 'coupon_id' in req else ''
 
-    member_info = g.member_info
+    member_info = Member.query.filter_by(Id=memberId).first()
     shop_info = Shop_Info.query.filter_by(Id=shopId).first()
 
     coupon_price = 0

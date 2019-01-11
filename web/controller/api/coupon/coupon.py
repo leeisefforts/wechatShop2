@@ -72,6 +72,7 @@ def couponInfo():
     resp = {'code': 200, 'msg': '操作成功', 'data': {}}
     req = request.values
     id = req['id'] if 'id' in req else 0
+    memberId = req['memberId'] if 'memberId' in req else 0
     info = Coupon_Info.query.filter_by(Id=id).first()
 
     if info:

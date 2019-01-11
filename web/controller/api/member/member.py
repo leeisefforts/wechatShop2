@@ -86,7 +86,7 @@ def memberShare():
         coupon_price = modal_coupon.Price
     else:
         modal_coupon = Coupon_Info()
-        modal_coupon.Coupon_Name = (shop_info.ShopName + '- 优惠券')
+        modal_coupon.Coupon_Name = (shop_info.ShopName + '-' + member_info.Nickname + '- 优惠券')
         modal_coupon.ShopId = shopId
         modal_coupon.Member_Id = member_info.Id
         modal_coupon.Price = shop_info.ShopPrice

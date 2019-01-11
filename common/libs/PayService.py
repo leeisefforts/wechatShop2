@@ -49,10 +49,17 @@ class PayService():
             for tmp_item in tmp_food_list:
                 tmp_food_stock_mapping[tmp_item.Id] = tmp_item.Stock
 
+            order_sn = self.geneOrderSn()
+            if coupon_Id:
+                coupon_info = Coupon_Info.query.filter_by(Id=coupon_Id).first()
+                if coupon_info:
+                    coupon_info.Order_sn = order_sn
+                    total_price -= coupon_info.Coupon_Price
+                    db.session.add(coupon_info)
             # 支付订单
             model_pay_order = PayOrder()
             model_pay_order.member_id = member_id
-            model_pay_order.order_sn = self.geneOrderSn()
+            model_pay_order.order_sn = order_sn
             model_pay_order.total_price = total_price
             model_pay_order.yun_price = yun_price
             model_pay_order.pay_price = pay_price
@@ -87,11 +94,6 @@ class PayService():
 
                 db.session.add(tmp_pay_item)
 
-            if coupon_Id:
-                coupon_info = Coupon_Info.query.filter_by(Id=coupon_Id).first()
-                if coupon_info:
-                    coupon_info.Order_sn = model_pay_order.order_sn
-                    db.session.add(coupon_info)
             # 提交事务
             db.session.commit()
             resp['data'] = {

@@ -122,6 +122,10 @@ def memberShare():
 
     db.session.add(modal_coupon)
     db.session.commit()
+    data = {
+        'coupon_price': modal_coupon.Coupon_Price
+    }
+    resp['data'] = data
     return jsonify(resp)
 
 
@@ -133,4 +137,30 @@ def memberInfo():
         "nickname": member_info.Nickname,
         "avatar_url": member_info.Avatar
     }
+    return jsonify(resp)
+
+
+@route_api.route("/share/list")
+def share_list():
+    resp = {'code': 200, 'msg': '操作成功~', 'data': {}}
+    req = request.values
+    id = req['id'] if 'id' in req else -1
+    list = Coupon_Info.query.filter_by(ShopId=id).all()
+    tmp_list = []
+    for item in list:
+        data = {
+            'Id': item.Id,
+            'Coupon_Name': item.Coupon_Name,
+            'ShopId': item.ShopId,
+            'Coupon_Price': item.Coupon_Price,
+            'Member_Id': item.Member_Id,
+            'Price': item.Price,
+            'CreateTime': item.CreateTime,
+            'UpdateTime': item.UpdateTime,
+            'Status': item.Status,
+            'QrCode_Url': item.QrCode_Url,
+            'Order_sn': item.Order_sn
+        }
+        tmp_list.append(data)
+    resp['data'] = tmp_list
     return jsonify(resp)

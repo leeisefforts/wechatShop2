@@ -38,6 +38,8 @@ def addmerchant():
     modal_info.ImageUrl = imageUrl
     modal_info.OpenId = openId
     modal_info.Status = 1
+    modal_info.TotalBalance = 0
+    modal_info.FreezeBalance = 0
     db.session.add(modal_info)
     db.session.commit()
 

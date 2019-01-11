@@ -61,6 +61,21 @@ SHOP_STATUS_MAPPING = {
     "0": "未上架"
 }
 
+OPER_MAPPING = {
+    "4": "提现",
+    "3": "扣除",
+    "2": "后台修改",
+    "1": "增加"
+}
+
+OPER_STATUS_MAPPING = {
+    "5": "已审核",
+    "4": "提现申请",
+    "3": "扣除",
+    "2": "异常",
+    "1": "正常"
+}
+
 MINA_APP = {
     'appid':'wxab76ef5e1739710e',
     'appkey':'8b225cb387861356b215e8c1ffab0eea',

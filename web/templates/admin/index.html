@@ -24,6 +24,7 @@
                             <li class=""><a href="{{ buildUrl('/admin/user') }}" class="">用户管理</a></li>
                             <li class=""><a href="{{ buildUrl('/admin/commodity') }}" class="">商品管理</a></li>
                             <li class=""><a href="{{ buildUrl('/admin/update?id=' + current_user.Id) }}" class="">管理员信息</a></li>
+                            <li class=""><a href="{{ buildUrl('/admin/receipt') }}" class="">提现管理</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -69,7 +70,7 @@
 
                                         <div class="card-block">
                                             <div class="table-responsive">
-                                                <table id="zero-configuration" class="display table nowrap table-striped table-hover" style="width:100%">
+                                                <table id="responsive-table" class="display table dt-responsive nowrap" style="width:100%">
                                                     <thead>
                                                     <tr>
                                                         <th>#</th>
@@ -98,9 +99,9 @@
                                                                 <td>{{ item.CreateTime }}</td>
                                                                 <td>{{ item.Status_Desc }}</td>
                                                                 <td>
-{#                                                                    <a href="{{ buildUrl('/admin/info' ) }}?id={{ item.Id }}">#}
-{#                                                                        <i class="fa fa-eye fa-lg"></i>#}
-{#                                                                    </a>&nbsp;#}
+                                                                    <a href="{{ buildUrl('/admin/balance_info?') }}id={{ item.Id }}">
+                                                                        <i class="fas fa-database"></i>
+                                                                    </a>&nbsp;
                                                                     {% if item.Status == 0 %}
                                                                         <a onclick="updateStatus({{ item.Id }}, 1)">
                                                                          <i class="fa fa-check fa-lg"></i>

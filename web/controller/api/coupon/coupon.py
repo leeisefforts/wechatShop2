@@ -172,7 +172,7 @@ def receipt_balance():
 
     balance_log = Balance_Log()
     balance_log.createtime = balance_log.updatetime = getCurrentDate()
-    balance_log.status = 1
+    balance_log.status = 4
     balance_log.merchant_id = merchantId,
     balance_log.operating = 4,  # 4 提现申请  status =1 提现审核 status=2 已提现
     balance_log.balance = balance

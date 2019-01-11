@@ -130,3 +130,26 @@ def recepit_list():
         tmp_data.append(data)
     resp['list'] = tmp_data
     return jsonify(resp)
+
+
+@route_api.route('/recepit')
+def recepit_lis():
+    resp = {'code': 200, 'msg': '操作成功'}
+    req = request.values
+    id = req['id'] if 'id' in req else 0
+    rule = and_(Balance_Log.merchant_id == id, Balance_Log.operating == 4)
+    list = Balance_Log.query.filter(rule).all()
+    tmp_data = []
+    for item in list:
+        data = {
+            'id': item.id,
+            'merchant_id': item.merchant_id,
+            'createtime': datetime.datetime(item.createtime),
+            'status': item.status,
+            'balance': str(item.balance),
+            'total_balance': str(item.total_balance)
+        }
+        tmp_data.append(data)
+    resp['list'] = tmp_data
+    return jsonify(resp)
+

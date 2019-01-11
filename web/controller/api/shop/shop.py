@@ -52,6 +52,7 @@ def shopinfo():
     resp = {'code': 200, 'msg': '操作成功~', 'data': {}, 'coupon': 0}
     req = request.args
     id = req.get('id')
+    memberId = req.get('memberId')
 
     info = Shop_Info.query.filter_by(Id=id).first()
     merchant = Merchant_Info.query.filter_by(Id=info.ShopMerchantId).first()
@@ -71,7 +72,7 @@ def shopinfo():
         'imageUrl': merchant.ImageUrl,
         'phone': merchant.Phone
     }
-    rule = and_(Coupon_Info.Member_Id == g.member_info.Id, Coupon_Info.ShopId == id)
+    rule = and_(Coupon_Info.Member_Id == memberId, Coupon_Info.ShopId == id)
     coupon = Coupon_Info.query.filter(rule).first()
     resp['coupon_info'] = {}
     if coupon:

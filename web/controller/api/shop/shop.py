@@ -50,9 +50,11 @@ def shoplist():
 @route_api.route('/shopinfo', methods=['GET', 'POST'])
 def shopinfo():
     resp = {'code': 200, 'msg': '操作成功~', 'data': {}, 'coupon': 0}
-    req = request.args
-    id = req.get('id')
-    memberId = req.get('memberId')
+    req = request.values
+    id = req['id'] if 'id' in req else 0
+    memberId = req['memberId'] if 'memberId' in req else -1
+    if memberId == -1:
+        memberId = g.member_info.id
 
     info = Shop_Info.query.filter_by(Id=id).first()
     merchant = Merchant_Info.query.filter_by(Id=info.ShopMerchantId).first()

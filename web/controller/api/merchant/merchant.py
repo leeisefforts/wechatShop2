@@ -124,7 +124,7 @@ def recepit_list():
         data = {
             'id': item.id,
             'merchant_id': item.merchant_id,
-            'createtime': datetime.datetime(item.createtime),
+            'createtime': item.createtime,
             'status': item.status,
             'balance': str(item.balance),
             'total_balance': str(item.total_balance)

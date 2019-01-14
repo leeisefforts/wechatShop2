@@ -114,7 +114,7 @@ def memberShare():
     db.session.commit()
 
     pp = shop_info.ShopPrice - shop_info.ShopFloorPrice if coupon_price == 0 else coupon_price - shop_info.ShopFloorPrice
-    yhprice = random.randint(0, int(pp))
+    yhprice = random.randint(1, int(pp))
     model_share.Price = yhprice
     if yhprice >= pp:
         modal_coupon.Price = shop_info.ShopFloorPrice  # 如果优惠金额低于底价 直接变成底价

@@ -55,6 +55,7 @@ class PayService():
                 if coupon_info:
                     coupon_info.Order_sn = order_sn
                     total_price -= coupon_info.Coupon_Price
+                    pay_price = total_price
                     db.session.add(coupon_info)
             # 支付订单
             model_pay_order = PayOrder()

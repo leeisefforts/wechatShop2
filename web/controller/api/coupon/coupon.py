@@ -10,7 +10,7 @@ from common.libs.WebHelper import getCurrentDate
 from common.libs.UrlManager import UrlManager
 from common.modal.shop_info import Shop_Info
 from flask import jsonify, request, g, redirect
-from sqlalchemy import or_
+from sqlalchemy import or_, and_
 import json, decimal
 
 
@@ -27,7 +27,8 @@ def couponlist():
 
     page_size = 10
     offset = (p - 1) * page_size
-    query = Coupon_Info.query.filter_by(Member_Id=g.member_info.Id)
+    rule = and_(Coupon_Info.Member_Id ==g.member_info.Id, Coupon_Info.Status != 4)
+    query = Coupon_Info.query.filter(rule)
 
     if mix_kw:
         rule = or_(Coupon_Info.Coupon_Name.ilike("%{0}%".format(mix_kw)))

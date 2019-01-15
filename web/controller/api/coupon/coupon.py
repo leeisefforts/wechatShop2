@@ -10,7 +10,7 @@ from common.libs.WebHelper import getCurrentDate
 from common.libs.UrlManager import UrlManager
 from common.modal.shop_info import Shop_Info
 from flask import jsonify, request, g, redirect
-from sqlalchemy import or_
+from sqlalchemy import or_, and_
 import json, decimal
 
 
@@ -181,7 +181,8 @@ def receipt_balance():
     merchant_info.FreezeBalance = decimal.Decimal(balance)
     merchant_info.TotalBalance -= merchant_info.FreezeBalance
 
-    b_info = Balance_Log.query.filter_by(merchant_id=merchant_info.Id).first()
+    b_rule = and_(Balance_Log.merchant_id == merchant_info.Id, Balance_Log.operating == 4, Balance_Log.status == 4)
+    b_info = Balance_Log.query.filter(b_rule).first()
     if b_info and b_info.status == 4:
         resp['code'] = -1,
         resp['msg'] = '存在正在提现的申请'

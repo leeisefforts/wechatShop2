@@ -10,7 +10,7 @@ from common.libs.WebHelper import getCurrentDate
 from common.libs.UrlManager import UrlManager
 from common.modal.shop_info import Shop_Info
 from flask import jsonify, request, g, redirect
-from sqlalchemy import or_, and_
+from sqlalchemy import or_
 import json, decimal
 
 
@@ -27,8 +27,7 @@ def couponlist():
 
     page_size = 10
     offset = (p - 1) * page_size
-    rule = and_(Coupon_Info.Member_Id ==g.member_info.Id, Coupon_Info.Status != 4)
-    query = Coupon_Info.query.filter(rule)
+    query = Coupon_Info.query.filter_by(Member_Id=g.member_info.Id)
 
     if mix_kw:
         rule = or_(Coupon_Info.Coupon_Name.ilike("%{0}%".format(mix_kw)))
@@ -84,10 +83,16 @@ def couponInfo():
             'qrCode_Url': app.config["APP"][
                               "domain"] + UrlManager.buildStaticUrl(info.QrCode_Url) if info.QrCode_Url else '',
             'status': str(info.Status),
+            'isFinish': 0,
             'shop_info': {
 
             }
         }
+        p_info = PayOrder.query.filter_by(order_sn=info.Order_sn).first()
+        if p_info:
+            if p_info.express_status == 1:
+                resp['isFinish'] = 1
+                return jsonify(resp)
 
         s_info = Shop_Info.query.filter_by(Id=info.ShopId).first()
         if s_info:

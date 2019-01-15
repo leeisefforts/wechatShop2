@@ -123,13 +123,11 @@ def recepit_edit():
     id = req['id'] if 'id' in req else 0
     info = Balance_Log.query.filter_by(id=id).first()
     info.status = 5
-    info.total_balance = info.freeze_balance
     info.freeze_balance = 0
     db.session.add(info)
     db.session.commit()
 
     m_info = Merchant_Info.query.filter_by(Id=info.merchant_id).first()
-    m_info.TotalBalance = m_info.FreezeBalance
     m_info.FreezeBalance = 0
     db.session.add(m_info)
     db.session.commit()

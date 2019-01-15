@@ -80,7 +80,7 @@ def memberShare():
     member_info = Member.query.filter_by(Id=memberId).first()
     shop_info = Shop_Info.query.filter_by(Id=shopId).first()
 
-    if memberId == g.member_info.Id:
+    if member_info.Id == g.member_info.Id:
         resp['code'] = -1
         resp['msg'] = '不能给自己砍价'
         return jsonify(resp)

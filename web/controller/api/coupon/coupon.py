@@ -122,6 +122,10 @@ def writeoff():
     coupon_info = Coupon_Info.query.filter_by(Id=couponId).first()
     merchant_info = Merchant_Info.query.filter_by(Id=merchantId).first()
 
+    if order_info.express_status == 1:
+        resp['code'] = -1,
+        resp['msg'] = '该订单已经核销过了'
+        return jsonify(resp)
     if order_info:
         shop_id = PayOrderItem.query.filter_by(pay_order_id=order_info.id).first().food_id
 

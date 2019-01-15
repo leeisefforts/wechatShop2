@@ -181,7 +181,7 @@ def receipt_balance():
     merchant_info.FreezeBalance = decimal.Decimal(balance)
     merchant_info.TotalBalance -= merchant_info.FreezeBalance
 
-    b_info = Balance_Log.query.filter_by().first()
+    b_info = Balance_Log.query.filter_by(merchant_id=merchant_info.Id).first()
     if b_info and b_info.status == 4:
         resp['code'] = -1,
         resp['msg'] = '存在正在提现的申请'

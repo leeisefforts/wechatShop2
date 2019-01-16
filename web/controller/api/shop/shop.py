@@ -81,8 +81,8 @@ def shopinfo():
         cou = {
             'id': coupon.Id,
             'name': coupon.Coupon_Name,
-            'coupon_Price': coupon.Coupon_Price,
-            'price': coupon.Price
+            'coupon_Price': str(coupon.Coupon_Price),
+            'price': str(coupon.Price)
         }
         resp['coupon'] = 1
         resp['coupon_info'] = cou

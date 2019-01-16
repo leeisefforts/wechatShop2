@@ -98,7 +98,10 @@ def memberShare():
         modal_coupon.Price = shop_info.ShopPrice
         modal_coupon.Status = 1
         modal_coupon.CreateTime = modal_coupon.UpdateTime = getCurrentDate()
-
+    if modal_coupon.Price == shop_info.ShopFloorPrice:
+        resp['code'] = -1
+        resp['msg'] = '已经是最低价了'
+        return jsonify(resp)
     model_share = WxShareHistory()
     rule = and_(WxShareHistory.Coupon_Id == modal_coupon.Id, WxShareHistory.ToOpenId == toOpenId)
     ss = WxShareHistory.query.filter(rule).first()

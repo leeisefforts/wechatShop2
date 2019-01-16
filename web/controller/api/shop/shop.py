@@ -80,7 +80,9 @@ def shopinfo():
     if coupon:
         cou = {
             'id': coupon.Id,
-            'name': coupon.Coupon_Name
+            'name': coupon.Coupon_Name,
+            'coupon_Price': coupon.Coupon_Price,
+            'price': coupon.Price
         }
         resp['coupon'] = 1
         resp['coupon_info'] = cou
